@@ -7,6 +7,12 @@ Willkommen bei **AnimalCare**! 🇩🇪
 Dies ist das moderne Frontend-System für unsere Tiervermittlungsplattform. Es wurde mit Fokus auf Benutzerfreundlichkeit entwickelt, um unseren vierbeinigen Freunden ein liebevolles neues Zuhause zu vermitteln.
 
 ---
+❤️ Motivation
+Dieses Projekt ist ein Herzensprojekt, inspiriert von meinen eigenen Hunden:
+
+Almond, Joghurt, Taohoo und Kiekie 🐶.
+
+---
 
 ## ✨ Highlights
 
