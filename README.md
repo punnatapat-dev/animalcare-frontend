@@ -1,59 +1,38 @@
-# AnimalcareFrontend
+# 🐾 AnimalCare Frontend (Angular v19)
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 21.1.4.
+[![Angular Version](https://img.shields.io/badge/Angular-19-dd0031.svg?logo=angular)](https://angular.dev/)
+[![Status](https://img.shields.io/badge/Status-In--Development-yellow)](https://github.com/YOUR-USERNAME/animalcare-frontend)
 
-## Development server
+Willkommen bei **AnimalCare**! 🇩🇪  
+Dies ist das moderne Frontend-System für unsere Tiervermittlungsplattform. Es wurde mit Fokus auf Benutzerfreundlichkeit entwickelt, um unseren vierbeinigen Freunden ein liebevolles neues Zuhause zu vermitteln.
 
-To start a local development server, run:
+---
 
-```bash
-ng serve
-```
+## ✨ Highlights
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
+* **Deutsche Benutzeroberfläche:** Vollständig lokalisiert für eine klare Kommunikation.
+* **Modernes Framework:** Erstellt mit der neuesten **Angular v19** Technologie.
+* **Modularer Aufbau:** Klare Trennung durch Komponenten wie `animal-list`.
+* **Responsive Design:** Optimiert für die Anzeige auf verschiedenen Endgeräten.
 
-## Code scaffolding
+---
 
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
+## 🛠️ Tech Stack
 
-```bash
-ng generate component component-name
-```
+* **Core:** [Angular 19](https://angular.dev/)
+* **Sprache:** TypeScript & HTML/CSS
+* **Icons:** 🐾, 🧡 (Emoji-based)
+* **Backend-Kommunikation:** Vorbereitet für RESTful API Integration
 
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
+---
 
-```bash
-ng generate --help
-```
+📊 Projektstatus & Roadmap
+[x] Meilenstein 1: Angular v19 Grundgerüst & Setup ✅
 
-## Building
+[x] Meilenstein 2: Deutsche Lokalisierung (UI) ✅
 
-To build the project run:
+[x] Meilenstein 3: animal-list Komponenten-Architektur ✅
 
-```bash
-ng build
-```
+[ ] Meilenstein 4: HTTP Client & Backend-Anbindung (Django) ⏳
 
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
-
-## Running unit tests
-
-To execute unit tests with the [Vitest](https://vitest.dev/) test runner, use the following command:
-
-```bash
-ng test
-```
-
-## Running end-to-end tests
-
-For end-to-end (e2e) testing, run:
-
-```bash
-ng e2e
-```
-
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
-
-## Additional Resources
-
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+[ ] Meilenstein 5: JWT Authentifizierung & Login-System ⏳
