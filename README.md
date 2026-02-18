@@ -7,6 +7,7 @@ Willkommen bei **AnimalCare**! 🇩🇪
 Dies ist das moderne Frontend-System für unsere Tiervermittlungsplattform. Es wurde mit Fokus auf Benutzerfreundlichkeit entwickelt, um unseren vierbeinigen Freunden ein liebevolles neues Zuhause zu vermitteln.
 
 ---
+
 ❤️ Motivation
 Dieses Projekt ist ein Herzensprojekt, inspiriert von meinen eigenen Hunden:
 
@@ -16,19 +17,19 @@ Almond, Joghurt, Taohoo und Kiekie 🐶.
 
 ## ✨ Highlights
 
-* **Deutsche Benutzeroberfläche:** Vollständig lokalisiert für eine klare Kommunikation.
-* **Modernes Framework:** Erstellt mit der neuesten **Angular v19** Technologie.
-* **Modularer Aufbau:** Klare Trennung durch Komponenten wie `animal-list`.
-* **Responsive Design:** Optimiert für die Anzeige auf verschiedenen Endgeräten.
+- **Deutsche Benutzeroberfläche:** Vollständig lokalisiert für eine klare Kommunikation.
+- **Modernes Framework:** Erstellt mit der neuesten **Angular v19** Technologie.
+- **Modularer Aufbau:** Klare Trennung durch Komponenten wie `animal-list`.
+- **Responsive Design:** Optimiert für die Anzeige auf verschiedenen Endgeräten.
 
 ---
 
 ## 🛠️ Tech Stack
 
-* **Core:** [Angular 19](https://angular.dev/)
-* **Sprache:** TypeScript & HTML/CSS
-* **Icons:** 🐾, 🧡 (Emoji-based)
-* **Backend-Kommunikation:** Vorbereitet für RESTful API Integration
+- **Core:** [Angular 19](https://angular.dev/)
+- **Sprache:** TypeScript & HTML/CSS
+- **Icons:** 🐾, 🧡 (Emoji-based)
+- **Backend-Kommunikation:** Vorbereitet für RESTful API Integration
 
 ---
 
@@ -75,4 +76,12 @@ Heute habe ich das Frontend erfolgreich mit dem Backend verbunden.
 - **API-Anbindung:** Daten werden nun erfolgreich vom Django REST Framework geladen.
 - **Bugfixes:** Fehler "NG0908" (Zone.js) und Probleme mit der JSON-Struktur (`results`) behoben.
 - **Zoneless Angular:** Das Projekt nutzt nun die modernere `provideExperimentalZonelessChangeDetection`.
->>>>>>> e4e0c09 (Update README with professional German documentation)
+  > > > > > > > e4e0c09 (Update README with professional German documentation)
+
+### ✅ Update: 18.02.2026
+
+- **Angular Signals**: Umstellung auf `signal<any[]>([]);` für die Tierliste durchgeführt.
+- **Zoneless**: Das Frontend läuft jetzt stabil ohne Zone.js.
+- **UI**: Anzeige der Schützlinge in Kartenform (Cards) implementiert.
+- **Dynamic Icons**: Emojis für CAT, DOG und RABBIT implementiert.
+- **Nächste Aktion**: Implementierung der Löschfunktion...

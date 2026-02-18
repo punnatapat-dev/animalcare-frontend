@@ -1,3 +1,19 @@
+<div style="background: #eef2f3; padding: 20px; border-radius: 10px; margin-bottom: 30px; border: 1px solid #ccc;">
+  <h3 style="margin-top: 0;">➕ Neues Tier hinzufügen</h3>
+  
+  <div style="display: flex; gap: 10px; margin-bottom: 10px;">
+    <input [value]="newAnimalName()" (input)="newAnimalName.set($any($event.target).value)" 
+           placeholder="Name (z.B. Luna)" style="padding: 8px; border-radius: 5px; border: 1px solid #999; flex: 1;">
+    
+    <input [value]="newAnimalSpecies()" (input)="newAnimalSpecies.set($any($event.target).value)" 
+           placeholder="Art (z.B. DOG)" style="padding: 8px; border-radius: 5px; border: 1px solid #999; flex: 1;">
+    
+    <button (click)="addAnimal()" 
+            style="padding: 8px 20px; background: #28a745; color: white; border: none; border-radius: 5px; cursor: pointer;">
+      Speichern
+    </button>
+  </div>
+</div>
 <div style="padding: 20px; font-family: Arial, sans-serif;">
   <h2 style="color: #dd0031;">🐾 Unsere Schützlinge</h2>
   <p>Hier finden Sie unsere Tiere, die ein neues Zuhause suchen.</p>
@@ -6,7 +22,14 @@
   <div style="display: flex; gap: 15px; flex-wrap: wrap; margin-top: 20px;">
     @for (animal of animals(); track animal.id) {
       <div style="border: 2px solid #ffcc00; padding: 15px; border-radius: 10px; min-width: 250px; background: #fffaf0; box-shadow: 2px 2px 5px rgba(0,0,0,0.1);">
-        <h3 style="margin: 0; color: #333;">🐶 {{ animal.name }}</h3>
+        <h3 style="margin: 0; color: #333;">
+  @if (animal.species === 'CAT') { 🐱 }
+  @else if (animal.species === 'DOG') { 🐶 }
+  @else if (animal.species === 'RABBIT') { 🐰 }
+  @else { 🐾 } 
+
+  {{ animal.name }}
+</h3>
         <p style="margin: 5px 0;"><b>Tierart:</b> {{ animal.species }}</p>
         <p style="margin: 5px 0;"><b>Status:</b> 
           <span style="color: #28a745; font-weight: bold;">{{ animal.status }}</span>
