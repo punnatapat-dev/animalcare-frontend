@@ -1,9 +1,22 @@
-<div style="background-color: #f9f9f9; border-radius: 10px; padding: 15px; display: inline-block; min-width: 300px;">
-  <h2 style="color: #5d2f91;">Unsere Tiere</h2>
+<div style="padding: 20px; font-family: Arial, sans-serif;">
+  <h2 style="color: #dd0031;">🐾 Unsere Schützlinge</h2>
+  <p>Hier finden Sie unsere Tiere, die ein neues Zuhause suchen.</p>
+  <hr>
   
-  <ul style="list-style: none; padding: 0;">
-    <li style="margin-bottom: 10px; padding: 10px; border-bottom: 1px solid #ddd;">
-      <strong>Status:</strong> Lädt Daten... (กำลังโหลดข้อมูล)
-    </li>
-  </ul>
+  <div style="display: flex; gap: 15px; flex-wrap: wrap; margin-top: 20px;">
+    @for (animal of animals(); track animal.id) {
+      <div style="border: 2px solid #ffcc00; padding: 15px; border-radius: 10px; min-width: 250px; background: #fffaf0; box-shadow: 2px 2px 5px rgba(0,0,0,0.1);">
+        <h3 style="margin: 0; color: #333;">🐶 {{ animal.name }}</h3>
+        <p style="margin: 5px 0;"><b>Tierart:</b> {{ animal.species }}</p>
+        <p style="margin: 5px 0;"><b>Status:</b> 
+          <span style="color: #28a745; font-weight: bold;">{{ animal.status }}</span>
+        </p>
+      </div>
+    } @empty {
+      <div style="background: #f8f9fa; padding: 20px; border-radius: 5px; width: 100%;">
+        <p>⏳ <b>Status:</b> Daten werden geladen...</p>
+        <p><small>Bitte stellen Sie sicher, dass der Django-Server unter Port 8000 läuft.</small></p>
+      </div>
+    }
+  </div>
 </div>
