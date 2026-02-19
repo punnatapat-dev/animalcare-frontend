@@ -1,16 +1,16 @@
 # 🐾 AnimalCare Frontend (Angular v19)
 
 [![Angular Version](https://img.shields.io/badge/Angular-19-dd0031.svg?logo=angular)](https://angular.dev/)
-[![Status](https://img.shields.io/badge/Status-In--Development-yellow)](https://github.com/YOUR-USERNAME/animalcare-frontend)
+[![Status](https://img.shields.io/badge/Status-Funktional-brightgreen)](https://github.com/YOUR-USERNAME/animalcare-frontend)
 
 Willkommen bei **AnimalCare**! 🇩🇪  
-Dies ist das moderne Frontend-System für unsere Tiervermittlungsplattform. Es wurde mit Fokus auf Benutzerfreundlichkeit entwickelt, um unseren vierbeinigen Freunden ein liebevolles neues Zuhause zu vermitteln.
+Dies ist das moderne Frontend-System für unsere Tiervermittlungsplattform, entwickelt mit der neuesten **Angular v19** Technologie.
 
 ---
 
-❤️ Motivation
-Dieses Projekt ist ein Herzensprojekt, inspiriert von meinen eigenen Hunden:
+## ❤️ Motivation
 
+Dieses Projekt ist ein Herzensprojekt, inspiriert von meinen eigenen Hunden:  
 Almond, Joghurt, Taohoo und Kiekie 🐶.
 
 ---
@@ -19,69 +19,64 @@ Almond, Joghurt, Taohoo und Kiekie 🐶.
 
 - **Deutsche Benutzeroberfläche:** Vollständig lokalisiert für eine klare Kommunikation.
 - **Modernes Framework:** Erstellt mit der neuesten **Angular v19** Technologie.
-- **Modularer Aufbau:** Klare Trennung durch Komponenten wie `animal-list`.
-- **Responsive Design:** Optimiert für die Anzeige auf verschiedenen Endgeräten.
+- **Zoneless Change Detection:** Maximale Performance durch `provideZonelessChangeDetection()`.
+- **Angular Signals:** Reaktive Datenverwaltung für sofortige UI-Updates.
+- **Full CRUD Integration:** Anzeigen (GET), Hinzufügen (POST) und Löschen (DELETE) von Tierdaten.
 
 ---
 
 ## 🛠️ Tech Stack
 
 - **Core:** [Angular 19](https://angular.dev/)
-- **Sprache:** TypeScript & HTML/CSS
-- **Icons:** 🐾, 🧡 (Emoji-based)
-- **Backend-Kommunikation:** Vorbereitet für RESTful API Integration
+- **State Management:** Angular Signals
+- **Kommunikation:** HttpClient (RxJS) & REST API
+- **Backend-Anbindung:** Django REST Framework (Port 8000)
 
 ---
 
-📊 Projektstatus & Roadmap
-[x] Meilenstein 1: Angular v19 Grundgerüst & Setup ✅
+## 📜 Update-Historie (Roadmap & Erfolge)
 
-[x] Meilenstein 2: Deutsche Lokalisierung (UI) ✅
+### ✅ **19.02.2026 - Durchbruch & Stabilisierung**
 
-[x] Meilenstein 3: animal-list Komponenten-Architektur ✅
+- **[Fixed]** Fehler **TS2724** behoben: Umstellung auf die stabile `provideZonelessChangeDetection`.
+- **[New Feature]** **Löschfunktion**: Implementierung des "Löschen"-Buttons mit `signals.update` für Echtzeit-Feedback.
+- **[UI]** Optimierung der Kartenansicht (Cards) und Integration der DELETE-Methode.
 
-[ ] Meilenstein 4: HTTP Client & Backend-Anbindung (Django) ⏳
+### ✅ **18.02.2026 - Signal-Migration**
 
-<<<<<<< HEAD
-[ ] Meilenstein 5: JWT Authentifizierung & Login-System ⏳
-=======
-To execute unit tests with the [Vitest](https://vitest.dev/) test runner, use the following command:
-
-```bash
-ng test
-```
-
-## Running end-to-end tests
-
-For end-to-end (e2e) testing, run:
-
-```bash
-ng e2e
-```
-
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
-
-## Additional Resources
-
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
-
----
-
-## 📝 Update: 17.02.2026 - Full-Stack Integration
-
-Heute habe ich das Frontend erfolgreich mit dem Backend verbunden.
-
-### ✅ Erfolge von heute:
-
-- **API-Anbindung:** Daten werden nun erfolgreich vom Django REST Framework geladen.
-- **Bugfixes:** Fehler "NG0908" (Zone.js) und Probleme mit der JSON-Struktur (`results`) behoben.
-- **Zoneless Angular:** Das Projekt nutzt nun die modernere `provideExperimentalZonelessChangeDetection`.
-  > > > > > > > e4e0c09 (Update README with professional German documentation)
-
-### ✅ Update: 18.02.2026
-
-- **Angular Signals**: Umstellung auf `signal<any[]>([]);` für die Tierliste durchgeführt.
-- **Zoneless**: Das Frontend läuft jetzt stabil ohne Zone.js.
-- **UI**: Anzeige der Schützlinge in Kartenform (Cards) implementiert.
+- **Angular Signals**: Umstellung auf `signal<any[]>([]);` für die Tierliste.
 - **Dynamic Icons**: Emojis für CAT, DOG und RABBIT implementiert.
-- **Nächste Aktion**: Implementierung der Löschfunktion...
+
+### ✅ **17.02.2026 - Full-Stack Integration**
+
+- **API-Anbindung**: Erste erfolgreiche Datenübertragung vom Django REST Framework.
+- **Bugfixes**: Fehler "NG0908" (Zone.js) und Probleme mit der JSON-Struktur (`results`) behoben.
+
+### ✅ **Frühere Meilensteine**
+
+- [x] Angular v19 Grundgerüst & Setup
+- [x] Deutsche Lokalisierung (UI)
+- [x] animal-list Komponenten-Architektur
+
+---
+
+## 📊 Nächste Schritte
+
+- [ ] Meilenstein 5: JWT Authentifizierung & Login-System ⏳
+- [ ] Meilenstein 6: Bearbeitungsmodus (Edit Animal) ⏳
+
+---
+
+## 📦 Installation & Start
+
+```bash
+# Repository klonen
+git clone [https://github.com/YOUR-USERNAME/animalcare-frontend.git](https://github.com/YOUR-USERNAME/animalcare-frontend.git)
+cd animalcare-frontend
+
+# Abhängigkeiten installieren
+npm install
+
+# Frontend starten
+ng serve
+```

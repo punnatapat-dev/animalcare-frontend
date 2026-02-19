@@ -51,4 +51,22 @@ export class AnimalListComponent implements OnInit {
       error: (err) => console.error('Fehler beim Hinzufügen:', err)
     });
   }
+  deleteAnimal(id: number) {
+    if (confirm("Mochten Sie dieses Tier wirklich löschen?")) {
+      // 2. ส่งคำสั่ง DELETE ไปที่ URL ของ Django
+    // เราใส่เลข ID ไปท้ายชื่อ เพื่อบอกว่า "ลบตัวที่ ID นี้นะ"
+    this.http.delete("http://localhost:8000/api/animals/${id}/").subscribe({
+      next: () => {
+        // 3. ถ้าหลังบ้านลบแล้ว หน้าบ้านต้องลบตามด้วย
+        // สั่งให้ Signal อัปเดตข้อมูล โดยการ "กรอง" (filter) ตัวที่เพิ่งลบทิ้งไป
+        this.animals.update(items => items.filter(a => a.id !== id));
+        console.log('Tier erfolgreich gelöscht!');
+      },
+      error: (err) => console.error("Fehler:", err)
+      });
+      
+    }
+  }
+
+  
 }

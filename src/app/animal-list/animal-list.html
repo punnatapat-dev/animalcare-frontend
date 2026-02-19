@@ -14,6 +14,7 @@
     </button>
   </div>
 </div>
+
 <div style="padding: 20px; font-family: Arial, sans-serif;">
   <h2 style="color: #dd0031;">🐾 Unsere Schützlinge</h2>
   <p>Hier finden Sie unsere Tiere, die ein neues Zuhause suchen.</p>
@@ -23,17 +24,25 @@
     @for (animal of animals(); track animal.id) {
       <div style="border: 2px solid #ffcc00; padding: 15px; border-radius: 10px; min-width: 250px; background: #fffaf0; box-shadow: 2px 2px 5px rgba(0,0,0,0.1);">
         <h3 style="margin: 0; color: #333;">
-  @if (animal.species === 'CAT') { 🐱 }
-  @else if (animal.species === 'DOG') { 🐶 }
-  @else if (animal.species === 'RABBIT') { 🐰 }
-  @else { 🐾 } 
+          @if (animal.species === 'CAT') { 🐱 }
+          @else if (animal.species === 'DOG') { 🐶 }
+          @else if (animal.species === 'RABBIT') { 🐰 }
+          @else { 🐾 } 
+          {{ animal.name }}
+        </h3>
 
-  {{ animal.name }}
-</h3>
         <p style="margin: 5px 0;"><b>Tierart:</b> {{ animal.species }}</p>
-        <p style="margin: 5px 0;"><b>Status:</b> 
+        
+        <p style="margin: 5px 0;">
+          <b>Status:</b> 
           <span style="color: #28a745; font-weight: bold;">{{ animal.status }}</span>
         </p>
+
+        <hr style="border: 0; border-top: 1px solid #eee; margin: 10px 0;">
+        <button (click)="deleteAnimal(animal.id)" 
+                style="width: 100%; padding: 8px; background: #dc3545; color: white; border: none; border-radius: 5px; cursor: pointer; font-weight: bold;">
+          🗑️ Löschen
+        </button>
       </div>
     } @empty {
       <div style="background: #f8f9fa; padding: 20px; border-radius: 5px; width: 100%;">
