@@ -22,6 +22,7 @@ Almond, Joghurt, Taohoo und Kiekie 🐶.
 - **Zoneless Change Detection:** Maximale Performance durch `provideZonelessChangeDetection()`.
 - **Angular Signals:** Reaktive Datenverwaltung für sofortige UI-Updates.
 - **Full CRUD Integration:** Anzeigen (GET), Hinzufügen (POST) und Löschen (DELETE) von Tierdaten.
+- **Full CRUD Integration:** Anzeigen (GET), Hinzufügen (POST), Bearbeiten (PUT) und Löschen (DELETE) von Tierdaten.
 
 ---
 
@@ -35,6 +36,13 @@ Almond, Joghurt, Taohoo und Kiekie 🐶.
 ---
 
 ## 📜 Update-Historie (Roadmap & Erfolge)
+
+### ✅ **20.02.2026 - Das Full CRUD Update**
+
+- **[New Feature]** **Bearbeitungsmodus (Edit)**: Implementierung der `PUT`-Methode zum Aktualisieren von Tierdaten.
+- **[Logic]** Einführung von `editingAnimalId` Signals zur Steuerung zwischen Erstellungs- und Bearbeitungsmodus.
+- **[UI/UX]** Dynamische Formular-Header und "Abbrechen"-Funktion für eine bessere Benutzerführung.
+- **[Refactoring]** Umstellung auf `inject(HttpClient)` für modernen Angular v19 Standard.
 
 ### ✅ **19.02.2026 - Durchbruch & Stabilisierung**
 
@@ -63,7 +71,8 @@ Almond, Joghurt, Taohoo und Kiekie 🐶.
 ## 📊 Nächste Schritte
 
 - [ ] Meilenstein 5: JWT Authentifizierung & Login-System ⏳
-- [ ] Meilenstein 6: Bearbeitungsmodus (Edit Animal) ⏳
+- [x] Meilenstein 6: Bearbeitungsmodus (Edit Animal) ⏳
+- [ ] Meilenstein 7: Image Upload 📸 (Zukünftiges Feature: Echte Bilder statt Emojis)
 
 ---
 
