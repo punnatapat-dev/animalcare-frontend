@@ -3,15 +3,15 @@
 [![Angular Version](https://img.shields.io/badge/Angular-19-dd0031.svg?logo=angular)](https://angular.dev/)
 [![Status](https://img.shields.io/badge/Status-Funktional-brightgreen)](https://github.com/YOUR-USERNAME/animalcare-frontend)
 
-Willkommen bei **AnimalCare**! 🇩🇪  
+Willkommen bei **AnimalCare**!  
 Dies ist das moderne Frontend-System für unsere Tiervermittlungsplattform, entwickelt mit der neuesten **Angular v19** Technologie.
 
 ---
 
-## ❤️ Motivation
+## ❤️ Inspiration
 
-Dieses Projekt ist ein Herzensprojekt, inspiriert von meinen eigenen Hunden:  
-Almond, Joghurt, Taohoo und Kiekie 🐶.
+Dieses Projekt ist von meinen vier geliebten Hunden **(Almond🐶, Joghurt🐶, Taohoo🐶 und Kiekie🐶)** inspiriert.
+Auch wenn sie heute nicht mehr bei mir sind, wollte ich ihnen mit dieser kleinen Anwendung ein persönliches Andenken widmen und Lernen mit etwas Bedeutungsvollem verbinden.
 
 ---
 
