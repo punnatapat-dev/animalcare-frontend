@@ -37,14 +37,15 @@ Auch wenn sie heute nicht mehr bei mir sind, wollte ich ihnen mit dieser kleinen
 
 ## 📜 Update-Historie (Roadmap & Erfolge)
 
-### ✅ **22.02.2026 – JWT Login & Router Stabilisierung**
+### ✅ **22.02.2026 – JWT Login, Route-Protection & Frontend-Stabilisierung**
 
-- **[New Feature]** Implementierung eines vollständigen Login-Systems mit JWT (SimpleJWT).
-- **[AuthService]** Erstellung eines dedizierten Services für Token-Handling (Access & Refresh).
-- **[Security]** Speicherung der JWT-Tokens im `localStorage`.
-- **[Routing]** Einführung einer klaren Trennung zwischen `/login` und `/animals`.
-- **[Bugfix]** Behebung des Double-Render-Problems durch korrekte Nutzung von `<router-outlet>`.
-- **[Refactoring]** Anpassung an Angular 19 Strict Mode (Typisierung & DI-Fixes).
+- **[New Feature]** **JWT Login-System** integriert (Django SimpleJWT) – Login über `/api/token/`.
+- **[AuthService]** Neuer `AuthService` zum Abrufen von **Access/Refresh Token**.
+- **[Security]** Speicherung der Tokens im `localStorage` (`access_token`, `refresh_token`).
+- **[Routing]** Saubere Trennung der Seiten: **/login** und **/animals**.
+- **[New Feature]** **AuthGuard (Route Protection)**: Zugriff auf `/animals` nur mit gültigem Token – ohne Token erfolgt Redirect zu `/login`.
+- **[Bugfix]** **Double-Render Problem** behoben (Komponente wurde doppelt gerendert) durch korrekte Nutzung von `<router-outlet>`.
+- **[Refactoring]** Anpassungen für Angular 19 (Strict Mode / Typisierung / DI-Fixes).
 
 ### ✅ **20.02.2026 - Das Full CRUD Update**
 
@@ -80,9 +81,10 @@ Auch wenn sie heute nicht mehr bei mir sind, wollte ich ihnen mit dieser kleinen
 ## 📊 Nächste Schritte
 
 - [x] Meilenstein 5: JWT Authentifizierung & Login-System ✅
-- [x] Meilenstein 6: Bearbeitungsmodus (Edit Animal)
-- [ ] Meilenstein 7: AuthGuard & Protected Routes 🔐
-- [ ] Meilenstein 8: Image Upload 📸
+- [x] Route Protection (AuthGuard) ✅
+- [ ] Meilenstein 7: HTTP Interceptor (Bearer Token automatisch mitsenden) 🔐
+- [ ] Meilenstein 8: Logout-Button + Session Handling
+- [ ] Meilenstein 9: Image Upload 📸
 
 ---
 
