@@ -1,13 +1,13 @@
 import { Component } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
-import { AnimalListComponent } from './animal-list/animal-list'; 
+
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet, AnimalListComponent], 
+  imports: [RouterOutlet], 
   templateUrl: './app.html',
-  styleUrl: './app.css'
+  styleUrls: ['./app.css'],
 })
 export class AppComponent {
   title = 'animalcare-frontend';

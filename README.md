@@ -37,6 +37,15 @@ Auch wenn sie heute nicht mehr bei mir sind, wollte ich ihnen mit dieser kleinen
 
 ## 📜 Update-Historie (Roadmap & Erfolge)
 
+### ✅ **22.02.2026 – JWT Login & Router Stabilisierung**
+
+- **[New Feature]** Implementierung eines vollständigen Login-Systems mit JWT (SimpleJWT).
+- **[AuthService]** Erstellung eines dedizierten Services für Token-Handling (Access & Refresh).
+- **[Security]** Speicherung der JWT-Tokens im `localStorage`.
+- **[Routing]** Einführung einer klaren Trennung zwischen `/login` und `/animals`.
+- **[Bugfix]** Behebung des Double-Render-Problems durch korrekte Nutzung von `<router-outlet>`.
+- **[Refactoring]** Anpassung an Angular 19 Strict Mode (Typisierung & DI-Fixes).
+
 ### ✅ **20.02.2026 - Das Full CRUD Update**
 
 - **[New Feature]** **Bearbeitungsmodus (Edit)**: Implementierung der `PUT`-Methode zum Aktualisieren von Tierdaten.
@@ -70,9 +79,10 @@ Auch wenn sie heute nicht mehr bei mir sind, wollte ich ihnen mit dieser kleinen
 
 ## 📊 Nächste Schritte
 
-- [ ] Meilenstein 5: JWT Authentifizierung & Login-System ⏳
-- [x] Meilenstein 6: Bearbeitungsmodus (Edit Animal) ⏳
-- [ ] Meilenstein 7: Image Upload 📸 (Zukünftiges Feature: Echte Bilder statt Emojis)
+- [x] Meilenstein 5: JWT Authentifizierung & Login-System ✅
+- [x] Meilenstein 6: Bearbeitungsmodus (Edit Animal)
+- [ ] Meilenstein 7: AuthGuard & Protected Routes 🔐
+- [ ] Meilenstein 8: Image Upload 📸
 
 ---
 
