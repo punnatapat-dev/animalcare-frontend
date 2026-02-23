@@ -1,0 +1,25 @@
+.animal-card {
+  width: 280px;
+  background: #fffaf0;
+  border: 2px solid #ffcc00;
+  border-radius: 12px;
+  box-shadow: 2px 2px 5px rgba(0,0,0,0.1);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+.animal-image {
+  width: 100%;
+  height: 180px;        /* ความสูงเท่ากันทุกรูป */
+  object-fit: cover;    /* ครอบภาพไม่ให้ยืด */
+  display: block;
+}
+
+.animal-content {
+  padding: 15px;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}

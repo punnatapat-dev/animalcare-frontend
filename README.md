@@ -21,7 +21,6 @@ Auch wenn sie heute nicht mehr bei mir sind, wollte ich ihnen mit dieser kleinen
 - **Modernes Framework:** Erstellt mit der neuesten **Angular v19** Technologie.
 - **Zoneless Change Detection:** Maximale Performance durch `provideZonelessChangeDetection()`.
 - **Angular Signals:** Reaktive Datenverwaltung für sofortige UI-Updates.
-- **Full CRUD Integration:** Anzeigen (GET), Hinzufügen (POST) und Löschen (DELETE) von Tierdaten.
 - **Full CRUD Integration:** Anzeigen (GET), Hinzufügen (POST), Bearbeiten (PUT) und Löschen (DELETE) von Tierdaten.
 
 ---
@@ -36,6 +35,16 @@ Auch wenn sie heute nicht mehr bei mir sind, wollte ich ihnen mit dieser kleinen
 ---
 
 ## 📜 Update-Historie (Roadmap & Erfolge)
+
+### ✅ **23.02.2026 – Image Upload Integration & Owner-Permission Stabilisierung**
+
+- **[New Feature] Image Upload UI**: Integration eines Datei-Inputs (`type="file"`) für Tierbilder.
+- **[HTTP] Multipart/FormData Support**: Anpassung der `POST`- und `PUT`-Requests zur Unterstützung von Bild-Uploads.
+- **[Image Rendering] Dynamische Bildanzeige**: Implementierung von `getImageUrl()` zur sicheren Verarbeitung relativer & absoluter Media-URLs.
+- **[Fallback-Logik]** Anzeige von Emoji-Icons nur wenn kein Bild vorhanden ist.
+- **[Bugfix] 403 Forbidden Debugging**: Analyse und Lösung von Update-Problemen in Kombination mit Object-Level Permissions.
+- **[UX] Verbesserte Kartenansicht**: Optimierung von `object-fit: cover`, einheitliche Bildhöhen & saubere Card-Struktur.
+- **[Data Consistency] Owner-Fix Synchronisation**: Frontend erfolgreich mit korrigierten Backend-Daten (Owner-Zuweisung) getestet.
 
 ### ✅ **22.02.2026 – JWT Login, Route-Protection & Frontend-Stabilisierung**
 
@@ -84,7 +93,9 @@ Auch wenn sie heute nicht mehr bei mir sind, wollte ich ihnen mit dieser kleinen
 - [x] Route Protection (AuthGuard) ✅
 - [ ] Meilenstein 7: HTTP Interceptor (Bearer Token automatisch mitsenden) 🔐
 - [ ] Meilenstein 8: Logout-Button + Session Handling
-- [ ] Meilenstein 9: Image Upload 📸
+- [x] Meilenstein 9: Image Upload (Development Environment) 📸
+- [ ] Meilenstein 10: HTTP Interceptor (Bearer Token automatisch mitsenden) 🔐
+- [ ] Meilenstein 11: Logout-Button + Session Handling
 
 ---
 

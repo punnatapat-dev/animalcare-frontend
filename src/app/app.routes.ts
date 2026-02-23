@@ -4,7 +4,7 @@ import { AnimalListComponent } from './animal-list/animal-list';
 import { authGuard } from './auth.guard';
 
 export const routes: Routes = [
-    { path: 'login', component: LoginComponent },
-    { path: 'animals', component: AnimalListComponent, canActivate: [authGuard] },      
-    { path: '', redirectTo: 'animals', pathMatch: 'full' }, 
+  { path: 'login', component: LoginComponent },
+  { path: 'animals', component: AnimalListComponent, canActivate: [authGuard] },
+  { path: '', redirectTo: 'animals', pathMatch: 'full' },
 ];
