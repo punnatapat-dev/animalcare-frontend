@@ -27,6 +27,7 @@
     />
 
     <input type="file" (change)="onFileSelected($event)" style="flex: 1" />
+
     <button
       (click)="submitForm()"
       [style.background]="editingAnimalId() ? '#ffc107' : '#28a745'"
@@ -61,7 +62,26 @@
 </div>
 
 <div style="padding: 20px; font-family: Arial, sans-serif">
-  <h2 style="color: #dd0031">🐾 Unsere Schützlinge</h2>
+  <!-- ✅ Header + Logout -->
+  <div style="display: flex; justify-content: space-between; align-items: center">
+    <h2 style="color: #dd0031; margin: 0">🐾 Unsere Schützlinge</h2>
+
+    <button
+      (click)="logout()"
+      style="
+        padding: 8px 14px;
+        background: #343a40;
+        color: white;
+        border: none;
+        border-radius: 6px;
+        cursor: pointer;
+        font-weight: bold;
+      "
+    >
+      Logout
+    </button>
+  </div>
+
   <p>Hier finden Sie unsere Tiere, die ein neues Zuhause suchen.</p>
   <hr />
 
@@ -77,7 +97,7 @@
           box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1);
         "
       >
-        <!-- ✅ รูป: ถ้ามี image ให้โชว์ก่อน (ใช้ getImageUrl เพื่อกัน URL ต่อผิด) -->
+        <!-- ✅ รูป: ถ้ามี image ให้โชว์ก่อน -->
         @if (animal.image) {
           <img
             [src]="getImageUrl(animal.image)"
@@ -160,4 +180,4 @@
       </div>
     }
   </div>
-</div>   
+</div>

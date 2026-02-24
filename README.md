@@ -36,6 +36,14 @@ Auch wenn sie heute nicht mehr bei mir sind, wollte ich ihnen mit dieser kleinen
 
 ## 📜 Update-Historie (Roadmap & Erfolge)
 
+### ✅ **24.02.2026 – Auth Stabilisierung + Interceptor Ready + UI Feinschliff**
+
+- **[Security] HTTP Interceptor Ready**: Vorbereitung/Integration, um `Authorization: Bearer <token>` automatisch bei API-Requests mitzuschicken.
+- **[Fix] 403 Forbidden gelöst**: Bearbeiten/Upload für bestehende Tiere funktioniert nach Owner-Daten-Fix im Backend zuverlässig.
+- **[UI] Bilddarstellung verbessert**: Einheitliche Card-Optik durch feste Bildhöhe + `object-fit: cover` (keine verzerrten Bilder).
+- **[Routing] Login Flow stabil**: Login → Redirect zu `/animals`, Logout → Redirect zu `/login`.
+- **[Validation] End-to-End Test**: CRUD + Image Upload + Anzeige vollständig im Browser getestet.
+
 ### ✅ **23.02.2026 – Image Upload Integration & Owner-Permission Stabilisierung**
 
 - **[New Feature] Image Upload UI**: Integration eines Datei-Inputs (`type="file"`) für Tierbilder.
@@ -89,13 +97,14 @@ Auch wenn sie heute nicht mehr bei mir sind, wollte ich ihnen mit dieser kleinen
 
 ## 📊 Nächste Schritte
 
+## 📊 Nächste Schritte
+
 - [x] Meilenstein 5: JWT Authentifizierung & Login-System ✅
 - [x] Route Protection (AuthGuard) ✅
-- [ ] Meilenstein 7: HTTP Interceptor (Bearer Token automatisch mitsenden) 🔐
-- [ ] Meilenstein 8: Logout-Button + Session Handling
-- [x] Meilenstein 9: Image Upload (Development Environment) 📸
-- [ ] Meilenstein 10: HTTP Interceptor (Bearer Token automatisch mitsenden) 🔐
-- [ ] Meilenstein 11: Logout-Button + Session Handling
+- [x] Image Upload (Development Environment) 📸 ✅
+- [ ] HTTP Interceptor (Bearer Token automatisch mitsenden) 🔐
+- [ ] Logout-Button + Session Handling (Refresh/Auto-Login) 🚪
+- [ ] Token Refresh (Auto-Refresh bei 401) ♻️
 
 ---
 

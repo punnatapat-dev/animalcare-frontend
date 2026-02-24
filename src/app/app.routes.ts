@@ -7,4 +7,5 @@ export const routes: Routes = [
   { path: 'login', component: LoginComponent },
   { path: 'animals', component: AnimalListComponent, canActivate: [authGuard] },
   { path: '', redirectTo: 'animals', pathMatch: 'full' },
+  { path: '**', redirectTo: 'animals' },
 ];

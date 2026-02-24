@@ -18,6 +18,12 @@ export class AuthService {
       );
   }
 
+  refreshToken(refresh: string) {
+  return this.http.post<{ access: string }>(
+    `${this.API}/api/token/refresh/`,
+    { refresh }
+  );
+}
   logout(): void {
     localStorage.removeItem('access_token');
     localStorage.removeItem('refresh_token');
