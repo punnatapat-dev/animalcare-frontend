@@ -12,11 +12,11 @@ Dies ist das moderne Frontend-System für unsere Tiervermittlungsplattform, entw
 
 ### 🖥️ Frontend (Angular)
 
-![Frontend Dashboard](./screenshots/frontend-dashboard.png)
+![Frontend Dashboard](./frontend-dashboard.png)
 
 ### ⚙️ Backend API (Django REST Framework)
 
-![Backend API](./screenshots/backend-api.png)
+![Backend API](./backend-api.png)
 
 ---
 
