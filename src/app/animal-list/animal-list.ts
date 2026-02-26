@@ -1,5 +1,5 @@
 import { Component, OnInit, inject, signal } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
@@ -12,7 +12,7 @@ import { Router } from '@angular/router';
   styleUrl: './animal-list.css',
 })
 export class AnimalListComponent implements OnInit {
-  API_BASE = 'http://localhost:8000';
+  API_BASE = 'http://127.0.0.1:8000';
 
   animals = signal<any[]>([]);
   newAnimalName = signal('');
@@ -27,6 +27,14 @@ export class AnimalListComponent implements OnInit {
   ngOnInit() {
     this.loadAnimals();
   }
+
+  // ✅ ดึง token มาใส่ header
+  private authHeaders(): HttpHeaders {
+  const token = localStorage.getItem('access_token');
+  return token
+    ? new HttpHeaders({ Authorization: `Bearer ${token}` })
+    : new HttpHeaders();
+}
 
   loadAnimals() {
     this.http.get(`${this.API_BASE}/api/animals/`).subscribe({
@@ -48,7 +56,7 @@ export class AnimalListComponent implements OnInit {
     this.editingAnimalId.set(animal.id);
     this.newAnimalName.set(animal.name);
     this.newAnimalSpecies.set(animal.species);
-    this.selectedImage.set(null); // กันรูปเก่าค้าง
+    this.selectedImage.set(null);
     window.scrollTo({ top: 0, behavior: 'smooth' });
   }
 
@@ -56,7 +64,7 @@ export class AnimalListComponent implements OnInit {
     this.editingAnimalId.set(null);
     this.newAnimalName.set('');
     this.newAnimalSpecies.set('');
-    this.selectedImage.set(null); // ✅ สำคัญ: ล้างรูปด้วย
+    this.selectedImage.set(null);
   }
 
   onFileSelected(event: Event) {
@@ -77,9 +85,14 @@ export class AnimalListComponent implements OnInit {
       formData.append('image', this.selectedImage()!);
     }
 
+    // ✅ UPDATE (ใช้ PATCH ปลอดภัยกว่า PUT)
     if (this.editingAnimalId()) {
       this.http
-        .put(`${this.API_BASE}/api/animals/${this.editingAnimalId()}/`, formData)
+        .patch(
+          `${this.API_BASE}/api/animals/${this.editingAnimalId()}/`,
+          formData,
+          { headers: this.authHeaders() }
+        )
         .subscribe({
           next: () => {
             this.loadAnimals();
@@ -88,27 +101,37 @@ export class AnimalListComponent implements OnInit {
           error: (err) => console.error('Fehler beim Update:', err),
         });
     } else {
-      this.http.post(`${this.API_BASE}/api/animals/`, formData).subscribe({
-        next: () => {
-          this.loadAnimals();
-          this.newAnimalName.set('');
-          this.newAnimalSpecies.set('');
-          this.selectedImage.set(null);
-        },
-        error: (err) => console.error('Fehler beim Hinzufügen:', err),
-      });
+      // ✅ CREATE
+      this.http
+        .post(`${this.API_BASE}/api/animals/`, formData, {
+          headers: this.authHeaders(),
+        })
+        .subscribe({
+          next: () => {
+            this.loadAnimals();
+            this.newAnimalName.set('');
+            this.newAnimalSpecies.set('');
+            this.selectedImage.set(null);
+          },
+          error: (err) => console.error('Fehler beim Hinzufügen:', err),
+        });
     }
   }
 
   deleteAnimal(id: number) {
     if (confirm('Möchten Sie dieses Tier wirklich löschen?')) {
-      this.http.delete(`${this.API_BASE}/api/animals/${id}/`).subscribe({
-        next: () => {
-          this.animals.update((items) => items.filter((a) => a.id !== id));
-          console.log('Tier erfolgreich gelöscht!');
-        },
-        error: (err) => console.error('Fehler:', err),
-      });
+      this.http
+        .delete(`${this.API_BASE}/api/animals/${id}/`, {
+          headers: this.authHeaders(),
+        })
+        .subscribe({
+          next: () => {
+            this.animals.update((items) =>
+              items.filter((a) => a.id !== id)
+            );
+          },
+          error: (err) => console.error('Fehler:', err),
+        });
     }
   }
 

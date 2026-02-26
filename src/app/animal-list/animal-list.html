@@ -62,7 +62,7 @@
 </div>
 
 <div style="padding: 20px; font-family: Arial, sans-serif">
-  <!-- ✅ Header + Logout -->
+  <!-- Header + Logout -->
   <div style="display: flex; justify-content: space-between; align-items: center">
     <h2 style="color: #dd0031; margin: 0">🐾 Unsere Schützlinge</h2>
 
@@ -97,10 +97,10 @@
           box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1);
         "
       >
-        <!-- ✅ รูป: ถ้ามี image ให้โชว์ก่อน -->
-        @if (animal.image) {
+        <!-- ✅ แสดงรูปถ้ามี image_url -->
+        @if (animal.image_url) {
           <img
-            [src]="getImageUrl(animal.image)"
+            [src]="getImageUrl(animal.image_url)"
             alt="Animal image"
             style="
               width: 100%;
@@ -113,8 +113,8 @@
         }
 
         <h3 style="margin: 0; color: #333">
-          <!-- ✅ Emoji: โชว์เฉพาะตอนที่ไม่มีรูป -->
-          @if (!animal.image) {
+          <!-- ✅ แสดง emoji เฉพาะตอนที่ไม่มีรูป -->
+          @if (!animal.image_url) {
             @if (animal.species === 'CAT') {
               🐱
             } @else if (animal.species === 'DOG') {
@@ -132,7 +132,9 @@
 
         <p style="margin: 5px 0">
           <b>Status:</b>
-          <span style="color: #28a745; font-weight: bold">{{ animal.status }}</span>
+          <span style="color: #28a745; font-weight: bold">
+            {{ animal.status }}
+          </span>
         </p>
 
         <hr style="border: 0; border-top: 1px solid #eee; margin: 10px 0" />
@@ -172,10 +174,19 @@
         </div>
       </div>
     } @empty {
-      <div style="background: #f8f9fa; padding: 20px; border-radius: 5px; width: 100%">
+      <div
+        style="
+          background: #f8f9fa;
+          padding: 20px;
+          border-radius: 5px;
+          width: 100%;
+        "
+      >
         <p>⏳ <b>Status:</b> Daten werden geladen...</p>
         <p>
-          <small>Bitte stellen Sie sicher, dass der Django-Server unter Port 8000 läuft.</small>
+          <small>
+            Bitte stellen Sie sicher, dass der Django-Server unter Port 8000 läuft.
+          </small>
         </p>
       </div>
     }

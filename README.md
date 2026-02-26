@@ -8,6 +8,18 @@ Dies ist das moderne Frontend-System für unsere Tiervermittlungsplattform, entw
 
 ---
 
+# 📸 Project Preview
+
+### 🖥️ Frontend (Angular)
+
+![Frontend Dashboard](./screenshots/frontend-dashboard.png)
+
+### ⚙️ Backend API (Django REST Framework)
+
+![Backend API](./screenshots/backend-api.png)
+
+---
+
 ## ❤️ Inspiration
 
 Dieses Projekt ist von meinen vier geliebten Hunden **(Almond🐶, Joghurt🐶, Taohoo🐶 und Kiekie🐶)** inspiriert.
@@ -35,6 +47,15 @@ Auch wenn sie heute nicht mehr bei mir sind, wollte ich ihnen mit dieser kleinen
 ---
 
 ## 📜 Update-Historie (Roadmap & Erfolge)
+
+### 26.02.2026 – Cloudinary Integration & Pagination Stabilisierung
+
+- Cloudinary Image Hosting integriert (statt lokalem media-Storage)
+- Frontend nutzt korrekt image_url zur Darstellung externer Bilder
+- Rendering-Bug behoben (animal.image → animal.image_url)
+- JWT Routing Problem im Backend behoben (/api/token/ stabil)
+- Pagination-Verhalten analysiert (PAGE_SIZE = 6)
+- End-to-End Test erfolgreich: Login → Upload → Anzeige → Edit → Delete
 
 ### ✅ **24.02.2026 – Auth Stabilisierung + Interceptor Ready + UI Feinschliff**
 
@@ -94,8 +115,6 @@ Auch wenn sie heute nicht mehr bei mir sind, wollte ich ihnen mit dieser kleinen
 - [x] animal-list Komponenten-Architektur
 
 ---
-
-## 📊 Nächste Schritte
 
 ## 📊 Nächste Schritte
 
