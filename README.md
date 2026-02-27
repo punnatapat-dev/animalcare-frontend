@@ -48,6 +48,16 @@ Auch wenn sie heute nicht mehr bei mir sind, wollte ich ihnen mit dieser kleinen
 
 ## 📜 Update-Historie (Roadmap & Erfolge)
 
+### ✅ **27.02.2026 – Pagination Removal + Frontend Compatibility Fix**
+
+- **[Backend] Pagination deaktiviert**: Entfernen von `DEFAULT_PAGINATION_CLASS` und `PAGE_SIZE`, damit `/api/animals/` alle Tiere in einer Response liefert (kein Page-Wechsel nötig).
+- **[Frontend] Response-Handling stabilisiert**: `loadAnimals()` unterstützt jetzt beide API-Formate:
+  - mit Pagination (`data.results`)
+  - ohne Pagination (Array direkt)
+- **[Fix] “Lade”-Bug behoben**: Tiere wurden nicht angezeigt, weil `data.results` nach dem Deaktivieren der Pagination nicht mehr existierte.
+- **[Stability] Token-Header für GET**: API-Requests werden zuverlässig mit JWT Header verarbeitet (kein “leer/geladen…” UI).
+- **[Validation] End-to-End Test**: Anzeigen + Create/Update/Delete + Image Rendering erneut erfolgreich geprüft.
+
 ### 26.02.2026 – Cloudinary Integration & Pagination Stabilisierung
 
 - Cloudinary Image Hosting integriert (statt lokalem media-Storage)

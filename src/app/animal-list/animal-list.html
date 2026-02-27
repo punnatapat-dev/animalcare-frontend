@@ -85,6 +85,27 @@
   <p>Hier finden Sie unsere Tiere, die ein neues Zuhause suchen.</p>
   <hr />
 
+  <!-- ✅ Pagination Controls -->
+<div style="display: flex; gap: 10px; align-items: center; margin: 10px 0">
+  <button
+    (click)="goPrev()"
+    [disabled]="!prevUrl()"
+    style="padding: 6px 12px; border-radius: 6px; border: 1px solid #ccc; cursor: pointer"
+  >
+    ◀ Zurück
+  </button>
+
+  <span style="font-weight: bold">Seite {{ currentPage() }}</span>
+
+  <button
+    (click)="goNext()"
+    [disabled]="!nextUrl()"
+    style="padding: 6px 12px; border-radius: 6px; border: 1px solid #ccc; cursor: pointer"
+  >
+    Weiter ▶
+  </button>
+</div>
+
   <div style="display: flex; gap: 15px; flex-wrap: wrap; margin-top: 20px">
     @for (animal of animals(); track animal.id) {
       <div

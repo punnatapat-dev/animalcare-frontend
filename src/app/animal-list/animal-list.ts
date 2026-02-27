@@ -21,6 +21,11 @@ export class AnimalListComponent implements OnInit {
 
   editingAnimalId = signal<number | null>(null);
 
+  // ✅ Pagination (ถ้า backend ปิด pagination -> next/prev จะเป็น null และปุ่มจะกดไม่ได้เอง)
+  nextUrl = signal<string | null>(null);
+  prevUrl = signal<string | null>(null);
+  currentPage = signal<number>(1);
+
   private http = inject(HttpClient);
   private router = inject(Router);
 
@@ -30,19 +35,45 @@ export class AnimalListComponent implements OnInit {
 
   // ✅ ดึง token มาใส่ header
   private authHeaders(): HttpHeaders {
-  const token = localStorage.getItem('access_token');
-  return token
-    ? new HttpHeaders({ Authorization: `Bearer ${token}` })
-    : new HttpHeaders();
-}
+    const token = localStorage.getItem('access_token');
+    return token
+      ? new HttpHeaders({ Authorization: `Bearer ${token}` })
+      : new HttpHeaders();
+  }
 
-  loadAnimals() {
-    this.http.get(`${this.API_BASE}/api/animals/`).subscribe({
-      next: (data: any) => {
-        this.animals.set(data.results);
-      },
-      error: (err) => console.error('Fehler beim Laden:', err),
-    });
+  // ✅ โหลดสัตว์: รองรับทั้งแบบมี pagination และไม่มี
+  loadAnimals(url?: string) {
+    const targetUrl =
+      url ?? `${this.API_BASE}/api/animals/?page=${this.currentPage()}`;
+
+    this.http
+      .get(targetUrl, { headers: this.authHeaders() })
+      .subscribe({
+        next: (data: any) => {
+          // ✅ ถ้า data เป็น array -> backend ปิด pagination
+          // ✅ ถ้า data เป็น object -> ใช้ data.results (มี pagination)
+          const items = Array.isArray(data) ? data : data?.results;
+
+          this.animals.set(items ?? []);
+
+          // ถ้า backend ปิด pagination -> next/prev ไม่มี ให้เป็น null
+          this.nextUrl.set(data?.next ?? null);
+          this.prevUrl.set(data?.previous ?? null);
+        },
+        error: (err) => console.error('Fehler beim Laden:', err),
+      });
+  }
+
+  goNext() {
+    if (!this.nextUrl()) return;
+    this.currentPage.update((p) => p + 1);
+    this.loadAnimals(this.nextUrl()!);
+  }
+
+  goPrev() {
+    if (!this.prevUrl()) return;
+    this.currentPage.update((p) => Math.max(1, p - 1));
+    this.loadAnimals(this.prevUrl()!);
   }
 
   getImageUrl(image: string | null): string | null {
@@ -85,8 +116,8 @@ export class AnimalListComponent implements OnInit {
       formData.append('image', this.selectedImage()!);
     }
 
-    // ✅ UPDATE (ใช้ PATCH ปลอดภัยกว่า PUT)
     if (this.editingAnimalId()) {
+      // ✅ UPDATE (PATCH)
       this.http
         .patch(
           `${this.API_BASE}/api/animals/${this.editingAnimalId()}/`,
@@ -108,7 +139,10 @@ export class AnimalListComponent implements OnInit {
         })
         .subscribe({
           next: () => {
+            // ถ้า backend ยังมี pagination จะกลับหน้า 1 ให้เห็นตัวใหม่
+            this.currentPage.set(1);
             this.loadAnimals();
+
             this.newAnimalName.set('');
             this.newAnimalSpecies.set('');
             this.selectedImage.set(null);
@@ -119,20 +153,25 @@ export class AnimalListComponent implements OnInit {
   }
 
   deleteAnimal(id: number) {
-    if (confirm('Möchten Sie dieses Tier wirklich löschen?')) {
-      this.http
-        .delete(`${this.API_BASE}/api/animals/${id}/`, {
-          headers: this.authHeaders(),
-        })
-        .subscribe({
-          next: () => {
-            this.animals.update((items) =>
-              items.filter((a) => a.id !== id)
-            );
-          },
-          error: (err) => console.error('Fehler:', err),
-        });
-    }
+    if (!confirm('Möchten Sie dieses Tier wirklich löschen?')) return;
+
+    this.http
+      .delete(`${this.API_BASE}/api/animals/${id}/`, {
+        headers: this.authHeaders(),
+      })
+      .subscribe({
+        next: () => {
+          this.animals.update((items) => items.filter((a) => a.id !== id));
+
+          // ถ้า backend มี pagination และลบจนหน้านี้ว่าง ให้ถอยกลับ
+          if (this.animals().length === 0 && this.prevUrl()) {
+            this.goPrev();
+          } else {
+            this.loadAnimals();
+          }
+        },
+        error: (err) => console.error('Fehler:', err),
+      });
   }
 
   logout() {
