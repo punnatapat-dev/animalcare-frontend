@@ -48,6 +48,15 @@ Auch wenn sie heute nicht mehr bei mir sind, wollte ich ihnen mit dieser kleinen
 
 ## 📜 Update-Historie (Roadmap & Erfolge)
 
+### ✅ **28.02.2026 – Species Filter Dropdown (Frontend Integration)**
+
+- **[UI] Species Dropdown hinzugefügt:** Auswahl zwischen `ALL`, `DOG`, `CAT`, `RABBIT`, `OTHER`.
+- **[API Integration] Query Parameter Support:** Frontend sendet automatisch `?species=DOG` an `/api/animals/`.
+- **[Filter Combination] Search + Species kombinierbar:** Name-Suche und Species-Filter funktionieren gleichzeitig.
+- **[UX] Auto-Reload bei Dropdown-Änderung:** Auswahl eines Species-Wertes lädt die Liste sofort neu.
+- **[Reset] Ein-Klick Reset:** Setzt Search-Text und Species-Filter zurück.
+- **[Stability] CRUD unverändert stabil:** Create, Update, Delete & Image Rendering weiterhin funktionsfähig.
+
 ### ✅ **27.02.2026 – Pagination Removal + Frontend Compatibility Fix**
 
 - **[Backend] Pagination deaktiviert**: Entfernen von `DEFAULT_PAGINATION_CLASS` und `PAGE_SIZE`, damit `/api/animals/` alle Tiere in einer Response liefert (kein Page-Wechsel nötig).

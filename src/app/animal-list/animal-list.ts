@@ -1,5 +1,5 @@
 import { Component, OnInit, inject, signal } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
@@ -26,6 +26,13 @@ export class AnimalListComponent implements OnInit {
   prevUrl = signal<string | null>(null);
   currentPage = signal<number>(1);
 
+  // ✅ Search + Species Filter (เพิ่ม)
+  searchQuery = signal<string>('');
+  selectedSpecies = signal<string>('ALL');
+
+  // ✅ ตัวเลือกใน dropdown (เพิ่ม)
+  speciesOptions: string[] = ['ALL', 'DOG', 'CAT', 'RABBIT', 'OTHER'];
+
   private http = inject(HttpClient);
   private router = inject(Router);
 
@@ -41,13 +48,25 @@ export class AnimalListComponent implements OnInit {
       : new HttpHeaders();
   }
 
-  // ✅ โหลดสัตว์: รองรับทั้งแบบมี pagination และไม่มี
+  // ✅ โหลดสัตว์: รองรับทั้งแบบมี pagination และไม่มี + รองรับ search/species
   loadAnimals(url?: string) {
+    // ถ้าเป็นลิงก์ next/prev จาก backend ให้ใช้ url นั้นเลย (มันมักจะมี query อยู่แล้ว)
     const targetUrl =
       url ?? `${this.API_BASE}/api/animals/?page=${this.currentPage()}`;
 
+    // ✅ ใส่ query params เฉพาะตอนที่ไม่ได้ใช้ url จาก next/prev
+    let params = new HttpParams();
+
+    if (!url) {
+      const q = this.searchQuery().trim();
+      if (q) params = params.set('search', q);
+
+      const sp = this.selectedSpecies();
+      if (sp && sp !== 'ALL') params = params.set('species', sp);
+    }
+
     this.http
-      .get(targetUrl, { headers: this.authHeaders() })
+      .get(targetUrl, { headers: this.authHeaders(), params })
       .subscribe({
         next: (data: any) => {
           // ✅ ถ้า data เป็น array -> backend ปิด pagination
@@ -62,6 +81,20 @@ export class AnimalListComponent implements OnInit {
         },
         error: (err) => console.error('Fehler beim Laden:', err),
       });
+  }
+
+  // ✅ กด "Suchen" หรือเปลี่ยน dropdown แล้วให้ reload (เพิ่ม)
+  applyFilters() {
+    this.currentPage.set(1);
+    this.loadAnimals();
+  }
+
+  // ✅ กด Reset (เพิ่ม)
+  resetFilters() {
+    this.searchQuery.set('');
+    this.selectedSpecies.set('ALL');
+    this.currentPage.set(1);
+    this.loadAnimals();
   }
 
   goNext() {
@@ -139,7 +172,6 @@ export class AnimalListComponent implements OnInit {
         })
         .subscribe({
           next: () => {
-            // ถ้า backend ยังมี pagination จะกลับหน้า 1 ให้เห็นตัวใหม่
             this.currentPage.set(1);
             this.loadAnimals();
 
@@ -163,7 +195,6 @@ export class AnimalListComponent implements OnInit {
         next: () => {
           this.animals.update((items) => items.filter((a) => a.id !== id));
 
-          // ถ้า backend มี pagination และลบจนหน้านี้ว่าง ให้ถอยกลับ
           if (this.animals().length === 0 && this.prevUrl()) {
             this.goPrev();
           } else {
