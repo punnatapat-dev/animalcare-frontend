@@ -48,6 +48,13 @@ Auch wenn sie heute nicht mehr bei mir sind, wollte ich ihnen mit dieser kleinen
 
 ## 📜 Update-Historie (Roadmap & Erfolge)
 
+### ✅ 01.03.2026 – Token Refresh & Session Handling
+
+- Automatisches Token-Refresh bei abgelaufenem Access Token
+- Retry-Mechanismus nach erfolgreichem Refresh
+- Automatisches Logout bei ungültigem Refresh Token
+- End-to-End Test erfolgreich durchgeführt
+
 ### ✅ **28.02.2026 – Species Filter Dropdown (Frontend Integration)**
 
 - **[UI] Species Dropdown hinzugefügt:** Auswahl zwischen `ALL`, `DOG`, `CAT`, `RABBIT`, `OTHER`.
@@ -140,8 +147,8 @@ Auch wenn sie heute nicht mehr bei mir sind, wollte ich ihnen mit dieser kleinen
 - [x] Meilenstein 5: JWT Authentifizierung & Login-System ✅
 - [x] Route Protection (AuthGuard) ✅
 - [x] Image Upload (Development Environment) 📸 ✅
-- [ ] HTTP Interceptor (Bearer Token automatisch mitsenden) 🔐
-- [ ] Logout-Button + Session Handling (Refresh/Auto-Login) 🚪
+- [x] HTTP Interceptor (Bearer Token automatisch mitsenden) 🔐
+- [x] Logout-Button + Session Handling (Refresh/Auto-Login) 🚪
 - [ ] Token Refresh (Auto-Refresh bei 401) ♻️
 
 ---
