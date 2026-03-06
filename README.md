@@ -149,7 +149,7 @@ Auch wenn sie heute nicht mehr bei mir sind, wollte ich ihnen mit dieser kleinen
 - [x] Image Upload (Development Environment) 📸 ✅
 - [x] HTTP Interceptor (Bearer Token automatisch mitsenden) 🔐
 - [x] Logout-Button + Session Handling (Refresh/Auto-Login) 🚪
-- [ ] Token Refresh (Auto-Refresh bei 401) ♻️
+- [x] Token Refresh (Auto-Refresh bei 401) ♻️
 
 ---
 

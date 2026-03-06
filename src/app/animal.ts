@@ -4,7 +4,7 @@ import { HttpClient } from '@angular/common/http';
 @Injectable({ providedIn: 'root' })
 export class AnimalService {
   private http = inject(HttpClient);
-  private baseUrl = 'http://127.0.0.1:8000/api/animals/';
+  private baseUrl = 'https://animalcare-backend.onrender.com/api/animals/';
 
   getAnimals(params?: any) {
     return this.http.get(this.baseUrl, { params });

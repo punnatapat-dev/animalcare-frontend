@@ -5,7 +5,7 @@ import { Observable, tap } from 'rxjs';
 @Injectable({ providedIn: 'root' })
 export class AuthService {
   private http = inject(HttpClient);
-  private readonly API = 'http://127.0.0.1:8000';
+  private readonly API = 'https://animalcare-backend.onrender.com';
 
   login(credentials: { username: string; password: string }): Observable<{ access: string; refresh: string }> {
     return this.http

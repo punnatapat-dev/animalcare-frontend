@@ -4,7 +4,7 @@ import { Router } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import { catchError, switchMap, throwError } from 'rxjs';
 
-const API_HOSTS = ['http://localhost:8000', 'http://127.0.0.1:8000'];
+const API_HOSTS = ['http://localhost:8000', 'https://animalcare-backend.onrender.com'];
 
 export const authInterceptor: HttpInterceptorFn = (req, next) => {
   const router = inject(Router);

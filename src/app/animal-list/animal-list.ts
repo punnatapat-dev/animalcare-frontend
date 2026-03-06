@@ -12,7 +12,7 @@ import { Router } from '@angular/router';
   styleUrl: './animal-list.css',
 })
 export class AnimalListComponent implements OnInit {
-  API_BASE = 'http://127.0.0.1:8000';
+  API_BASE = 'https://animalcare-backend.onrender.com';
 
   animals = signal<any[]>([]);
   newAnimalName = signal('');
