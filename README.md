@@ -46,7 +46,25 @@ Auch wenn sie heute nicht mehr bei mir sind, wollte ich ihnen mit dieser kleinen
 
 ---
 
+## 🌍 Live Demo
+
+Frontend (Netlify):  
+https://visionary-tapioca-be6cbf.netlify.app
+
+Backend API (Render):  
+https://animalcare-backend.onrender.com/api/animals/
+
+---
+
 ## 📜 Update-Historie (Roadmap & Erfolge)
+
+### ✅ 06.03.2026 – Frontend Deployment (Netlify)
+
+- Frontend successfully deployed on Netlify
+- Angular app connected to deployed Django backend on Render
+- Netlify redirect configuration added for Angular routing
+- CORS configuration updated on backend for production frontend access
+- End-to-end deployment test successful
 
 ### ✅ 01.03.2026 – Token Refresh & Session Handling
 
@@ -150,6 +168,7 @@ Auch wenn sie heute nicht mehr bei mir sind, wollte ich ihnen mit dieser kleinen
 - [x] HTTP Interceptor (Bearer Token automatisch mitsenden) 🔐
 - [x] Logout-Button + Session Handling (Refresh/Auto-Login) 🚪
 - [x] Token Refresh (Auto-Refresh bei 401) ♻️
+- [x] Frontend Deployment (Netlify) 🌍 ✅
 
 ---
 
