@@ -60,11 +60,11 @@ https://animalcare-backend.onrender.com/api/animals/
 
 ### ✅ 06.03.2026 – Frontend Deployment (Netlify)
 
-- Frontend successfully deployed on Netlify
-- Angular app connected to deployed Django backend on Render
-- Netlify redirect configuration added for Angular routing
-- CORS configuration updated on backend for production frontend access
-- End-to-end deployment test successful
+- Frontend erfolgreich auf Netlify deployt
+- Angular-Anwendung mit dem auf Render bereitgestellten Django-Backend verbunden
+- Netlify-Redirect-Konfiguration für Angular-Routing hinzugefügt
+- CORS-Konfiguration im Backend für den Zugriff des Production-Frontends aktualisiert
+- End-to-End Deployment-Test erfolgreich abgeschlossen
 
 ### ✅ 01.03.2026 – Token Refresh & Session Handling
 
