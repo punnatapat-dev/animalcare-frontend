@@ -19,12 +19,20 @@
       style="padding: 8px; border-radius: 5px; border: 1px solid #999; flex: 1"
     />
 
-    <input
-      [value]="newAnimalSpecies()"
-      (input)="newAnimalSpecies.set($any($event.target).value)"
-      placeholder="Art (z.B. DOG)"
-      style="padding: 8px; border-radius: 5px; border: 1px solid #999; flex: 1"
-    />
+    <div style="flex: 1">
+  <input
+    [value]="newAnimalName()"
+    (input)="newAnimalName.set($any($event.target).value); nameError.set('')"
+    placeholder="Name (z.B. Luna)"
+    style="padding: 8px; border-radius: 5px; border: 1px solid #999; width: 100%"
+  />
+
+  @if (nameError()) {
+    <p style="color: #dc3545; margin: 6px 0 0 0; font-size: 14px; font-weight: bold">
+      {{ nameError() }}
+    </p>
+  }
+</div>
 
     <input type="file" (change)="onFileSelected($event)" style="flex: 1" />
 
