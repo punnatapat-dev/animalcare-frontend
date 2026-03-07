@@ -21,16 +21,18 @@ export class AnimalListComponent implements OnInit {
 
   editingAnimalId = signal<number | null>(null);
 
-  // ✅ Pagination (ถ้า backend ปิด pagination -> next/prev จะเป็น null และปุ่มจะกดไม่ได้เอง)
+  // ✅ Validation error
+  nameError = signal('');
+
+  // ✅ Pagination
   nextUrl = signal<string | null>(null);
   prevUrl = signal<string | null>(null);
   currentPage = signal<number>(1);
 
-  // ✅ Search + Species Filter (เพิ่ม)
+  // ✅ Search + Filter
   searchQuery = signal<string>('');
   selectedSpecies = signal<string>('ALL');
 
-  // ✅ ตัวเลือกใน dropdown (เพิ่ม)
   speciesOptions: string[] = ['ALL', 'DOG', 'CAT', 'RABBIT', 'OTHER'];
 
   private http = inject(HttpClient);
@@ -40,7 +42,6 @@ export class AnimalListComponent implements OnInit {
     this.loadAnimals();
   }
 
-  // ✅ ดึง token มาใส่ header
   private authHeaders(): HttpHeaders {
     const token = localStorage.getItem('access_token');
     return token
@@ -48,13 +49,10 @@ export class AnimalListComponent implements OnInit {
       : new HttpHeaders();
   }
 
-  // ✅ โหลดสัตว์: รองรับทั้งแบบมี pagination และไม่มี + รองรับ search/species
   loadAnimals(url?: string) {
-    // ถ้าเป็นลิงก์ next/prev จาก backend ให้ใช้ url นั้นเลย (มันมักจะมี query อยู่แล้ว)
     const targetUrl =
       url ?? `${this.API_BASE}/api/animals/?page=${this.currentPage()}`;
 
-    // ✅ ใส่ query params เฉพาะตอนที่ไม่ได้ใช้ url จาก next/prev
     let params = new HttpParams();
 
     if (!url) {
@@ -69,13 +67,9 @@ export class AnimalListComponent implements OnInit {
       .get(targetUrl, { headers: this.authHeaders(), params })
       .subscribe({
         next: (data: any) => {
-          // ✅ ถ้า data เป็น array -> backend ปิด pagination
-          // ✅ ถ้า data เป็น object -> ใช้ data.results (มี pagination)
           const items = Array.isArray(data) ? data : data?.results;
 
           this.animals.set(items ?? []);
-
-          // ถ้า backend ปิด pagination -> next/prev ไม่มี ให้เป็น null
           this.nextUrl.set(data?.next ?? null);
           this.prevUrl.set(data?.previous ?? null);
         },
@@ -83,13 +77,11 @@ export class AnimalListComponent implements OnInit {
       });
   }
 
-  // ✅ กด "Suchen" หรือเปลี่ยน dropdown แล้วให้ reload (เพิ่ม)
   applyFilters() {
     this.currentPage.set(1);
     this.loadAnimals();
   }
 
-  // ✅ กด Reset (เพิ่ม)
   resetFilters() {
     this.searchQuery.set('');
     this.selectedSpecies.set('ALL');
@@ -129,6 +121,7 @@ export class AnimalListComponent implements OnInit {
     this.newAnimalName.set('');
     this.newAnimalSpecies.set('');
     this.selectedImage.set(null);
+    this.nameError.set('');
   }
 
   onFileSelected(event: Event) {
@@ -138,11 +131,26 @@ export class AnimalListComponent implements OnInit {
   }
 
   submitForm() {
-    if (!this.newAnimalName() || !this.newAnimalSpecies()) return;
+    const name = this.newAnimalName().trim();
+    const species = this.newAnimalSpecies();
+
+    this.nameError.set('');
+
+    if (!name) {
+      this.nameError.set('Name ist erforderlich');
+      return;
+    }
+
+    if (name.length < 2) {
+      this.nameError.set('Name muss mindestens 2 Zeichen lang sein');
+      return;
+    }
+
+    if (!species) return;
 
     const formData = new FormData();
-    formData.append('name', this.newAnimalName());
-    formData.append('species', this.newAnimalSpecies());
+    formData.append('name', name);
+    formData.append('species', species);
     formData.append('status', 'AVAILABLE');
 
     if (this.selectedImage()) {
@@ -150,7 +158,6 @@ export class AnimalListComponent implements OnInit {
     }
 
     if (this.editingAnimalId()) {
-      // ✅ UPDATE (PATCH)
       this.http
         .patch(
           `${this.API_BASE}/api/animals/${this.editingAnimalId()}/`,
@@ -165,7 +172,6 @@ export class AnimalListComponent implements OnInit {
           error: (err) => console.error('Fehler beim Update:', err),
         });
     } else {
-      // ✅ CREATE
       this.http
         .post(`${this.API_BASE}/api/animals/`, formData, {
           headers: this.authHeaders(),
@@ -178,6 +184,7 @@ export class AnimalListComponent implements OnInit {
             this.newAnimalName.set('');
             this.newAnimalSpecies.set('');
             this.selectedImage.set(null);
+            this.nameError.set('');
           },
           error: (err) => console.error('Fehler beim Hinzufügen:', err),
         });
