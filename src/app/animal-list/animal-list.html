@@ -11,71 +11,239 @@
     {{ editingAnimalId() ? '✏️ Tier bearbeiten' : '➕ Neues Tier hinzufügen' }}
   </h3>
 
-  <div style="display: flex; gap: 10px; align-items: flex-start; flex-wrap: wrap;">
-    
-    <div style="display: flex; flex-direction: column; flex: 1; min-width: 200px;">
-      <input
-        [value]="newAnimalName()"
-        (input)="newAnimalName.set($any($event.target).value)"
-        placeholder="Name (z.B. Luna)"
-        [style.border]="submitAttempted && !newAnimalName() ? '2px solid #dc3545' : '1px solid #999'"
-        style="padding: 8px; border-radius: 5px; outline: none; height: 38px; box-sizing: border-box;"
-      />
-      @if (submitAttempted && (!newAnimalName() || newAnimalName().trim() === '')) {
-        <small style="color: #dc3545; font-weight: bold; margin-top: 4px;">
-          ⚠️ Name ist erforderlich
-        </small>
-      }
-    </div>
-
-    <div style="display: flex; flex-direction: column; flex: 1; min-width: 150px;">
-      <input
-        [value]="newAnimalSpecies()"
-        (input)="newAnimalSpecies.set($any($event.target).value)"
-        placeholder="Art (z.B. DOG)"
-        style="padding: 8px; border-radius: 5px; border: 1px solid #999; outline: none; height: 38px; box-sizing: border-box;"
-      />
-    </div>
-
-    <input 
-      type="file" 
-      (change)="onFileSelected($event)" 
-      style="flex: 1; min-width: 150px; padding-top: 5px;" 
+  <div style="display: flex; gap: 10px; margin-bottom: 10px">
+    <input
+      [value]="newAnimalName()"
+      (input)="newAnimalName.set($any($event.target).value)"
+      placeholder="Name (z.B. Luna)"
+      style="padding: 8px; border-radius: 5px; border: 1px solid #999; flex: 1"
     />
 
-    <div style="display: flex; gap: 8px;">
+    <input
+      [value]="newAnimalSpecies()"
+      (input)="newAnimalSpecies.set($any($event.target).value)"
+      placeholder="Art (z.B. DOG)"
+      style="padding: 8px; border-radius: 5px; border: 1px solid #999; flex: 1"
+    />
+
+    <input type="file" (change)="onFileSelected($event)" style="flex: 1" />
+
+    <button
+      (click)="submitForm()"
+      [style.background]="editingAnimalId() ? '#ffc107' : '#28a745'"
+      style="
+        padding: 8px 20px;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        font-weight: bold;
+      "
+    >
+      {{ editingAnimalId() ? 'Aktualisieren' : 'Speichern' }}
+    </button>
+
+    @if (editingAnimalId()) {
       <button
-        (click)="handleFormSubmit()"
-        [style.background]="editingAnimalId() ? '#ffc107' : '#28a745'"
+        (click)="cancelEdit()"
         style="
           padding: 8px 20px;
+          background: #6c757d;
           color: white;
           border: none;
           border-radius: 5px;
           cursor: pointer;
-          font-weight: bold;
-          height: 38px;
         "
       >
-        {{ editingAnimalId() ? 'Aktualisieren' : 'Speichern' }}
+        Abbrechen
       </button>
+    }
+  </div>
+</div>
 
-      @if (editingAnimalId()) {
-        <button
-          (click)="cancelEdit()"
-          style="
-            padding: 8px 20px;
-            background: #6c757d;
-            color: white;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            height: 38px;
-          "
-        >
-          Abbrechen
-        </button>
+<div style="padding: 20px; font-family: Arial, sans-serif">
+  <!-- Header + Logout -->
+  <div style="display: flex; justify-content: space-between; align-items: center">
+    <h2 style="color: #dd0031; margin: 0">🐾 Unsere Schützlinge</h2>
+
+    <button
+      (click)="logout()"
+      style="
+        padding: 8px 14px;
+        background: #343a40;
+        color: white;
+        border: none;
+        border-radius: 6px;
+        cursor: pointer;
+        font-weight: bold;
+      "
+    >
+      Logout
+    </button>
+  </div>
+
+  <p>Hier finden Sie unsere Tiere, die ein neues Zuhause suchen.</p>
+  <hr />
+
+  <!-- ✅ Search + Species Filter -->
+  <div style="display: flex; gap: 10px; align-items: center; margin: 10px 0; flex-wrap: wrap">
+    <input
+      [value]="searchQuery()"
+      (input)="searchQuery.set($any($event.target).value)"
+      placeholder="Suche nach Name..."
+      style="padding: 8px; border-radius: 6px; border: 1px solid #ccc; min-width: 220px"
+    />
+
+    <select
+      [value]="selectedSpecies()"
+      (change)="selectedSpecies.set($any($event.target).value); applyFilters()"
+      style="padding: 8px; border-radius: 6px; border: 1px solid #ccc"
+    >
+      @for (sp of speciesOptions; track sp) {
+        <option [value]="sp">{{ sp }}</option>
       }
-    </div>
+    </select>
+
+    <button
+      (click)="applyFilters()"
+      style="padding: 8px 14px; border-radius: 6px; border: none; cursor: pointer; font-weight: bold"
+    >
+      Suchen
+    </button>
+
+    <button
+      (click)="resetFilters()"
+      style="padding: 8px 14px; border-radius: 6px; border: 1px solid #ccc; cursor: pointer; font-weight: bold"
+    >
+      Reset
+    </button>
+  </div>
+
+  <!-- ✅ Pagination Controls -->
+  <div style="display: flex; gap: 10px; align-items: center; margin: 10px 0">
+    <button
+      (click)="goPrev()"
+      [disabled]="!prevUrl()"
+      style="padding: 6px 12px; border-radius: 6px; border: 1px solid #ccc; cursor: pointer"
+    >
+      ◀ Zurück
+    </button>
+
+    <span style="font-weight: bold">Seite {{ currentPage() }}</span>
+
+    <button
+      (click)="goNext()"
+      [disabled]="!nextUrl()"
+      style="padding: 6px 12px; border-radius: 6px; border: 1px solid #ccc; cursor: pointer"
+    >
+      Weiter ▶
+    </button>
+  </div>
+
+  <div style="display: flex; gap: 15px; flex-wrap: wrap; margin-top: 20px">
+    @for (animal of animals(); track animal.id) {
+      <div
+        style="
+          border: 2px solid #ffcc00;
+          padding: 15px;
+          border-radius: 10px;
+          min-width: 250px;
+          background: #fffaf0;
+          box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1);
+        "
+      >
+        <!-- ✅ แสดงรูปถ้ามี image_url -->
+        @if (animal.image_url) {
+          <img
+            [src]="getImageUrl(animal.image_url)"
+            alt="Animal image"
+            style="
+              width: 100%;
+              height: 150px;
+              object-fit: cover;
+              border-radius: 8px;
+              margin-bottom: 10px;
+            "
+          />
+        }
+
+        <h3 style="margin: 0; color: #333">
+          <!-- ✅ แสดง emoji เฉพาะตอนที่ไม่มีรูป -->
+          @if (!animal.image_url) {
+            @if (animal.species === 'CAT') {
+              🐱
+            } @else if (animal.species === 'DOG') {
+              🐶
+            } @else if (animal.species === 'RABBIT') {
+              🐰
+            } @else {
+              🐾
+            }
+          }
+          {{ animal.name }}
+        </h3>
+
+        <p style="margin: 5px 0"><b>Tierart:</b> {{ animal.species }}</p>
+
+        <p style="margin: 5px 0">
+          <b>Status:</b>
+          <span style="color: #28a745; font-weight: bold">
+            {{ animal.status }}
+          </span>
+        </p>
+
+        <hr style="border: 0; border-top: 1px solid #eee; margin: 10px 0" />
+
+        <div style="display: flex; gap: 5px">
+          <button
+            (click)="prepareEdit(animal)"
+            style="
+              flex: 1;
+              padding: 8px;
+              background: #ffc107;
+              color: black;
+              border: none;
+              border-radius: 5px;
+              cursor: pointer;
+              font-weight: bold;
+            "
+          >
+            ✏️ Bearbeiten
+          </button>
+
+          <button
+            (click)="deleteAnimal(animal.id)"
+            style="
+              flex: 1;
+              padding: 8px;
+              background: #dc3545;
+              color: white;
+              border: none;
+              border-radius: 5px;
+              cursor: pointer;
+              font-weight: bold;
+            "
+          >
+            🗑️ Löschen
+          </button>
+        </div>
+      </div>
+    } @empty {
+      <div
+        style="
+          background: #f8f9fa;
+          padding: 20px;
+          border-radius: 5px;
+          width: 100%;
+        "
+      >
+        <p>⏳ <b>Status:</b> Daten werden geladen...</p>
+        <p>
+          <small>
+            Bitte stellen Sie sicher, dass der Django-Server unter Port 8000 läuft.
+          </small>
+        </p>
+      </div>
+    }
   </div>
 </div>
