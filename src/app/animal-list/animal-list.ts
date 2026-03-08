@@ -21,6 +21,9 @@ export class AnimalListComponent implements OnInit {
 
   editingAnimalId = signal<number | null>(null);
 
+  nameError = signal('');
+
+
   // ✅ Pagination (ถ้า backend ปิด pagination -> next/prev จะเป็น null และปุ่มจะกดไม่ได้เอง)
   nextUrl = signal<string | null>(null);
   prevUrl = signal<string | null>(null);
@@ -137,53 +140,70 @@ export class AnimalListComponent implements OnInit {
     this.selectedImage.set(file);
   }
 
-  submitForm() {
-    if (!this.newAnimalName() || !this.newAnimalSpecies()) return;
+ submitForm() {
+  const name = this.newAnimalName().trim();
+  const species = this.newAnimalSpecies().trim();
 
-    const formData = new FormData();
-    formData.append('name', this.newAnimalName());
-    formData.append('species', this.newAnimalSpecies());
-    formData.append('status', 'AVAILABLE');
+  this.nameError.set('');
 
-    if (this.selectedImage()) {
-      formData.append('image', this.selectedImage()!);
-    }
+  if (!name) {
+  this.nameError.set('Name ist erforderlich');
+  return;
+}
 
-    if (this.editingAnimalId()) {
-      // ✅ UPDATE (PATCH)
-      this.http
-        .patch(
-          `${this.API_BASE}/api/animals/${this.editingAnimalId()}/`,
-          formData,
-          { headers: this.authHeaders() }
-        )
-        .subscribe({
-          next: () => {
-            this.loadAnimals();
-            this.cancelEdit();
-          },
-          error: (err) => console.error('Fehler beim Update:', err),
-        });
-    } else {
-      // ✅ CREATE
-      this.http
-        .post(`${this.API_BASE}/api/animals/`, formData, {
-          headers: this.authHeaders(),
-        })
-        .subscribe({
-          next: () => {
-            this.currentPage.set(1);
-            this.loadAnimals();
+if (name.length < 2) {
+  this.nameError.set('Name muss mindestens 2 Zeichen haben');
+  return;
+}
 
-            this.newAnimalName.set('');
-            this.newAnimalSpecies.set('');
-            this.selectedImage.set(null);
-          },
-          error: (err) => console.error('Fehler beim Hinzufügen:', err),
-        });
-    }
+  if (!species) {
+    return;
   }
 
+  const formData = new FormData();
+  formData.append('name', name);
+  formData.append('species', species);
+  formData.append('status', 'AVAILABLE');
+
+  if (this.selectedImage()) {
+    formData.append('image', this.selectedImage()!);
+  }
+
+  if (this.editingAnimalId()) {
+    // ✅ UPDATE (PATCH)
+    this.http
+      .patch(
+        `${this.API_BASE}/api/animals/${this.editingAnimalId()}/`,
+        formData,
+        { headers: this.authHeaders() }
+      )
+      .subscribe({
+        next: () => {
+          this.loadAnimals();
+          this.cancelEdit();
+        },
+        error: (err) => console.error('Fehler beim Update:', err),
+      });
+  } else {
+    // ✅ CREATE
+    this.http
+      .post(`${this.API_BASE}/api/animals/`, formData, {
+        headers: this.authHeaders(),
+      })
+      .subscribe({
+        next: () => {
+          this.currentPage.set(1);
+          this.loadAnimals();
+
+          this.newAnimalName.set('');
+          this.newAnimalSpecies.set('');
+          this.selectedImage.set(null);
+          this.nameError.set('');
+        },
+        error: (err) => console.error('Fehler beim Hinzufügen:', err),
+      });
+  }
+}
   deleteAnimal(id: number) {
     if (!confirm('Möchten Sie dieses Tier wirklich löschen?')) return;
 

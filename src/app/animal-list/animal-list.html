@@ -14,7 +14,7 @@
   <div style="display: flex; gap: 10px; margin-bottom: 10px">
     <input
       [value]="newAnimalName()"
-      (input)="newAnimalName.set($any($event.target).value)"
+      (input)="newAnimalName.set($any($event.target).value); nameError.set('')"
       placeholder="Name (z.B. Luna)"
       style="padding: 8px; border-radius: 5px; border: 1px solid #999; flex: 1"
     />
@@ -59,10 +59,15 @@
       </button>
     }
   </div>
+
+  @if (nameError()) {
+    <p style="color: #dc3545; margin: -2px 0 0 0; font-size: 14px; font-weight: bold">
+      {{ nameError() }}
+    </p>
+  }
 </div>
 
 <div style="padding: 20px; font-family: Arial, sans-serif">
-  <!-- Header + Logout -->
   <div style="display: flex; justify-content: space-between; align-items: center">
     <h2 style="color: #dd0031; margin: 0">🐾 Unsere Schützlinge</h2>
 
@@ -85,7 +90,6 @@
   <p>Hier finden Sie unsere Tiere, die ein neues Zuhause suchen.</p>
   <hr />
 
-  <!-- ✅ Search + Species Filter -->
   <div style="display: flex; gap: 10px; align-items: center; margin: 10px 0; flex-wrap: wrap">
     <input
       [value]="searchQuery()"
@@ -119,7 +123,6 @@
     </button>
   </div>
 
-  <!-- ✅ Pagination Controls -->
   <div style="display: flex; gap: 10px; align-items: center; margin: 10px 0">
     <button
       (click)="goPrev()"
@@ -152,7 +155,6 @@
           box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1);
         "
       >
-        <!-- ✅ แสดงรูปถ้ามี image_url -->
         @if (animal.image_url) {
           <img
             [src]="getImageUrl(animal.image_url)"
@@ -168,7 +170,6 @@
         }
 
         <h3 style="margin: 0; color: #333">
-          <!-- ✅ แสดง emoji เฉพาะตอนที่ไม่มีรูป -->
           @if (!animal.image_url) {
             @if (animal.species === 'CAT') {
               🐱
