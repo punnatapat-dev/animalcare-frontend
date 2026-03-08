@@ -58,6 +58,14 @@ https://animalcare-backend.onrender.com/api/animals/
 
 ## 📜 Update-Historie (Roadmap & Erfolge)
 
+### ✅ 08.03.2026 – Frontend Validation
+
+- Client-side validation added for animal creation form
+- Name field must contain at least **2 characters**
+- Error message shown instantly without API request
+- Prevents invalid submissions for better UX
+- Complements backend validation for security
+
 ### ✅ 06.03.2026 – Frontend Deployment (Netlify)
 
 - Frontend erfolgreich auf Netlify deployt
