@@ -5,148 +5,151 @@ import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 
 @Component({
-  selector: 'app-animal-list',
-  standalone: true,
-  imports: [CommonModule, FormsModule],
-  templateUrl: './animal-list.html',
-  styleUrl: './animal-list.css',
+selector: 'app-animal-list',
+standalone: true,
+imports: [CommonModule, FormsModule],
+templateUrl: './animal-list.html',
+styleUrl: './animal-list.css',
 })
 export class AnimalListComponent implements OnInit {
-  API_BASE = 'https://animalcare-backend.onrender.com';
+API_BASE = 'https://animalcare-backend.onrender.com';
 
-  animals = signal<any[]>([]);
-  newAnimalName = signal('');
-  newAnimalSpecies = signal('');
-  selectedImage = signal<File | null>(null);
+animals = signal<any[]>([]);
+newAnimalName = signal('');
+newAnimalSpecies = signal('');
+selectedImage = signal<File | null>(null);
 
-  editingAnimalId = signal<number | null>(null);
+editingAnimalId = signal<number | null>(null);
 
-  nameError = signal('');
+nameError = signal('');
+successMessage = signal('');
 
+nextUrl = signal<string | null>(null);
+prevUrl = signal<string | null>(null);
+currentPage = signal<number>(1);
 
-  // ✅ Pagination (ถ้า backend ปิด pagination -> next/prev จะเป็น null และปุ่มจะกดไม่ได้เอง)
-  nextUrl = signal<string | null>(null);
-  prevUrl = signal<string | null>(null);
-  currentPage = signal<number>(1);
+searchQuery = signal<string>('');
+selectedSpecies = signal<string>('ALL');
 
-  // ✅ Search + Species Filter (เพิ่ม)
-  searchQuery = signal<string>('');
-  selectedSpecies = signal<string>('ALL');
+speciesOptions: string[] = ['ALL', 'DOG', 'CAT', 'RABBIT', 'OTHER'];
 
-  // ✅ ตัวเลือกใน dropdown (เพิ่ม)
-  speciesOptions: string[] = ['ALL', 'DOG', 'CAT', 'RABBIT', 'OTHER'];
+private http = inject(HttpClient);
+private router = inject(Router);
 
-  private http = inject(HttpClient);
-  private router = inject(Router);
+ngOnInit() {
+this.loadAnimals();
+}
 
-  ngOnInit() {
-    this.loadAnimals();
-  }
+private authHeaders(): HttpHeaders {
+const token = localStorage.getItem('access_token');
+return token
+? new HttpHeaders({ Authorization: `Bearer ${token}` })
+: new HttpHeaders();
+}
 
-  // ✅ ดึง token มาใส่ header
-  private authHeaders(): HttpHeaders {
-    const token = localStorage.getItem('access_token');
-    return token
-      ? new HttpHeaders({ Authorization: `Bearer ${token}` })
-      : new HttpHeaders();
-  }
+loadAnimals(url?: string) {
+const targetUrl =
+url ?? `${this.API_BASE}/api/animals/?page=${this.currentPage()}`;
 
-  // ✅ โหลดสัตว์: รองรับทั้งแบบมี pagination และไม่มี + รองรับ search/species
-  loadAnimals(url?: string) {
-    // ถ้าเป็นลิงก์ next/prev จาก backend ให้ใช้ url นั้นเลย (มันมักจะมี query อยู่แล้ว)
-    const targetUrl =
-      url ?? `${this.API_BASE}/api/animals/?page=${this.currentPage()}`;
+```
+let params = new HttpParams();
 
-    // ✅ ใส่ query params เฉพาะตอนที่ไม่ได้ใช้ url จาก next/prev
-    let params = new HttpParams();
+if (!url) {
+  const q = this.searchQuery().trim();
+  if (q) params = params.set('search', q);
 
-    if (!url) {
-      const q = this.searchQuery().trim();
-      if (q) params = params.set('search', q);
+  const sp = this.selectedSpecies();
+  if (sp && sp !== 'ALL') params = params.set('species', sp);
+}
 
-      const sp = this.selectedSpecies();
-      if (sp && sp !== 'ALL') params = params.set('species', sp);
-    }
+this.http
+  .get(targetUrl, { headers: this.authHeaders(), params })
+  .subscribe({
+    next: (data: any) => {
+      const items = Array.isArray(data) ? data : data?.results;
 
-    this.http
-      .get(targetUrl, { headers: this.authHeaders(), params })
-      .subscribe({
-        next: (data: any) => {
-          // ✅ ถ้า data เป็น array -> backend ปิด pagination
-          // ✅ ถ้า data เป็น object -> ใช้ data.results (มี pagination)
-          const items = Array.isArray(data) ? data : data?.results;
+      this.animals.set(items ?? []);
 
-          this.animals.set(items ?? []);
+      this.nextUrl.set(data?.next ?? null);
+      this.prevUrl.set(data?.previous ?? null);
+    },
+    error: (err) => console.error('Fehler beim Laden:', err),
+  });
+```
 
-          // ถ้า backend ปิด pagination -> next/prev ไม่มี ให้เป็น null
-          this.nextUrl.set(data?.next ?? null);
-          this.prevUrl.set(data?.previous ?? null);
-        },
-        error: (err) => console.error('Fehler beim Laden:', err),
-      });
-  }
+}
 
-  // ✅ กด "Suchen" หรือเปลี่ยน dropdown แล้วให้ reload (เพิ่ม)
-  applyFilters() {
-    this.currentPage.set(1);
-    this.loadAnimals();
-  }
+applyFilters() {
+this.currentPage.set(1);
+this.loadAnimals();
+}
 
-  // ✅ กด Reset (เพิ่ม)
-  resetFilters() {
-    this.searchQuery.set('');
-    this.selectedSpecies.set('ALL');
-    this.currentPage.set(1);
-    this.loadAnimals();
-  }
+resetFilters() {
+this.searchQuery.set('');
+this.selectedSpecies.set('ALL');
+this.currentPage.set(1);
+this.loadAnimals();
+}
 
-  goNext() {
-    if (!this.nextUrl()) return;
-    this.currentPage.update((p) => p + 1);
-    this.loadAnimals(this.nextUrl()!);
-  }
+goNext() {
+if (!this.nextUrl()) return;
+this.currentPage.update((p) => p + 1);
+this.loadAnimals(this.nextUrl()!);
+}
 
-  goPrev() {
-    if (!this.prevUrl()) return;
-    this.currentPage.update((p) => Math.max(1, p - 1));
-    this.loadAnimals(this.prevUrl()!);
-  }
+goPrev() {
+if (!this.prevUrl()) return;
+this.currentPage.update((p) => Math.max(1, p - 1));
+this.loadAnimals(this.prevUrl()!);
+}
 
-  getImageUrl(image: string | null): string | null {
-    if (!image) return null;
-    if (image.startsWith('http')) return image;
-    if (image.startsWith('/')) return this.API_BASE + image;
-    return this.API_BASE + '/' + image;
-  }
+getImageUrl(image: string | null): string | null {
+if (!image) return null;
+if (image.startsWith('http')) return image;
+if (image.startsWith('/')) return this.API_BASE + image;
+return this.API_BASE + '/' + image;
+}
 
-  prepareEdit(animal: any) {
-    this.editingAnimalId.set(animal.id);
-    this.newAnimalName.set(animal.name);
-    this.newAnimalSpecies.set(animal.species);
-    this.selectedImage.set(null);
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-  }
+prepareEdit(animal: any) {
+this.editingAnimalId.set(animal.id);
+this.newAnimalName.set(animal.name);
+this.newAnimalSpecies.set(animal.species);
+this.selectedImage.set(null);
+window.scrollTo({ top: 0, behavior: 'smooth' });
+}
 
-  cancelEdit() {
-    this.editingAnimalId.set(null);
-    this.newAnimalName.set('');
-    this.newAnimalSpecies.set('');
-    this.selectedImage.set(null);
-  }
+cancelEdit() {
+this.editingAnimalId.set(null);
+this.newAnimalName.set('');
+this.newAnimalSpecies.set('');
+this.selectedImage.set(null);
+}
 
-  onFileSelected(event: Event) {
-    const input = event.target as HTMLInputElement;
-    const file = input.files?.[0] ?? null;
-    this.selectedImage.set(file);
-  }
+onFileSelected(event: Event) {
+const input = event.target as HTMLInputElement;
+const file = input.files?.[0] ?? null;
+this.selectedImage.set(file);
+}
 
- submitForm() {
-  const name = this.newAnimalName().trim();
-  const species = this.newAnimalSpecies().trim();
+private showSuccess(message: string) {
+this.successMessage.set(message);
 
-  this.nameError.set('');
+```
+setTimeout(() => {
+  this.successMessage.set('');
+}, 3000);
+```
 
-  if (!name) {
+}
+
+submitForm() {
+const name = this.newAnimalName().trim();
+const species = this.newAnimalSpecies().trim();
+
+```
+this.nameError.set('');
+
+if (!name) {
   this.nameError.set('Name ist erforderlich');
   return;
 }
@@ -156,78 +159,87 @@ if (name.length < 2) {
   return;
 }
 
-  if (!species) {
-    return;
-  }
-
-  const formData = new FormData();
-  formData.append('name', name);
-  formData.append('species', species);
-  formData.append('status', 'AVAILABLE');
-
-  if (this.selectedImage()) {
-    formData.append('image', this.selectedImage()!);
-  }
-
-  if (this.editingAnimalId()) {
-    // ✅ UPDATE (PATCH)
-    this.http
-      .patch(
-        `${this.API_BASE}/api/animals/${this.editingAnimalId()}/`,
-        formData,
-        { headers: this.authHeaders() }
-      )
-      .subscribe({
-        next: () => {
-          this.loadAnimals();
-          this.cancelEdit();
-        },
-        error: (err) => console.error('Fehler beim Update:', err),
-      });
-  } else {
-    // ✅ CREATE
-    this.http
-      .post(`${this.API_BASE}/api/animals/`, formData, {
-        headers: this.authHeaders(),
-      })
-      .subscribe({
-        next: () => {
-          this.currentPage.set(1);
-          this.loadAnimals();
-
-          this.newAnimalName.set('');
-          this.newAnimalSpecies.set('');
-          this.selectedImage.set(null);
-          this.nameError.set('');
-        },
-        error: (err) => console.error('Fehler beim Hinzufügen:', err),
-      });
-  }
+if (!species) {
+  return;
 }
-  deleteAnimal(id: number) {
-    if (!confirm('Möchten Sie dieses Tier wirklich löschen?')) return;
 
-    this.http
-      .delete(`${this.API_BASE}/api/animals/${id}/`, {
-        headers: this.authHeaders(),
-      })
-      .subscribe({
-        next: () => {
-          this.animals.update((items) => items.filter((a) => a.id !== id));
+const formData = new FormData();
+formData.append('name', name);
+formData.append('species', species);
+formData.append('status', 'AVAILABLE');
 
-          if (this.animals().length === 0 && this.prevUrl()) {
-            this.goPrev();
-          } else {
-            this.loadAnimals();
-          }
-        },
-        error: (err) => console.error('Fehler:', err),
-      });
-  }
+if (this.selectedImage()) {
+  formData.append('image', this.selectedImage()!);
+}
 
-  logout() {
-    localStorage.removeItem('access_token');
-    localStorage.removeItem('refresh_token');
-    this.router.navigate(['/login']);
-  }
+if (this.editingAnimalId()) {
+  this.http
+    .patch(
+      `${this.API_BASE}/api/animals/${this.editingAnimalId()}/`,
+      formData,
+      { headers: this.authHeaders() }
+    )
+    .subscribe({
+      next: () => {
+        this.loadAnimals();
+        this.cancelEdit();
+        this.showSuccess('Tier erfolgreich aktualisiert');
+      },
+      error: (err) => console.error('Fehler beim Update:', err),
+    });
+} else {
+  this.http
+    .post(`${this.API_BASE}/api/animals/`, formData, {
+      headers: this.authHeaders(),
+    })
+    .subscribe({
+      next: () => {
+        this.currentPage.set(1);
+        this.loadAnimals();
+
+        this.newAnimalName.set('');
+        this.newAnimalSpecies.set('');
+        this.selectedImage.set(null);
+        this.nameError.set('');
+
+        this.showSuccess('Tier erfolgreich gespeichert');
+      },
+      error: (err) => console.error('Fehler beim Hinzufügen:', err),
+    });
+}
+```
+
+}
+
+deleteAnimal(id: number) {
+if (!confirm('Möchten Sie dieses Tier wirklich löschen?')) return;
+
+```
+this.http
+  .delete(`${this.API_BASE}/api/animals/${id}/`, {
+    headers: this.authHeaders(),
+  })
+  .subscribe({
+    next: () => {
+      this.animals.update((items) => items.filter((a) => a.id !== id));
+
+      if (this.animals().length === 0 && this.prevUrl()) {
+        this.goPrev();
+      } else {
+        this.loadAnimals();
+      }
+
+      this.showSuccess('Tier erfolgreich gelöscht');
+    },
+    error: (err) => console.error('Fehler:', err),
+  });
+```
+
+}
+
+logout() {
+localStorage.removeItem('access_token');
+localStorage.removeItem('refresh_token');
+this.router.navigate(['/login']);
+}
 }
