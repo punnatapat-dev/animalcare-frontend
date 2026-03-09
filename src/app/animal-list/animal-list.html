@@ -13,7 +13,7 @@
 
   <div style="display:flex;gap:10px;margin-bottom:10px">
 
-```
+
 <input
   [value]="newAnimalName()"
   (input)="newAnimalName.set($any($event.target).value); nameError.set('')"
@@ -60,7 +60,7 @@
     Abbrechen
   </button>
 }
-```
+
 
   </div>
 
@@ -79,7 +79,7 @@
   <div style="display:flex;justify-content:space-between;align-items:center">
     <h2 style="color:#dd0031;margin:0">🐾 Unsere Schützlinge</h2>
 
-```
+
 <button
   (click)="logout()"
   style="
@@ -94,7 +94,7 @@
 >
   Logout
 </button>
-```
+
 
   </div>
 
@@ -104,7 +104,7 @@
 
   <div style="display:flex;gap:10px;margin:10px 0;flex-wrap:wrap">
 
-```
+
 <input
   [value]="searchQuery()"
   (input)="searchQuery.set($any($event.target).value)"
@@ -125,13 +125,13 @@
 <button (click)="applyFilters()">Suchen</button>
 
 <button (click)="resetFilters()">Reset</button>
-```
+
 
   </div>
 
   <div style="display:flex;gap:10px;margin:10px 0">
 
-```
+
 <button (click)="goPrev()" [disabled]="!prevUrl()">◀ Zurück</button>
 
 <span style="font-weight:bold">
@@ -139,13 +139,13 @@
 </span>
 
 <button (click)="goNext()" [disabled]="!nextUrl()">Weiter ▶</button>
-```
+
 
   </div>
 
   <div style="display:flex;gap:15px;flex-wrap:wrap;margin-top:20px">
 
-```
+
 @for (animal of animals(); track animal.id) {
 
   <div
