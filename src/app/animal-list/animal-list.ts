@@ -21,8 +21,9 @@ export class AnimalListComponent implements OnInit {
 
   editingAnimalId = signal<number | null>(null);
 
-  // ✅ Validation error
+  // ✅ Validation & Messages
   nameError = signal('');
+  successMessage = signal('');
 
   // ✅ Pagination
   nextUrl = signal<string | null>(null);
@@ -60,7 +61,7 @@ export class AnimalListComponent implements OnInit {
       if (q) params = params.set('search', q);
 
       const sp = this.selectedSpecies();
-      if (sp && sp !== 'ALL') params = params.set('species', sp);
+      if (sp !== 'ALL') params = params.set('species', sp);
     }
 
     this.http
@@ -130,9 +131,16 @@ export class AnimalListComponent implements OnInit {
     this.selectedImage.set(file);
   }
 
+  private showSuccess(message: string) {
+    this.successMessage.set(message);
+    setTimeout(() => {
+      this.successMessage.set('');
+    }, 3000);
+  }
+
   submitForm() {
     const name = this.newAnimalName().trim();
-    const species = this.newAnimalSpecies();
+    const species = this.newAnimalSpecies().trim();
 
     this.nameError.set('');
 
@@ -142,7 +150,7 @@ export class AnimalListComponent implements OnInit {
     }
 
     if (name.length < 2) {
-      this.nameError.set('Name muss mindestens 2 Zeichen lang sein');
+      this.nameError.set('Name muss mindestens 2 Zeichen haben');
       return;
     }
 
@@ -168,6 +176,7 @@ export class AnimalListComponent implements OnInit {
           next: () => {
             this.loadAnimals();
             this.cancelEdit();
+            this.showSuccess('Tier erfolgreich aktualisiert');
           },
           error: (err) => console.error('Fehler beim Update:', err),
         });
@@ -180,11 +189,10 @@ export class AnimalListComponent implements OnInit {
           next: () => {
             this.currentPage.set(1);
             this.loadAnimals();
-
             this.newAnimalName.set('');
             this.newAnimalSpecies.set('');
             this.selectedImage.set(null);
-            this.nameError.set('');
+            this.showSuccess('Tier erfolgreich gespeichert');
           },
           error: (err) => console.error('Fehler beim Hinzufügen:', err),
         });
@@ -201,12 +209,12 @@ export class AnimalListComponent implements OnInit {
       .subscribe({
         next: () => {
           this.animals.update((items) => items.filter((a) => a.id !== id));
-
           if (this.animals().length === 0 && this.prevUrl()) {
             this.goPrev();
           } else {
             this.loadAnimals();
           }
+          this.showSuccess('Tier erfolgreich gelöscht');
         },
         error: (err) => console.error('Fehler:', err),
       });
