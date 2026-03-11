@@ -1,0 +1,37 @@
+[33m374b784[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mmain[m[33m, [m[1;31morigin/main[m[33m)[m edit HTML
+[33m08b9af9[m fix animal-list html
+[33m640ba1e[m fix animal-list component
+[33m2976f31[m fix duplicated HIML layout
+[33me20f77b[m update edit README - frontend validation
+[33m8b8b82f[m update README - forntend validation
+[33mdf9cb1d[m add frontend validation
+[33mc91397c[m add from validation and submit
+[33m1f46296[m add form validation
+[33m18741ca[m feat: add from validation and submitAttempted logic
+[33mded3d41[m add frontend validation message
+[33m5415df0[m add frontend validation for animal name
+[33m87c0774[m edit README.md
+[33m3e2f54a[m update production api screenshot
+[33mc3bc666[m add live demo links
+[33m75845ac[m fianl: complete build config
+[33m511d179[m add netlify redirects for angular
+[33m7a3af48[m connect frontend to deployed backend
+[33mdeec24a[m Add automatic token refresh and session handing
+[33m24c981e[m edit pic
+[33m20c039a[m Add species filter + docs update
+[33m62466a2[m Pagination removal + compatibility fix
+[33mb7b7e06[m Add preview images
+[33m0faf72b[m Update README: Cloudinary integration & system stabilization milestone
+[33mddb535b[m feat: image upload ui + auth stabilization + readme update
+[33m54f2e6d[m feat: jwt login + image upload UI + card improvements
+[33m2fbc55d[m docs: update README with JWT auth and route protection milestone
+[33m7fe1221[m feat(auth): JWT loing, router separation, strict DI fixex
+[33m54ae943[m update README
+[33m9dfe7b9[m docs: update READMEs with full CRUD and edit functionality
+[33m3ff5298[m feat: implement animal deletion and update README with history
+[33m28f28b6[m Work in progress: 18.02 developments
+[33m1c6ed65[m Ubdate: Display animals with Signals and custom UL
+[33m5c6d978[m Update README.md
+[33m3e820d7[m Update README.md
+[33ma4550d6[m feat: initial angular project with german translation and animal-list component
+[33m5221639[m initial commit

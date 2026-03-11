@@ -1,7 +1,10 @@
 # 🐾 AnimalCare Frontend (Angular v19)
 
-[![Angular Version](https://img.shields.io/badge/Angular-19-dd0031.svg?logo=angular)](https://angular.dev/)
-[![Status](https://img.shields.io/badge/Status-Funktional-brightgreen)](https://github.com/YOUR-USERNAME/animalcare-frontend)
+![Angular](https://img.shields.io/badge/Angular-19-red)
+![Django](https://img.shields.io/badge/Django-REST-green)
+![JWT](https://img.shields.io/badge/Auth-JWT-blue)
+![Cloudinary](https://img.shields.io/badge/Storage-Cloudinary-orange)
+![Deploy](https://img.shields.io/badge/Deploy-Netlify%20%7C%20Render-purple)
 
 Willkommen bei **AnimalCare**!  
 Dies ist das moderne Frontend-System für unsere Tiervermittlungsplattform, entwickelt mit der neuesten **Angular v19** Technologie.
@@ -57,6 +60,14 @@ https://animalcare-backend.onrender.com/api/animals/
 ---
 
 ## 📜 Update-Historie (Roadmap & Erfolge)
+
+### ✅ 11.03.2026 – Tier-Detailseite (Frontend)
+
+- **[Neues Feature] Detailseite für Tiere:** Separate Seite für jedes Tier (`/animals/:id`)
+- **[Routing] Dynamische Angular-Route:** Implementierung von `animals/:id`
+- **[API Integration] Detail Endpoint:** Frontend lädt Daten über `/api/animals/{id}/`
+- **[UI] Detail Layout:** Großes Bild + strukturierte Tierinformationen
+- **[UX] Lade- und Fehlerzustände:** Anzeige von Ladeindikator und Fehlermeldung
 
 ### ✅ 08.03.2026 – Frontend Validation
 

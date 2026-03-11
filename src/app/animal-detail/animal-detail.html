@@ -1,0 +1,62 @@
+@if (loading()) {
+  <div class="detail-wrapper">
+    <p class="loading-text">Lade Tierdaten...</p>
+  </div>
+}
+
+@if (error()) {
+  <div class="detail-wrapper">
+    <p class="error-text">{{ error() }}</p>
+  </div>
+}
+
+@if (animal()) {
+  <div class="detail-wrapper">
+    <div class="detail-card">
+      <div class="image-section">
+        <img
+          [src]="animal()?.image_url || 'https://via.placeholder.com/800x500?text=No+Image'"
+          [alt]="animal()?.name"
+          class="detail-image"
+        />
+        <span class="status-badge">{{ animal()?.status }}</span>
+      </div>
+
+      <div class="detail-content">
+        <p class="species-label">{{ animal()?.species }}</p>
+        <h1>{{ animal()?.name }}</h1>
+
+        <div class="info-grid">
+          <div class="info-box">
+            <span class="info-title">Rasse</span>
+            <span class="info-value">{{ animal()?.breed || 'Unbekannt' }}</span>
+          </div>
+
+          <div class="info-box">
+            <span class="info-title">Geschlecht</span>
+            <span class="info-value">{{ animal()?.sex || 'Unbekannt' }}</span>
+          </div>
+
+          <div class="info-box">
+            <span class="info-title">Besitzer</span>
+            <span class="info-value">{{ animal()?.owner || 'Unbekannt' }}</span>
+          </div>
+
+          <div class="info-box">
+            <span class="info-title">Erstellt am</span>
+            <span class="info-value">{{ animal()?.created_at | date:'mediumDate' }}</span>
+          </div>
+        </div>
+
+        <div class="description-box">
+          <h3>Beschreibung</h3>
+          <p>{{ animal()?.description || 'Keine Beschreibung vorhanden.' }}</p>
+        </div>
+
+        <div class="action-row">
+          <a routerLink="/animals" class="back-button">← Zurück zur Übersicht</a>
+        </div>
+      </div>
+    </div>
+  </div>
+}
