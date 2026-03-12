@@ -19,7 +19,14 @@
           [alt]="animal()?.name"
           class="detail-image"
         />
-        <span class="status-badge">{{ animal()?.status }}</span>
+        <span
+          class="status-badge"
+          [class.available]="animal()?.status === 'AVAILABLE'"
+          [class.adopted]="animal()?.status === 'ADOPTED'"
+          [class.pending]="animal()?.status === 'PENDING'"
+        >
+          {{ animal()?.status }}
+        </span>
       </div>
 
       <div class="detail-content">
@@ -44,7 +51,7 @@
 
           <div class="info-box">
             <span class="info-title">Erstellt am</span>
-            <span class="info-value">{{ animal()?.created_at | date:'mediumDate' }}</span>
+            <span class="info-value">{{ animal()?.created_at | date: 'mediumDate' }}</span>
           </div>
         </div>
 
