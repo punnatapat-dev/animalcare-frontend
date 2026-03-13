@@ -12,60 +12,67 @@ import { Router } from '@angular/router';
   styleUrl: './animal-list.css',
 })
 export class AnimalListComponent implements OnInit {
+  private http = inject(HttpClient);
+  private router = inject(Router);
+
   API_BASE = 'https://animalcare-backend.onrender.com';
 
   animals = signal<any[]>([]);
+  loading = signal(false);
+
   newAnimalName = signal('');
   newAnimalSpecies = signal('');
   selectedImage = signal<File | null>(null);
 
   editingAnimalId = signal<number | null>(null);
 
-  // ✅ Validation & Messages
   nameError = signal('');
   successMessage = signal('');
 
-  // ✅ Pagination
   nextUrl = signal<string | null>(null);
   prevUrl = signal<string | null>(null);
   currentPage = signal<number>(1);
 
-  // ✅ Search + Filter
-  searchQuery = signal<string>('');
-  selectedSpecies = signal<string>('ALL');
+  searchQuery = signal('');
+  selectedSpecies = signal('ALL');
 
   speciesOptions: string[] = ['ALL', 'DOG', 'CAT', 'RABBIT', 'OTHER'];
 
-  private http = inject(HttpClient);
-  private router = inject(Router);
-
-  ngOnInit() {
+  ngOnInit(): void {
     this.loadAnimals();
   }
 
   private authHeaders(): HttpHeaders {
     const token = localStorage.getItem('access_token');
-    return token
-      ? new HttpHeaders({ Authorization: `Bearer ${token}` })
-      : new HttpHeaders();
+    return new HttpHeaders({
+      Authorization: `Bearer ${token ?? ''}`,
+    });
   }
 
-  loadAnimals(url?: string) {
+  loadAnimals(url?: string): void {
+    this.loading.set(true);
+
     const targetUrl =
       url ?? `${this.API_BASE}/api/animals/?page=${this.currentPage()}`;
 
     let params = new HttpParams();
 
-    if (!url) {
-      const q = this.searchQuery().trim();
-      if (q) params = params.set('search', q);
+    const q = this.searchQuery().trim();
+    const sp = this.selectedSpecies();
 
-      const sp = this.selectedSpecies();
-      if (sp !== 'ALL') params = params.set('species', sp);
+    if (q) {
+      params = params.set('search', q);
+    }
+
+    if (sp !== 'ALL') {
+      params = params.set('species', sp);
     }
 
     this.http
-      .get(targetUrl, { headers: this.authHeaders(), params })
+      .get<any>(targetUrl, {
+        headers: this.authHeaders(),
+        params,
+      })
       .subscribe({
         next: (data: any) => {
           const items = Array.isArray(data) ? data : data?.results;
@@ -73,30 +80,35 @@ export class AnimalListComponent implements OnInit {
           this.animals.set(items ?? []);
           this.nextUrl.set(data?.next ?? null);
           this.prevUrl.set(data?.previous ?? null);
+
+          this.loading.set(false);
         },
-        error: (err) => console.error('Fehler beim Laden:', err),
+        error: (err) => {
+          console.error('Fehler beim Laden:', err);
+          this.loading.set(false);
+        },
       });
   }
 
-  applyFilters() {
+  applyFilters(): void {
     this.currentPage.set(1);
     this.loadAnimals();
   }
 
-  resetFilters() {
+  resetFilters(): void {
     this.searchQuery.set('');
     this.selectedSpecies.set('ALL');
     this.currentPage.set(1);
     this.loadAnimals();
   }
 
-  goNext() {
+  goNext(): void {
     if (!this.nextUrl()) return;
     this.currentPage.update((p) => p + 1);
     this.loadAnimals(this.nextUrl()!);
   }
 
-  goPrev() {
+  goPrev(): void {
     if (!this.prevUrl()) return;
     this.currentPage.update((p) => Math.max(1, p - 1));
     this.loadAnimals(this.prevUrl()!);
@@ -109,15 +121,16 @@ export class AnimalListComponent implements OnInit {
     return this.API_BASE + '/' + image;
   }
 
-  prepareEdit(animal: any) {
+  prepareEdit(animal: any): void {
     this.editingAnimalId.set(animal.id);
-    this.newAnimalName.set(animal.name);
-    this.newAnimalSpecies.set(animal.species);
+    this.newAnimalName.set(animal.name ?? '');
+    this.newAnimalSpecies.set(animal.species ?? '');
     this.selectedImage.set(null);
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+    this.nameError.set('');
+    this.successMessage.set('');
   }
 
-  cancelEdit() {
+  cancelEdit(): void {
     this.editingAnimalId.set(null);
     this.newAnimalName.set('');
     this.newAnimalSpecies.set('');
@@ -125,82 +138,80 @@ export class AnimalListComponent implements OnInit {
     this.nameError.set('');
   }
 
-  onFileSelected(event: Event) {
+  onFileSelected(event: Event): void {
     const input = event.target as HTMLInputElement;
-    const file = input.files?.[0] ?? null;
+    const file = input.files && input.files.length > 0 ? input.files[0] : null;
     this.selectedImage.set(file);
   }
 
-  private showSuccess(message: string) {
+  private showSuccess(message: string): void {
     this.successMessage.set(message);
-    setTimeout(() => {
-      this.successMessage.set('');
-    }, 3000);
+    setTimeout(() => this.successMessage.set(''), 2500);
   }
 
-  submitForm() {
+  submitForm(): void {
     const name = this.newAnimalName().trim();
-    const species = this.newAnimalSpecies().trim();
-
-    this.nameError.set('');
-
-    if (!name) {
-      this.nameError.set('Name ist erforderlich');
-      return;
-    }
+    const species = this.newAnimalSpecies().trim().toUpperCase();
 
     if (name.length < 2) {
-      this.nameError.set('Name muss mindestens 2 Zeichen haben');
+      this.nameError.set('Der Name muss mindestens 2 Zeichen lang sein.');
       return;
     }
-
-    if (!species) return;
 
     const formData = new FormData();
     formData.append('name', name);
     formData.append('species', species);
-    formData.append('status', 'AVAILABLE');
 
-    if (this.selectedImage()) {
-      formData.append('image', this.selectedImage()!);
+    const image = this.selectedImage();
+    if (image) {
+      formData.append('image', image);
     }
 
-    if (this.editingAnimalId()) {
+    const editingId = this.editingAnimalId();
+
+    if (editingId) {
       this.http
-        .patch(
-          `${this.API_BASE}/api/animals/${this.editingAnimalId()}/`,
-          formData,
-          { headers: this.authHeaders() }
-        )
-        .subscribe({
-          next: () => {
-            this.loadAnimals();
-            this.cancelEdit();
-            this.showSuccess('Tier erfolgreich aktualisiert');
-          },
-          error: (err) => console.error('Fehler beim Update:', err),
-        });
-    } else {
-      this.http
-        .post(`${this.API_BASE}/api/animals/`, formData, {
+        .put(`${this.API_BASE}/api/animals/${editingId}/`, formData, {
           headers: this.authHeaders(),
         })
         .subscribe({
           next: () => {
-            this.currentPage.set(1);
+            this.showSuccess('Tier erfolgreich aktualisiert.');
+            this.cancelEdit();
             this.loadAnimals();
-            this.newAnimalName.set('');
-            this.newAnimalSpecies.set('');
-            this.selectedImage.set(null);
-            this.showSuccess('Tier erfolgreich gespeichert');
           },
-          error: (err) => console.error('Fehler beim Hinzufügen:', err),
+          error: (err) => {
+            console.error('Fehler beim Aktualisieren:', err);
+          },
         });
+      return;
     }
+
+    this.http
+      .post(`${this.API_BASE}/api/animals/`, formData, {
+        headers: this.authHeaders(),
+      })
+      .subscribe({
+        next: () => {
+          this.showSuccess('Tier erfolgreich erstellt.');
+          this.newAnimalName.set('');
+          this.newAnimalSpecies.set('');
+          this.selectedImage.set(null);
+          this.nameError.set('');
+          this.loadAnimals();
+        },
+        error: (err) => {
+          console.error('Fehler beim Erstellen:', err);
+        },
+      });
   }
 
-  deleteAnimal(id: number) {
-    if (!confirm('Möchten Sie dieses Tier wirklich löschen?')) return;
+  deleteAnimal(id: number): void {
+    const confirmed = window.confirm(
+      'Sind Sie sicher, dass Sie dieses Tier löschen möchten?'
+    );
+
+    if (!confirmed) return;
 
     this.http
       .delete(`${this.API_BASE}/api/animals/${id}/`, {
@@ -208,19 +219,24 @@ export class AnimalListComponent implements OnInit {
       })
       .subscribe({
         next: () => {
-          this.animals.update((items) => items.filter((a) => a.id !== id));
-          if (this.animals().length === 0 && this.prevUrl()) {
+          this.showSuccess('Tier erfolgreich gelöscht.');
+
+          const remaining = this.animals().filter((animal) => animal.id !== id);
+          this.animals.set(remaining);
+
+          if (remaining.length === 0 && this.prevUrl()) {
             this.goPrev();
           } else {
             this.loadAnimals();
           }
-          this.showSuccess('Tier erfolgreich gelöscht');
         },
-        error: (err) => console.error('Fehler:', err),
+        error: (err) => {
+          console.error('Fehler beim Löschen:', err);
+        },
       });
   }
 
-  logout() {
+  logout(): void {
     localStorage.removeItem('access_token');
     localStorage.removeItem('refresh_token');
     this.router.navigate(['/login']);

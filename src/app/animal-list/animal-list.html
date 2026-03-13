@@ -1,120 +1,68 @@
-<div
-  style="
-    background: #eef2f3;
-    padding: 20px;
-    border-radius: 10px;
-    margin-bottom: 30px;
-    border: 1px solid #ccc;
-  "
->
-  <h3 style="margin-top: 0">
+<div class="form-box">
+  <h3>
     {{ editingAnimalId() ? '✏️ Tier bearbeiten' : '➕ Neues Tier hinzufügen' }}
   </h3>
 
-  <div style="display: flex; gap: 10px; margin-bottom: 10px">
+  <div class="form-row">
     <input
       [value]="newAnimalName()"
       (input)="newAnimalName.set($any($event.target).value); nameError.set('')"
       placeholder="Name (z.B. Luna)"
-      style="padding: 8px; border-radius: 5px; border: 1px solid #999; flex: 1"
     />
 
     <input
       [value]="newAnimalSpecies()"
       (input)="newAnimalSpecies.set($any($event.target).value)"
       placeholder="Art (z.B. DOG)"
-      style="padding: 8px; border-radius: 5px; border: 1px solid #999; flex: 1"
     />
 
-    <input type="file" (change)="onFileSelected($event)" style="flex: 1" />
+    <input type="file" (change)="onFileSelected($event)" />
 
     <button
       (click)="submitForm()"
-      [style.background]="editingAnimalId() ? '#ffc107' : '#28a745'"
-      style="
-        padding: 8px 20px;
-        color: white;
-        border: none;
-        border-radius: 5px;
-        cursor: pointer;
-        font-weight: bold;
-      "
+      [class.edit]="editingAnimalId()"
+      [class.save]="!editingAnimalId()"
     >
       {{ editingAnimalId() ? 'Aktualisieren' : 'Speichern' }}
     </button>
 
     @if (editingAnimalId()) {
-    <button
-      (click)="cancelEdit()"
-      style="
-        padding: 8px 20px;
-        background: #6c757d;
-        color: white;
-        border: none;
-        border-radius: 5px;
-        cursor: pointer;
-      "
-    >
-      Abbrechen
-    </button>
+      <button (click)="cancelEdit()" class="cancel-btn">Abbrechen</button>
     }
   </div>
 
   @if (nameError()) {
-  <p style="color: #dc3545; font-weight: bold; margin-top: 5px">
-    {{ nameError() }}
-  </p>
-  } @if (successMessage()) {
-  <p style="color: #28a745; font-weight: bold; margin-top: 5px">
-    {{ successMessage() }}
-  </p>
+    <p class="error">{{ nameError() }}</p>
+  }
+
+  @if (successMessage()) {
+    <p class="success">{{ successMessage() }}</p>
   }
 </div>
 
-<div style="padding: 20px; font-family: Arial">
-  <div style="display: flex; justify-content: space-between; align-items: center">
-    <h2 style="color: #dd0031; margin: 0">🐾 Unsere Schützlinge</h2>
-
-    <button
-      (click)="logout()"
-      style="
-        padding: 8px 14px;
-        background: #343a40;
-        color: white;
-        border: none;
-        border-radius: 6px;
-        cursor: pointer;
-        font-weight: bold;
-      "
-    >
-      Logout
-    </button>
+<div class="page">
+  <div class="header">
+    <h2>🐾 Unsere Schützlinge</h2>
+    <button (click)="logout()" class="logout-btn">Logout</button>
   </div>
 
   <p>Hier finden Sie unsere Tiere, die ein neues Zuhause suchen.</p>
 
   <hr />
 
-  <div style="display: flex; gap: 10px; margin: 10px 0; flex-wrap: wrap">
+  <div class="filter-row">
     <input
       [value]="searchQuery()"
       (input)="searchQuery.set($any($event.target).value)"
       placeholder="Suche nach Name..."
-      style="
-        padding: 8px;
-        border-radius: 6px;
-        border: 1px solid #ccc;
-        min-width: 220px;
-      "
     />
 
     <select
       [value]="selectedSpecies()"
       (change)="selectedSpecies.set($any($event.target).value); applyFilters()"
-      style="padding: 8px; border-radius: 6px; border: 1px solid #ccc"
     >
       @for (sp of speciesOptions; track sp) {
-      <option [value]="sp">{{ sp }}</option>
+        <option [value]="sp">{{ sp }}</option>
       }
     </select>
 
@@ -122,89 +70,62 @@
     <button (click)="resetFilters()">Reset</button>
   </div>
 
-  <div style="display: flex; gap: 10px; margin: 10px 0">
+  <div class="pagination">
     <button (click)="goPrev()" [disabled]="!prevUrl()">◀ Zurück</button>
-    <span style="font-weight: bold"> Seite {{ currentPage() }} </span>
+    <span>Seite {{ currentPage() }}</span>
     <button (click)="goNext()" [disabled]="!nextUrl()">Weiter ▶</button>
   </div>
 
-  <div style="display: flex; gap: 15px; flex-wrap: wrap; margin-top: 20px">
+  @if (loading()) {
+    <div class="spinner-box">
+      <div class="spinner"></div>
+      <p>Tiere werden geladen...</p>
+    </div>
+  }
+
+  <div class="card-list">
     @for (animal of animals(); track animal.id) {
-    <div
-      style="
-        border: 2px solid #ffcc00;
-        padding: 15px;
-        border-radius: 10px;
-        min-width: 250px;
-        background: #fffaf0;
-        box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1);
-      "
-    >
-      @if (animal.image_url) {
-      <img
-        [src]="getImageUrl(animal.image_url)"
-        style="
-          width: 100%;
-          height: 150px;
-          object-fit: cover;
-          border-radius: 8px;
-          margin-bottom: 10px;
-        "
-      />
-      }
+      <div class="animal-card">
+        @if (animal.image_url) {
+          <img [src]="getImageUrl(animal.image_url)" class="animal-image" />
+        }
 
-      <h3>
-        @if (!animal.image_url) { 
-            @if (animal.species === 'CAT') { 🐱 } 
-            @else if (animal.species === 'DOG') { 🐶 } 
-            @else if (animal.species === 'RABBIT') { 🐰 } 
-            @else { 🐾 } 
-        } 
-        {{ animal.name }}
-      </h3>
+        <div class="animal-content">
+          <h3>
+            @if (!animal.image_url) {
+              @if (animal.species === 'CAT') { 🐱 } @else if (animal.species ===
+              'DOG') { 🐶 } @else if (animal.species === 'RABBIT') { 🐰 } @else {
+              🐾 }
+            }
+            {{ animal.name }}
+          </h3>
 
-      <p><b>Tierart:</b> {{ animal.species }}</p>
-      <p>
-        <b>Status:</b>
-        <span style="color: #28a745; font-weight: bold">
-          {{ animal.status }}
-        </span>
-      </p>
+          <p><b>Tierart:</b> {{ animal.species }}</p>
 
-      <hr />
+          <p>
+            <b>Status:</b>
+            <span style="color: #28a745; font-weight: bold">
+              {{ animal.status }}
+            </span>
+          </p>
 
-      <div style="display: flex; gap: 5px">
-        <button
-          (click)="prepareEdit(animal)"
-          style="flex: 1; background: #ffc107; border: none; border-radius: 5px"
-        >
-          ✏️ Bearbeiten
-        </button>
-        <button
-          (click)="deleteAnimal(animal.id)"
-          style="
-            flex: 1;
-            background: #dc3545;
-            color: white;
-            border: none;
-            border-radius: 5px;
-          "
-        >
-          🗑️ Löschen
-        </button>
+          <hr />
+
+          <div class="card-buttons">
+            <button (click)="prepareEdit(animal)" class="edit-btn">
+              ✏️ Bearbeiten
+            </button>
+
+            <button (click)="deleteAnimal(animal.id)" class="delete-btn">
+              🗑️ Löschen
+            </button>
+          </div>
+        </div>
       </div>
-    </div>
     } @empty {
-    <div
-      style="
-        background: #f8f9fa;
-        padding: 20px;
-        border-radius: 5px;
-        width: 100%;
-      "
-    >
-      ⏳ Daten werden geladen...
-    </div>
+      @if (!loading()) {
+        <div class="empty-box">Keine Tiere gefunden.</div>
+      }
     }
   </div>
 </div>

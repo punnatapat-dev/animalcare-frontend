@@ -61,6 +61,16 @@ https://animalcare-backend.onrender.com/api/animals/
 
 ## 📜 Update-Historie (Roadmap & Erfolge)
 
+### ✅ 13.03.2026 – UI Refactoring & Loading Spinner
+
+- Loading Spinner beim Laden der Tierdaten von der API hinzugefügt
+- Loading State mit Angular Signals implementiert
+- Inline Styles durch strukturierte CSS-Klassen ersetzt
+- Empty-State Anzeige hinzugefügt, wenn keine Tiere vorhanden sind
+- Layout in Komponentenstruktur refaktoriert (card-list, form-box, filter-row)
+- Mehrere TypeScript-Fehler durch falsche Methodenscope behoben
+- Benutzeroberfläche verbessert und näher an einer Production-Anwendung gebracht
+
 ### ✅ 11.03.2026 – Tier-Detailseite (Frontend)
 
 - **[Neues Feature] Detailseite für Tiere:** Separate Seite für jedes Tier (`/animals/:id`)
