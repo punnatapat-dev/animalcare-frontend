@@ -61,6 +61,13 @@ https://animalcare-backend.onrender.com/api/animals/
 
 ## 📜 Update-Historie (Roadmap & Erfolge)
 
+### ✅ 14.03.2026 – UI Anpassung & Navigation Verbesserung
+
+- Layout der Tierkarten angepasst
+- Navigation zur Detailseite über Klick auf die Karte vorbereitet
+- Kleinere UI-Probleme behoben
+- Code-Struktur im AnimalListComponent verbessert
+
 ### ✅ 13.03.2026 – UI Refactoring & Loading Spinner
 
 - Loading Spinner beim Laden der Tierdaten von der API hinzugefügt

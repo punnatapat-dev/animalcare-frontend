@@ -104,20 +104,25 @@ export class AnimalListComponent implements OnInit {
 
   goNext(): void {
     if (!this.nextUrl()) return;
+
     this.currentPage.update((p) => p + 1);
     this.loadAnimals(this.nextUrl()!);
   }
 
   goPrev(): void {
     if (!this.prevUrl()) return;
+
     this.currentPage.update((p) => Math.max(1, p - 1));
     this.loadAnimals(this.prevUrl()!);
   }
 
   getImageUrl(image: string | null): string | null {
     if (!image) return null;
+
     if (image.startsWith('http')) return image;
+
     if (image.startsWith('/')) return this.API_BASE + image;
+
     return this.API_BASE + '/' + image;
   }
 
@@ -140,13 +145,21 @@ export class AnimalListComponent implements OnInit {
 
   onFileSelected(event: Event): void {
     const input = event.target as HTMLInputElement;
-    const file = input.files && input.files.length > 0 ? input.files[0] : null;
+
+    const file =
+      input.files && input.files.length > 0
+        ? input.files[0]
+        : null;
+
     this.selectedImage.set(file);
   }
 
   private showSuccess(message: string): void {
     this.successMessage.set(message);
-    setTimeout(() => this.successMessage.set(''), 2500);
+
+    setTimeout(() => {
+      this.successMessage.set('');
+    }, 2500);
   }
 
   submitForm(): void {
@@ -154,15 +167,19 @@ export class AnimalListComponent implements OnInit {
     const species = this.newAnimalSpecies().trim().toUpperCase();
 
     if (name.length < 2) {
-      this.nameError.set('Der Name muss mindestens 2 Zeichen lang sein.');
+      this.nameError.set(
+        'Der Name muss mindestens 2 Zeichen lang sein.'
+      );
       return;
     }
 
     const formData = new FormData();
+
     formData.append('name', name);
     formData.append('species', species);
 
     const image = this.selectedImage();
+
     if (image) {
       formData.append('image', image);
     }
@@ -171,37 +188,61 @@ export class AnimalListComponent implements OnInit {
 
     if (editingId) {
       this.http
-        .put(`${this.API_BASE}/api/animals/${editingId}/`, formData, {
-          headers: this.authHeaders(),
-        })
+        .put(
+          `${this.API_BASE}/api/animals/${editingId}/`,
+          formData,
+          {
+            headers: this.authHeaders(),
+          }
+        )
         .subscribe({
           next: () => {
-            this.showSuccess('Tier erfolgreich aktualisiert.');
+            this.showSuccess(
+              'Tier erfolgreich aktualisiert.'
+            );
+
             this.cancelEdit();
             this.loadAnimals();
           },
+
           error: (err) => {
-            console.error('Fehler beim Aktualisieren:', err);
+            console.error(
+              'Fehler beim Aktualisieren:',
+              err
+            );
           },
         });
+
       return;
     }
 
     this.http
-      .post(`${this.API_BASE}/api/animals/`, formData, {
-        headers: this.authHeaders(),
-      })
+      .post(
+        `${this.API_BASE}/api/animals/`,
+        formData,
+        {
+          headers: this.authHeaders(),
+        }
+      )
       .subscribe({
         next: () => {
-          this.showSuccess('Tier erfolgreich erstellt.');
+          this.showSuccess(
+            'Tier erfolgreich erstellt.'
+          );
+
           this.newAnimalName.set('');
           this.newAnimalSpecies.set('');
           this.selectedImage.set(null);
           this.nameError.set('');
+
           this.loadAnimals();
         },
+
         error: (err) => {
-          console.error('Fehler beim Erstellen:', err);
+          console.error(
+            'Fehler beim Erstellen:',
+            err
+          );
         },
       });
   }
@@ -214,31 +255,52 @@ export class AnimalListComponent implements OnInit {
     if (!confirmed) return;
 
     this.http
-      .delete(`${this.API_BASE}/api/animals/${id}/`, {
-        headers: this.authHeaders(),
-      })
+      .delete(
+        `${this.API_BASE}/api/animals/${id}/`,
+        {
+          headers: this.authHeaders(),
+        }
+      )
       .subscribe({
         next: () => {
-          this.showSuccess('Tier erfolgreich gelöscht.');
+          this.showSuccess(
+            'Tier erfolgreich gelöscht.'
+          );
 
-          const remaining = this.animals().filter((animal) => animal.id !== id);
+          const remaining =
+            this.animals().filter(
+              (animal) => animal.id !== id
+            );
+
           this.animals.set(remaining);
 
-          if (remaining.length === 0 && this.prevUrl()) {
+          if (
+            remaining.length === 0 &&
+            this.prevUrl()
+          ) {
             this.goPrev();
           } else {
             this.loadAnimals();
           }
         },
+
         error: (err) => {
-          console.error('Fehler beim Löschen:', err);
+          console.error(
+            'Fehler beim Löschen:',
+            err
+          );
         },
       });
+  }
+
+  openDetail(id: number): void {
+    this.router.navigate(['/animals', id]);
   }
 
   logout(): void {
     localStorage.removeItem('access_token');
     localStorage.removeItem('refresh_token');
+
     this.router.navigate(['/login']);
   }
 }

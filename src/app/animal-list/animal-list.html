@@ -85,7 +85,11 @@
 
   <div class="card-list">
     @for (animal of animals(); track animal.id) {
-      <div class="animal-card">
+      <div
+        class="animal-card"
+        (click)="openDetail(animal.id)"
+        style="cursor: pointer"
+      >
         @if (animal.image_url) {
           <img [src]="getImageUrl(animal.image_url)" class="animal-image" />
         }
@@ -93,9 +97,10 @@
         <div class="animal-content">
           <h3>
             @if (!animal.image_url) {
-              @if (animal.species === 'CAT') { 🐱 } @else if (animal.species ===
-              'DOG') { 🐶 } @else if (animal.species === 'RABBIT') { 🐰 } @else {
-              🐾 }
+              @if (animal.species === 'CAT') { 🐱 }
+              @else if (animal.species === 'DOG') { 🐶 }
+              @else if (animal.species === 'RABBIT') { 🐰 }
+              @else { 🐾 }
             }
             {{ animal.name }}
           </h3>
@@ -112,11 +117,17 @@
           <hr />
 
           <div class="card-buttons">
-            <button (click)="prepareEdit(animal)" class="edit-btn">
+            <button
+              (click)="$event.stopPropagation(); prepareEdit(animal)"
+              class="edit-btn"
+            >
               ✏️ Bearbeiten
             </button>
 
-            <button (click)="deleteAnimal(animal.id)" class="delete-btn">
+            <button
+              (click)="$event.stopPropagation(); deleteAnimal(animal.id)"
+              class="delete-btn"
+            >
               🗑️ Löschen
             </button>
           </div>
