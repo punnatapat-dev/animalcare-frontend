@@ -52,8 +52,7 @@ export class AnimalListComponent implements OnInit {
   loadAnimals(url?: string): void {
     this.loading.set(true);
 
-    const targetUrl =
-      url ?? `${this.API_BASE}/api/animals/?page=${this.currentPage()}`;
+    const targetUrl = url ?? `${this.API_BASE}/api/animals/?page=${this.currentPage()}`;
 
     let params = new HttpParams();
 
@@ -146,10 +145,7 @@ export class AnimalListComponent implements OnInit {
   onFileSelected(event: Event): void {
     const input = event.target as HTMLInputElement;
 
-    const file =
-      input.files && input.files.length > 0
-        ? input.files[0]
-        : null;
+    const file = input.files && input.files.length > 0 ? input.files[0] : null;
 
     this.selectedImage.set(file);
   }
@@ -167,9 +163,7 @@ export class AnimalListComponent implements OnInit {
     const species = this.newAnimalSpecies().trim().toUpperCase();
 
     if (name.length < 2) {
-      this.nameError.set(
-        'Der Name muss mindestens 2 Zeichen lang sein.'
-      );
+      this.nameError.set('Der Name muss mindestens 2 Zeichen lang sein.');
       return;
     }
 
@@ -188,28 +182,19 @@ export class AnimalListComponent implements OnInit {
 
     if (editingId) {
       this.http
-        .put(
-          `${this.API_BASE}/api/animals/${editingId}/`,
-          formData,
-          {
-            headers: this.authHeaders(),
-          }
-        )
+        .put(`${this.API_BASE}/api/animals/${editingId}/`, formData, {
+          headers: this.authHeaders(),
+        })
         .subscribe({
           next: () => {
-            this.showSuccess(
-              'Tier erfolgreich aktualisiert.'
-            );
+            this.showSuccess('Tier erfolgreich aktualisiert.');
 
             this.cancelEdit();
             this.loadAnimals();
           },
 
           error: (err) => {
-            console.error(
-              'Fehler beim Aktualisieren:',
-              err
-            );
+            console.error('Fehler beim Aktualisieren:', err);
           },
         });
 
@@ -217,18 +202,12 @@ export class AnimalListComponent implements OnInit {
     }
 
     this.http
-      .post(
-        `${this.API_BASE}/api/animals/`,
-        formData,
-        {
-          headers: this.authHeaders(),
-        }
-      )
+      .post(`${this.API_BASE}/api/animals/`, formData, {
+        headers: this.authHeaders(),
+      })
       .subscribe({
         next: () => {
-          this.showSuccess(
-            'Tier erfolgreich erstellt.'
-          );
+          this.showSuccess('Tier erfolgreich erstellt.');
 
           this.newAnimalName.set('');
           this.newAnimalSpecies.set('');
@@ -239,45 +218,29 @@ export class AnimalListComponent implements OnInit {
         },
 
         error: (err) => {
-          console.error(
-            'Fehler beim Erstellen:',
-            err
-          );
+          console.error('Fehler beim Erstellen:', err);
         },
       });
   }
 
   deleteAnimal(id: number): void {
-    const confirmed = window.confirm(
-      'Sind Sie sicher, dass Sie dieses Tier löschen möchten?'
-    );
+    const confirmed = window.confirm('Sind Sie sicher, dass Sie dieses Tier löschen möchten?');
 
     if (!confirmed) return;
 
     this.http
-      .delete(
-        `${this.API_BASE}/api/animals/${id}/`,
-        {
-          headers: this.authHeaders(),
-        }
-      )
+      .delete(`${this.API_BASE}/api/animals/${id}/`, {
+        headers: this.authHeaders(),
+      })
       .subscribe({
         next: () => {
-          this.showSuccess(
-            'Tier erfolgreich gelöscht.'
-          );
+          this.showSuccess('Tier erfolgreich gelöscht.');
 
-          const remaining =
-            this.animals().filter(
-              (animal) => animal.id !== id
-            );
+          const remaining = this.animals().filter((animal) => animal.id !== id);
 
           this.animals.set(remaining);
 
-          if (
-            remaining.length === 0 &&
-            this.prevUrl()
-          ) {
+          if (remaining.length === 0 && this.prevUrl()) {
             this.goPrev();
           } else {
             this.loadAnimals();
@@ -285,10 +248,7 @@ export class AnimalListComponent implements OnInit {
         },
 
         error: (err) => {
-          console.error(
-            'Fehler beim Löschen:',
-            err
-          );
+          console.error('Fehler beim Löschen:', err);
         },
       });
   }
@@ -297,6 +257,15 @@ export class AnimalListComponent implements OnInit {
     this.router.navigate(['/animals', id]);
   }
 
+  getStatusColor(status: string): string {
+    if (status === 'AVAILABLE') return 'green';
+
+    if (status === 'PENDING') return 'orange';
+
+    if (status === 'ADOPTED') return 'gray';
+
+    return 'black';
+  }
   logout(): void {
     localStorage.removeItem('access_token');
     localStorage.removeItem('refresh_token');
