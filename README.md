@@ -61,6 +61,13 @@ https://animalcare-backend.onrender.com/api/animals/
 
 ## 📜 Update-Historie (Roadmap & Erfolge)
 
+### ✅ 16.03.2026 – Statusanzeige verbessert
+
+- Farbige Statusanzeige für Tiere hinzugefügt
+- AVAILABLE = grün
+- Besser Übersicht in der Tierliste
+- Kleine UI Verbesserung
+
 ### ✅ 14.03.2026 – UI Anpassung & Navigation Verbesserung
 
 - Layout der Tierkarten angepasst
