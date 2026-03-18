@@ -3,6 +3,7 @@ import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
+import { environment } from '../../environments/environment';
 
 @Component({
   selector: 'app-animal-list',
@@ -15,10 +16,13 @@ export class AnimalListComponent implements OnInit {
   private http = inject(HttpClient);
   private router = inject(Router);
 
-  API_BASE = 'https://animalcare-backend.onrender.com';
+  API_BASE = environment.apiUrl;
 
   animals = signal<any[]>([]);
   loading = signal(false);
+
+  stats = signal<any | null>(null);
+  statsLoading = signal(false);
 
   newAnimalName = signal('');
   newAnimalSpecies = signal('');
@@ -39,8 +43,9 @@ export class AnimalListComponent implements OnInit {
   speciesOptions: string[] = ['ALL', 'DOG', 'CAT', 'RABBIT', 'OTHER'];
 
   ngOnInit(): void {
-    this.loadAnimals();
-  }
+  this.loadAnimals();
+  this.loadStats();
+}
 
   private authHeaders(): HttpHeaders {
     const token = localStorage.getItem('access_token');
@@ -88,6 +93,25 @@ export class AnimalListComponent implements OnInit {
         },
       });
   }
+
+  loadStats(): void {
+  this.statsLoading.set(true);
+
+  this.http
+    .get<any>(`${this.API_BASE}/api/animals/stats/`, {
+      headers: this.authHeaders(),
+    })
+    .subscribe({
+      next: (data) => {
+        this.stats.set(data);
+        this.statsLoading.set(false);
+      },
+      error: (err) => {
+        console.error('Fehler beim Laden der Statistiken:', err);
+        this.statsLoading.set(false);
+      },
+    });
+}
 
   applyFilters(): void {
     this.currentPage.set(1);
@@ -213,6 +237,7 @@ export class AnimalListComponent implements OnInit {
           this.newAnimalSpecies.set('');
           this.selectedImage.set(null);
           this.nameError.set('');
+          this.loadStats();
 
           this.loadAnimals();
         },
@@ -235,6 +260,7 @@ export class AnimalListComponent implements OnInit {
       .subscribe({
         next: () => {
           this.showSuccess('Tier erfolgreich gelöscht.');
+          this.loadStats();
 
           const remaining = this.animals().filter((animal) => animal.id !== id);
 

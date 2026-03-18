@@ -49,6 +49,45 @@
   <p>Hier finden Sie unsere Tiere, die ein neues Zuhause suchen.</p>
 
   <hr />
+  @if (statsLoading()) {
+  <div class="stats-box">
+    <p>Statistiken werden geladen...</p>
+  </div>
+}
+
+@if (stats()) {
+  <div class="stats-grid">
+    <div class="stat-card">
+      <span class="stat-label">Gesamt</span>
+      <strong>{{ stats()?.total }}</strong>
+    </div>
+
+    <div class="stat-card">
+      <span class="stat-label">Verfügbar</span>
+      <strong>{{ stats()?.available }}</strong>
+    </div>
+
+    <div class="stat-card">
+      <span class="stat-label">Adoptiert</span>
+      <strong>{{ stats()?.adopted }}</strong>
+    </div>
+
+    <div class="stat-card">
+      <span class="stat-label">Hunde</span>
+      <strong>{{ stats()?.dogs }}</strong>
+    </div>
+
+    <div class="stat-card">
+      <span class="stat-label">Katzen</span>
+      <strong>{{ stats()?.cats }}</strong>
+    </div>
+
+    <div class="stat-card">
+      <span class="stat-label">Kaninchen</span>
+      <strong>{{ stats()?.rabbits }}</strong>
+    </div>
+  </div>
+}
 
   <div class="filter-row">
     <input

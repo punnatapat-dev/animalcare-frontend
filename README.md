@@ -61,6 +61,23 @@ https://animalcare-backend.onrender.com/api/animals/
 
 ## 📜 Update-Historie (Roadmap & Erfolge)
 
+### ✅ 18.03.2026 – Statistik-Dashboard & Environment-Konfiguration
+
+- Angular Environment-Konfiguration mit `ng generate environments` hinzugefügt
+- Separate API-URLs für Development und Production eingerichtet
+- `environment.development.ts` für lokale Django API verwendet
+- `environment.ts` für Render Production API verwendet
+- Hardcoded API URLs durch `environment.apiUrl` ersetzt
+
+- Frontend mit dem Statistik-Endpoint `/api/animals/stats/` verbunden
+- Statistikdaten werden beim Laden der Seite automatisch abgerufen
+- Übersicht für Gesamtanzahl, Status und Tierarten vorbereitet
+- Grundlage für zukünftiges Admin-Dashboard geschaffen
+
+- Login-Problem durch falsche API-URL behoben
+- Frontend und Backend wieder korrekt synchronisiert
+- Projektstruktur weiter in Richtung Production-Setup verbessert
+
 ### ✅ 16.03.2026 – Statusanzeige verbessert
 
 - Farbige Statusanzeige für Tiere hinzugefügt
