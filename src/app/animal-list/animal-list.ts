@@ -43,9 +43,9 @@ export class AnimalListComponent implements OnInit {
   speciesOptions: string[] = ['ALL', 'DOG', 'CAT', 'RABBIT', 'OTHER'];
 
   ngOnInit(): void {
-  this.loadAnimals();
-  this.loadStats();
-}
+    this.loadAnimals();
+    this.loadStats();
+  }
 
   private authHeaders(): HttpHeaders {
     const token = localStorage.getItem('access_token');
@@ -95,23 +95,23 @@ export class AnimalListComponent implements OnInit {
   }
 
   loadStats(): void {
-  this.statsLoading.set(true);
+    this.statsLoading.set(true);
 
-  this.http
-    .get<any>(`${this.API_BASE}/api/animals/stats/`, {
-      headers: this.authHeaders(),
-    })
-    .subscribe({
-      next: (data) => {
-        this.stats.set(data);
-        this.statsLoading.set(false);
-      },
-      error: (err) => {
-        console.error('Fehler beim Laden der Statistiken:', err);
-        this.statsLoading.set(false);
-      },
-    });
-}
+    this.http
+      .get<any>(`${this.API_BASE}/api/animals/stats/`, {
+        headers: this.authHeaders(),
+      })
+      .subscribe({
+        next: (data) => {
+          this.stats.set(data);
+          this.statsLoading.set(false);
+        },
+        error: (err) => {
+          console.error('Fehler beim Laden der Statistiken:', err);
+          this.statsLoading.set(false);
+        },
+      });
+  }
 
   applyFilters(): void {
     this.currentPage.set(1);
@@ -291,6 +291,28 @@ export class AnimalListComponent implements OnInit {
     if (status === 'ADOPTED') return 'gray';
 
     return 'black';
+  }
+  changeStatus(animal: any, newStatus: string): void {
+    const formData = new FormData();
+
+    formData.append('name', animal.name);
+    formData.append('species', animal.species);
+    formData.append('status', newStatus);
+
+    this.http
+      .put(`${this.API_BASE}/api/animals/${animal.id}/`, formData, {
+        headers: this.authHeaders(),
+      })
+      .subscribe({
+        next: () => {
+          this.showSuccess(`Status von ${animal.name} wurde auf ${newStatus} gesetzt.`);
+          this.loadAnimals();
+          this.loadStats();
+        },
+        error: (err) => {
+          console.error('Fehler beim Status-Update:', err);
+        },
+      });
   }
   logout(): void {
     localStorage.removeItem('access_token');

@@ -246,3 +246,35 @@ button.edit {
   font-size: 1.4rem;
   color: #111827;
 }
+
+.status-actions {
+  display: flex;
+  gap: 6px;
+  margin-bottom: 10px;
+  flex-wrap: wrap;
+}
+
+.status-btn {
+  flex: 1;
+  border: none;
+  border-radius: 6px;
+  padding: 6px 10px;
+  font-size: 0.8rem;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.available-btn {
+  background: #dcfce7;
+  color: #166534;
+}
+
+.pending-btn {
+  background: #fef3c7;
+  color: #92400e;
+}
+
+.adopted-btn {
+  background: #e5e7eb;
+  color: #374151;
+}
