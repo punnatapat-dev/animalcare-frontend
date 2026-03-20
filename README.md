@@ -61,6 +61,14 @@ https://animalcare-backend.onrender.com/api/animals/
 
 ## 📜 Update-Historie (Roadmap & Erfolge)
 
+### ✅ 19–20.03.2026 – Status-Aktualisierung & Synchronisation mit Backend
+
+- Buttons zur direkten Statusänderung in der Tierliste hinzugefügt
+- Tiere können nun direkt als `AVAILABLE`, `RESERVED` oder `ADOPTED` markiert werden
+- Frontend-Statuswerte an das Django-Model angepasst (`PENDING` → `RESERVED`)
+- Statusänderung erfolgt über API und wird sofort in der UI aktualisiert
+- Tierliste und Statistik werden nach jeder Änderung automatisch neu geladen
+
 ### ✅ 18.03.2026 – Statistik-Dashboard & Environment-Konfiguration
 
 - Angular Environment-Konfiguration mit `ng generate environments` hinzugefügt
