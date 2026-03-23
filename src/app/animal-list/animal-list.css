@@ -278,3 +278,24 @@ button.edit {
   background: #e5e7eb;
   color: #374151;
 }
+
+.view-toggle {
+  display: flex;
+  gap: 10px;
+  margin: 12px 0 16px;
+}
+
+.view-toggle button {
+  padding: 8px 14px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  background: white;
+  cursor: pointer;
+  font-weight: 600;
+}
+
+.view-toggle button.active-toggle {
+  background: #111827;
+  color: white;
+  border-color: #111827;
+}

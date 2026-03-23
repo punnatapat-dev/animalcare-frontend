@@ -24,6 +24,8 @@ export class AnimalListComponent implements OnInit {
   stats = signal<any | null>(null);
   statsLoading = signal(false);
 
+  showOnlyMine = signal(false);
+
   newAnimalName = signal('');
   newAnimalSpecies = signal('');
   selectedImage = signal<File | null>(null);
@@ -57,7 +59,11 @@ export class AnimalListComponent implements OnInit {
   loadAnimals(url?: string): void {
     this.loading.set(true);
 
-    const targetUrl = url ?? `${this.API_BASE}/api/animals/?page=${this.currentPage()}`;
+    const targetUrl =
+      url ??
+      (this.showOnlyMine()
+        ? `${this.API_BASE}/api/animals/my/`
+        : `${this.API_BASE}/api/animals/?page=${this.currentPage()}`);
 
     let params = new HttpParams();
 
@@ -82,8 +88,9 @@ export class AnimalListComponent implements OnInit {
           const items = Array.isArray(data) ? data : data?.results;
 
           this.animals.set(items ?? []);
-          this.nextUrl.set(data?.next ?? null);
-          this.prevUrl.set(data?.previous ?? null);
+
+          this.nextUrl.set(Array.isArray(data) ? null : (data?.next ?? null));
+          this.prevUrl.set(Array.isArray(data) ? null : (data?.previous ?? null));
 
           this.loading.set(false);
         },
@@ -314,6 +321,17 @@ export class AnimalListComponent implements OnInit {
         },
       });
   }
+
+
+
+  toggleMyAnimals(showMine: boolean): void {
+  this.showOnlyMine.set(showMine);
+  this.currentPage.set(1);
+  this.nextUrl.set(null);
+  this.prevUrl.set(null);
+  this.loadAnimals();
+}
+
   logout(): void {
     localStorage.removeItem('access_token');
     localStorage.removeItem('refresh_token');

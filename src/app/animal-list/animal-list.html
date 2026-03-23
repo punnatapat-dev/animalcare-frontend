@@ -49,6 +49,23 @@
   <p>Hier finden Sie unsere Tiere, die ein neues Zuhause suchen.</p>
 
   <hr />
+
+  <div class="view-toggle">
+  <button
+    (click)="toggleMyAnimals(false)"
+    [class.active-toggle]="!showOnlyMine()"
+  >
+    Alle Tiere
+  </button>
+
+  <button
+    (click)="toggleMyAnimals(true)"
+    [class.active-toggle]="showOnlyMine()"
+  >
+    Meine Tiere
+  </button>
+</div>
+
   @if (statsLoading()) {
     <div class="stats-box">
       <p>Statistiken werden geladen...</p>
@@ -110,10 +127,13 @@
   </div>
 
   <div class="pagination">
+    @if (!showOnlyMine()) {
+  <div class="pagination">
     <button (click)="goPrev()" [disabled]="!prevUrl()">◀ Zurück</button>
     <span>Seite {{ currentPage() }}</span>
     <button (click)="goNext()" [disabled]="!nextUrl()">Weiter ▶</button>
   </div>
+}
 
   @if (loading()) {
     <div class="spinner-box">

@@ -61,6 +61,14 @@ https://animalcare-backend.onrender.com/api/animals/
 
 ## 📜 Update-Historie (Roadmap & Erfolge)
 
+### ✅ 23.03.2026 – Filter für eigene Tiere im Frontend hinzugefügt
+
+- Umschaltung zwischen `Alle Tiere` und `Meine Tiere` hinzugefügt
+- Frontend an den Endpoint `/api/animals/my/` angebunden
+- Tierliste kann nun nur Tiere des eingeloggten Benutzers anzeigen
+- Pagination wird im Modus `Meine Tiere` automatisch deaktiviert
+- UI weiter in Richtung echter Verwaltungsanwendung verbessert
+
 ### ✅ 19–20.03.2026 – Status-Aktualisierung & Synchronisation mit Backend
 
 - Buttons zur direkten Statusänderung in der Tierliste hinzugefügt
