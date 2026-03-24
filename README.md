@@ -61,6 +61,12 @@ https://animalcare-backend.onrender.com/api/animals/
 
 ## 📜 Update-Historie (Roadmap & Erfolge)
 
+### ✅ 24.03.2026 – Aktuellen Benutzer im Frontend angezeigt
+
+- Frontend mit dem Endpoint `/api/users/me/` verbunden
+- Name des eingeloggten Benutzers wird nun in der Oberfläche angezeigt
+- Benutzeransicht weiter personalisiert
+
 ### ✅ 23.03.2026 – Filter für eigene Tiere im Frontend hinzugefügt
 
 - Umschaltung zwischen `Alle Tiere` und `Meine Tiere` hinzugefügt

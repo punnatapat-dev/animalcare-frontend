@@ -20,6 +20,7 @@ export class AnimalListComponent implements OnInit {
 
   animals = signal<any[]>([]);
   loading = signal(false);
+  currentUser = signal<any | null>(null);
 
   stats = signal<any | null>(null);
   statsLoading = signal(false);
@@ -45,9 +46,10 @@ export class AnimalListComponent implements OnInit {
   speciesOptions: string[] = ['ALL', 'DOG', 'CAT', 'RABBIT', 'OTHER'];
 
   ngOnInit(): void {
-    this.loadAnimals();
-    this.loadStats();
-  }
+  this.loadCurrentUser();
+  this.loadAnimals();
+  this.loadStats();
+}
 
   private authHeaders(): HttpHeaders {
     const token = localStorage.getItem('access_token');
@@ -55,7 +57,20 @@ export class AnimalListComponent implements OnInit {
       Authorization: `Bearer ${token ?? ''}`,
     });
   }
-
+  loadCurrentUser(): void {
+  this.http
+    .get<any>(`${this.API_BASE}/api/users/me/`, {
+      headers: this.authHeaders(),
+    })
+    .subscribe({
+      next: (data) => {
+        this.currentUser.set(data);
+      },
+      error: (err) => {
+        console.error('Fehler beim Laden des Benutzers:', err);
+      },
+    });
+}
   loadAnimals(url?: string): void {
     this.loading.set(true);
 
@@ -339,3 +354,5 @@ export class AnimalListComponent implements OnInit {
     this.router.navigate(['/login']);
   }
 }
+
+

@@ -27,7 +27,9 @@
     </button>
 
     @if (editingAnimalId()) {
-      <button (click)="cancelEdit()" class="cancel-btn">Abbrechen</button>
+      <button (click)="cancelEdit()" class="cancel-btn">
+        Abbrechen
+      </button>
     }
   </div>
 
@@ -40,40 +42,74 @@
   }
 </div>
 
+
 <div class="page">
+
+  <!-- HEADER -->
   <div class="header">
+
     <h2>🐾 Unsere Schützlinge</h2>
-    <button (click)="logout()" class="logout-btn">Logout</button>
+
+    <div class="header-right">
+
+      @if (currentUser()) {
+        <div class="user-info">
+          Hallo {{ currentUser().username }}
+        </div>
+      }
+
+      <button (click)="logout()" class="logout-btn">
+        Logout
+      </button>
+
+    </div>
+
   </div>
 
-  <p>Hier finden Sie unsere Tiere, die ein neues Zuhause suchen.</p>
+
+  <p>
+    Hier finden Sie unsere Tiere, die ein neues Zuhause suchen.
+  </p>
 
   <hr />
 
+
+  <!-- TOGGLE -->
   <div class="view-toggle">
-  <button
-    (click)="toggleMyAnimals(false)"
-    [class.active-toggle]="!showOnlyMine()"
-  >
-    Alle Tiere
-  </button>
 
-  <button
-    (click)="toggleMyAnimals(true)"
-    [class.active-toggle]="showOnlyMine()"
-  >
-    Meine Tiere
-  </button>
-</div>
+    <button
+      (click)="toggleMyAnimals(false)"
+      [class.active-toggle]="!showOnlyMine()"
+    >
+      Alle Tiere
+    </button>
 
+    <button
+      (click)="toggleMyAnimals(true)"
+      [class.active-toggle]="showOnlyMine()"
+    >
+      Meine Tiere
+    </button>
+
+  </div>
+
+
+
+  <!-- STATS LOADING -->
   @if (statsLoading()) {
+
     <div class="stats-box">
       <p>Statistiken werden geladen...</p>
     </div>
+
   }
 
+
+  <!-- STATS -->
   @if (stats()) {
+
     <div class="stats-grid">
+
       <div class="stat-card">
         <span class="stat-label">Gesamt</span>
         <strong>{{ stats()?.total }}</strong>
@@ -103,10 +139,16 @@
         <span class="stat-label">Kaninchen</span>
         <strong>{{ stats()?.rabbits }}</strong>
       </div>
+
     </div>
+
   }
 
+
+
+  <!-- FILTER -->
   <div class="filter-row">
+
     <input
       [value]="searchQuery()"
       (input)="searchQuery.set($any($event.target).value)"
@@ -117,65 +159,150 @@
       [value]="selectedSpecies()"
       (change)="selectedSpecies.set($any($event.target).value); applyFilters()"
     >
+
       @for (sp of speciesOptions; track sp) {
-        <option [value]="sp">{{ sp }}</option>
+
+        <option [value]="sp">
+          {{ sp }}
+        </option>
+
       }
+
     </select>
 
-    <button (click)="applyFilters()">Suchen</button>
-    <button (click)="resetFilters()">Reset</button>
+    <button (click)="applyFilters()">
+      Suchen
+    </button>
+
+    <button (click)="resetFilters()">
+      Reset
+    </button>
+
   </div>
 
-  <div class="pagination">
-    @if (!showOnlyMine()) {
-  <div class="pagination">
-    <button (click)="goPrev()" [disabled]="!prevUrl()">◀ Zurück</button>
-    <span>Seite {{ currentPage() }}</span>
-    <button (click)="goNext()" [disabled]="!nextUrl()">Weiter ▶</button>
-  </div>
-}
 
-  @if (loading()) {
-    <div class="spinner-box">
-      <div class="spinner"></div>
-      <p>Tiere werden geladen...</p>
+
+  <!-- PAGINATION -->
+  @if (!showOnlyMine()) {
+
+    <div class="pagination">
+
+      <button
+        (click)="goPrev()"
+        [disabled]="!prevUrl()"
+      >
+        ◀ Zurück
+      </button>
+
+      <span>
+        Seite {{ currentPage() }}
+      </span>
+
+      <button
+        (click)="goNext()"
+        [disabled]="!nextUrl()"
+      >
+        Weiter ▶
+      </button>
+
     </div>
+
   }
 
+
+
+  <!-- LOADING -->
+  @if (loading()) {
+
+    <div class="spinner-box">
+
+      <div class="spinner"></div>
+
+      <p>
+        Tiere werden geladen...
+      </p>
+
+    </div>
+
+  }
+
+
+
+  <!-- CARDS -->
   <div class="card-list">
+
     @for (animal of animals(); track animal.id) {
-      <div class="animal-card" (click)="openDetail(animal.id)" style="cursor: pointer">
+
+      <div
+        class="animal-card"
+        (click)="openDetail(animal.id)"
+        style="cursor: pointer"
+      >
+
         @if (animal.image_url) {
-          <img [src]="getImageUrl(animal.image_url)" class="animal-image" />
+
+          <img
+            [src]="getImageUrl(animal.image_url)"
+            class="animal-image"
+          />
+
         }
 
         <div class="animal-content">
+
           <h3>
+
             @if (!animal.image_url) {
+
               @if (animal.species === 'CAT') {
                 🐱
-              } @else if (animal.species === 'DOG') {
+              }
+
+              @else if (animal.species === 'DOG') {
                 🐶
-              } @else if (animal.species === 'RABBIT') {
+              }
+
+              @else if (animal.species === 'RABBIT') {
                 🐰
-              } @else {
+              }
+
+              @else {
                 🐾
               }
+
             }
+
             {{ animal.name }}
+
           </h3>
 
-          <p><b>Tierart:</b> {{ animal.species }}</p>
 
           <p>
-            <b>Status:</b>
-            <span [style.color]="getStatusColor(animal.status)" style="font-weight: bold">
-              {{ animal.status }}
-            </span>
+            <b>Tierart:</b>
+            {{ animal.species }}
           </p>
 
+
+          <p>
+
+            <b>Status:</b>
+
+            <span
+              [style.color]="getStatusColor(animal.status)"
+              style="font-weight: bold"
+            >
+              {{ animal.status }}
+            </span>
+
+          </p>
+
+
           <hr />
+
+
+          <!-- STATUS BUTTONS -->
           <div class="status-actions">
+
             <button
               (click)="$event.stopPropagation(); changeStatus(animal, 'AVAILABLE')"
               class="status-btn available-btn"
@@ -196,22 +323,48 @@
             >
               Adopted
             </button>
+
           </div>
+
+
+          <!-- ACTION BUTTONS -->
           <div class="card-buttons">
-            <button (click)="$event.stopPropagation(); prepareEdit(animal)" class="edit-btn">
+
+            <button
+              (click)="$event.stopPropagation(); prepareEdit(animal)"
+              class="edit-btn"
+            >
               ✏️ Bearbeiten
             </button>
 
-            <button (click)="$event.stopPropagation(); deleteAnimal(animal.id)" class="delete-btn">
+            <button
+              (click)="$event.stopPropagation(); deleteAnimal(animal.id)"
+              class="delete-btn"
+            >
               🗑️ Löschen
             </button>
+
           </div>
+
+
         </div>
+
       </div>
-    } @empty {
-      @if (!loading()) {
-        <div class="empty-box">Keine Tiere gefunden.</div>
-      }
+
     }
+
+    @empty {
+
+      @if (!loading()) {
+
+        <div class="empty-box">
+          Keine Tiere gefunden.
+        </div>
+
+      }
+
+    }
+
   </div>
+
 </div>

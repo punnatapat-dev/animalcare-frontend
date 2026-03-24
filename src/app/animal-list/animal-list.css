@@ -299,3 +299,14 @@ button.edit {
   color: white;
   border-color: #111827;
 }
+
+.header-right {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.user-info {
+  font-weight: bold;
+  color: #374151;
+}
