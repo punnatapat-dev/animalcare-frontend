@@ -61,6 +61,15 @@ https://animalcare-backend.onrender.com/api/animals/
 
 ## 📜 Update-Historie (Roadmap & Erfolge)
 
+### ✅ 25.03.2026 – Rollenbasierte Anzeige im Frontend verbessert
+
+- Frontend verbindet sich mit `/api/users/me/`
+- Name des eingeloggten Benutzers wird angezeigt
+- Rolle wird angezeigt (`Admin` / `User`)
+- Bearbeiten- und Löschen-Buttons werden nur angezeigt wenn:
+  - Benutzer Admin ist
+  - oder Benutzer Owner des Tieres ist
+
 ### ✅ 24.03.2026 – Aktuellen Benutzer im Frontend angezeigt
 
 - Frontend mit dem Endpoint `/api/users/me/` verbunden

@@ -347,6 +347,18 @@ export class AnimalListComponent implements OnInit {
   this.loadAnimals();
 }
 
+  canManageAnimal(animal: any): boolean {
+  const user = this.currentUser();
+
+  if (!user) return false;
+
+  if (user.is_staff || user.is_superuser) {
+    return true;
+  }
+
+  return animal.owner === user.username;
+}
+
   logout(): void {
     localStorage.removeItem('access_token');
     localStorage.removeItem('refresh_token');
