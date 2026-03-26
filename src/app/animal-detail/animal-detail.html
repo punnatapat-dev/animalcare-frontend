@@ -1,69 +1,86 @@
-@if (loading()) {
-  <div class="detail-wrapper">
-    <p class="loading-text">Lade Tierdaten...</p>
-  </div>
-}
+<div class="detail-wrapper">
+  @if (loading()) {
+    <div class="loading-box">
+      <p>Tierdaten werden geladen...</p>
+    </div>
+  }
 
-@if (error()) {
-  <div class="detail-wrapper">
-    <p class="error-text">{{ error() }}</p>
-  </div>
-}
+  @if (error()) {
+    <div class="error-box">
+      <p>{{ error() }}</p>
+      <a routerLink="/animals" class="back-button">← Zurück</a>
+    </div>
+  }
 
-@if (animal()) {
-  <div class="detail-wrapper">
+  @if (animal()) {
     <div class="detail-card">
       <div class="image-section">
-        <img
-          [src]="animal()?.image_url || 'https://via.placeholder.com/800x500?text=No+Image'"
-          [alt]="animal()?.name"
-          class="detail-image"
-        />
-        <span
-          class="status-badge"
-          [class.available]="animal()?.status === 'AVAILABLE'"
-          [class.adopted]="animal()?.status === 'ADOPTED'"
-          [class.pending]="animal()?.status === 'PENDING'"
-        >
-          {{ animal()?.status }}
-        </span>
+        @if (animal()?.image_url) {
+          <img
+            [src]="animal()?.image_url"
+            [alt]="animal()?.name"
+            class="detail-image"
+          />
+        } @else {
+          <div class="image-placeholder">🐾</div>
+        }
       </div>
 
       <div class="detail-content">
-        <p class="species-label">{{ animal()?.species }}</p>
-        <h1>{{ animal()?.name }}</h1>
+        <div class="detail-header">
+          <h1>{{ animal()?.name }}</h1>
+          <span class="status-badge">
+            {{ animal()?.status }}
+          </span>
+        </div>
 
-        <div class="info-grid">
-          <div class="info-box">
-            <span class="info-title">Rasse</span>
-            <span class="info-value">{{ animal()?.breed || 'Unbekannt' }}</span>
+        <div class="detail-grid">
+          <div class="detail-item">
+            <span class="label">Tierart</span>
+            <span class="value">{{ animal()?.species }}</span>
           </div>
 
-          <div class="info-box">
-            <span class="info-title">Geschlecht</span>
-            <span class="info-value">{{ animal()?.sex || 'Unbekannt' }}</span>
+          <div class="detail-item">
+            <span class="label">Rasse</span>
+            <span class="value">{{ animal()?.breed || '—' }}</span>
           </div>
 
-          <div class="info-box">
-            <span class="info-title">Besitzer</span>
-            <span class="info-value">{{ animal()?.owner || 'Unbekannt' }}</span>
+          <div class="detail-item">
+            <span class="label">Geschlecht</span>
+            <span class="value">{{ animal()?.sex || '—' }}</span>
           </div>
 
-          <div class="info-box">
-            <span class="info-title">Erstellt am</span>
-            <span class="info-value">{{ animal()?.created_at | date: 'mediumDate' }}</span>
+          <div class="detail-item">
+            <span class="label">Geburtsdatum</span>
+            <span class="value">
+              {{ animal()?.birth_date || '—' }}
+            </span>
+          </div>
+
+          <div class="detail-item">
+            <span class="label">Owner</span>
+            <span class="value">{{ animal()?.owner || '—' }}</span>
+          </div>
+
+          <div class="detail-item">
+            <span class="label">Erstellt am</span>
+            <span class="value">
+              {{ animal()?.created_at | date: 'mediumDate' }}
+            </span>
           </div>
         </div>
 
         <div class="description-box">
           <h3>Beschreibung</h3>
-          <p>{{ animal()?.description || 'Keine Beschreibung vorhanden.' }}</p>
+          <p>
+            {{ animal()?.description || 'Keine Beschreibung vorhanden.' }}
+          </p>
         </div>
 
-        <div class="action-row">
+        <div class="detail-actions">
           <a routerLink="/animals" class="back-button">← Zurück zur Übersicht</a>
         </div>
       </div>
     </div>
-  </div>
-}
+  }
+</div>

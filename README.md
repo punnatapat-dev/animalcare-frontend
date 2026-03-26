@@ -61,6 +61,14 @@ https://animalcare-backend.onrender.com/api/animals/
 
 ## 📜 Update-Historie (Roadmap & Erfolge)
 
+### ✅ 26.03.2026 – Tier-Detailseite erweitert
+
+- Detailseite für Tiere visuell überarbeitet
+- Anzeige von Bild, Status, Owner, Geburtsdatum und Beschreibung ergänzt
+- Strukturierte Metadatenansicht für einzelne Tiere hinzugefügt
+- Lade- und Fehlerzustände verbessert
+- Benutzeroberfläche näher an echter Tiervermittlungsplattform ausgerichtet
+
 ### ✅ 25.03.2026 – Rollenbasierte Anzeige im Frontend verbessert
 
 - Frontend verbindet sich mit `/api/users/me/`
