@@ -1,73 +1,58 @@
-.animal-card {
-  width: 280px;
-  background: #fffaf0;
-  border: 2px solid #ffcc00;
-  border-radius: 12px;
-  box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1);
-  overflow: hidden;
-  display: flex;
-  flex-direction: column;
-}
-
-.animal-image {
-  width: 100%;
-  height: 180px;
-  object-fit: cover;
-  display: block;
-}
-
-.animal-content {
-  padding: 15px;
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-}
-
-.spinner-box {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  margin: 20px 0;
-  padding: 24px;
-  background: #f8f9fa;
-  border: 1px solid #ddd;
-  border-radius: 12px;
-}
-
-.spinner {
-  width: 38px;
-  height: 38px;
-  border: 4px solid #ddd;
-  border-top: 4px solid #dd0031;
-  border-radius: 50%;
-  animation: spin 0.8s linear infinite;
-  margin-bottom: 10px;
-}
-
-.spinner-box p {
-  margin: 0;
-  font-weight: bold;
-  color: #343a40;
-}
-
-@keyframes spin {
-  to {
-    transform: rotate(360deg);
-  }
-}
 .page {
   padding: 20px;
-  font-family: Arial;
+  font-family: Arial, sans-serif;
 }
 
+/* HEADER */
 .header {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  margin-bottom: 20px;
 }
 
+.header-left h2 {
+  margin: 0;
+  font-size: 1.8rem;
+}
+
+.subtitle {
+  margin: 4px 0 0;
+  font-size: 0.9rem;
+  color: #6b7280;
+}
+
+.header-right {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.user-info {
+  font-weight: bold;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  color: #374151;
+}
+
+.role {
+  font-size: 0.75rem;
+  padding: 4px 8px;
+  border-radius: 999px;
+}
+
+.role.admin {
+  background: #dc2626;
+  color: white;
+}
+
+.role.user {
+  background: #e5e7eb;
+  color: #111827;
+}
+
+/* FORM */
 .form-box {
   background: #eef2f3;
   padding: 20px;
@@ -92,6 +77,7 @@
   border: 1px solid #ccc;
 }
 
+/* FILTER */
 .filter-row {
   display: flex;
   gap: 10px;
@@ -99,6 +85,29 @@
   flex-wrap: wrap;
 }
 
+/* TOGGLE */
+.view-toggle {
+  display: flex;
+  gap: 10px;
+  margin: 12px 0 16px;
+}
+
+.view-toggle button {
+  padding: 8px 14px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  background: white;
+  cursor: pointer;
+  font-weight: 600;
+}
+
+.view-toggle button.active-toggle {
+  background: #111827;
+  color: white;
+  border-color: #111827;
+}
+
+/* PAGINATION */
 .pagination {
   display: flex;
   gap: 10px;
@@ -106,6 +115,7 @@
   align-items: center;
 }
 
+/* CARDS */
 .card-list {
   display: flex;
   gap: 15px;
@@ -113,6 +123,93 @@
   margin-top: 20px;
 }
 
+.animal-card {
+  background: white;
+  border-radius: 16px;
+  overflow: hidden;
+  border: 1px solid #e5e7eb;
+  transition: all 0.2s ease;
+  width: 280px;
+  display: flex;
+  flex-direction: column;
+}
+
+.animal-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.08);
+}
+
+.animal-image {
+  width: 100%;
+  height: 180px;
+  object-fit: cover;
+  display: block;
+}
+
+.animal-content {
+  padding: 15px;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+/* STATUS */
+.status-badge {
+  padding: 4px 10px;
+  border-radius: 999px;
+  font-size: 0.75rem;
+  font-weight: bold;
+}
+
+.status-badge.available {
+  background: #dcfce7;
+  color: #166534;
+}
+
+.status-badge.reserved {
+  background: #fef3c7;
+  color: #92400e;
+}
+
+.status-badge.adopted {
+  background: #e5e7eb;
+  color: #374151;
+}
+
+.status-actions {
+  display: flex;
+  gap: 6px;
+  margin-bottom: 10px;
+  flex-wrap: wrap;
+}
+
+.status-btn {
+  flex: 1;
+  border: none;
+  border-radius: 6px;
+  padding: 6px 10px;
+  font-size: 0.8rem;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.available-btn {
+  background: #dcfce7;
+  color: #166534;
+}
+
+.pending-btn {
+  background: #fef3c7;
+  color: #92400e;
+}
+
+.adopted-btn {
+  background: #e5e7eb;
+  color: #374151;
+}
+
+/* ACTION BUTTONS */
 .card-buttons {
   display: flex;
   gap: 5px;
@@ -123,6 +220,9 @@
   background: #ffc107;
   border: none;
   border-radius: 5px;
+  padding: 8px 12px;
+  cursor: pointer;
+  font-weight: 600;
 }
 
 .delete-btn {
@@ -131,13 +231,9 @@
   color: white;
   border: none;
   border-radius: 5px;
-}
-
-.empty-box {
-  background: #f8f9fa;
-  padding: 20px;
-  border-radius: 5px;
-  width: 100%;
+  padding: 8px 12px;
+  cursor: pointer;
+  font-weight: 600;
 }
 
 .logout-btn {
@@ -179,6 +275,7 @@ button.edit {
   font-weight: bold;
 }
 
+/* STATES */
 .error {
   color: #dc3545;
   font-weight: bold;
@@ -189,20 +286,40 @@ button.edit {
   font-weight: bold;
 }
 
+.empty-box {
+  background: #f8f9fa;
+  padding: 20px;
+  border-radius: 5px;
+  width: 100%;
+}
+
+/* LOADING */
 .spinner-box {
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin: 20px;
+  justify-content: center;
+  margin: 20px 0;
+  padding: 24px;
+  background: #f8f9fa;
+  border: 1px solid #ddd;
+  border-radius: 12px;
 }
 
 .spinner {
-  width: 36px;
-  height: 36px;
+  width: 38px;
+  height: 38px;
   border: 4px solid #ddd;
   border-top: 4px solid #dd0031;
   border-radius: 50%;
   animation: spin 0.8s linear infinite;
+  margin-bottom: 10px;
+}
+
+.spinner-box p {
+  margin: 0;
+  font-weight: bold;
+  color: #343a40;
 }
 
 @keyframes spin {
@@ -211,6 +328,7 @@ button.edit {
   }
 }
 
+/* STATS */
 .stats-box {
   background: #f8f9fa;
   border: 1px solid #ddd;
@@ -247,66 +365,19 @@ button.edit {
   color: #111827;
 }
 
-.status-actions {
-  display: flex;
-  gap: 6px;
-  margin-bottom: 10px;
-  flex-wrap: wrap;
-}
+/* RESPONSIVE */
+@media (max-width: 768px) {
+  .header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+  }
 
-.status-btn {
-  flex: 1;
-  border: none;
-  border-radius: 6px;
-  padding: 6px 10px;
-  font-size: 0.8rem;
-  font-weight: bold;
-  cursor: pointer;
-}
+  .header-right {
+    flex-wrap: wrap;
+  }
 
-.available-btn {
-  background: #dcfce7;
-  color: #166534;
-}
-
-.pending-btn {
-  background: #fef3c7;
-  color: #92400e;
-}
-
-.adopted-btn {
-  background: #e5e7eb;
-  color: #374151;
-}
-
-.view-toggle {
-  display: flex;
-  gap: 10px;
-  margin: 12px 0 16px;
-}
-
-.view-toggle button {
-  padding: 8px 14px;
-  border: 1px solid #ccc;
-  border-radius: 8px;
-  background: white;
-  cursor: pointer;
-  font-weight: 600;
-}
-
-.view-toggle button.active-toggle {
-  background: #111827;
-  color: white;
-  border-color: #111827;
-}
-
-.header-right {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-}
-
-.user-info {
-  font-weight: bold;
-  color: #374151;
+  .animal-card {
+    width: 100%;
+  }
 }

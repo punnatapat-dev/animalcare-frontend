@@ -61,6 +61,16 @@ https://animalcare-backend.onrender.com/api/animals/
 
 ## 📜 Update-Historie (Roadmap & Erfolge)
 
+### ✅ 27.03.2026 – UI-Verbesserung der Tierliste (Dashboard)
+
+- Layout der Tierliste vollständig überarbeitet
+- Header mit Benutzername und Rollenanzeige (Admin/User) verbessert
+- Statistik-Karten als responsives Grid dargestellt
+- Statusanzeige von einfachem Text zu visuellen Badges umgestellt
+- Tierkarten mit Hover-Effekt und sauberem Layout optimiert
+- Filter- und Pagination-Bereich strukturiert und übersichtlicher gestaltet
+- Einheitliches Button-Design für bessere Konsistenz eingeführt
+
 ### ✅ 26.03.2026 – Tier-Detailseite erweitert
 
 - Detailseite für Tiere visuell überarbeitet

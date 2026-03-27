@@ -41,19 +41,20 @@
 </div>
 
 <div class="page">
-  <!-- HEADER -->
   <div class="header">
-    <h2>🐾 Unsere Schützlinge</h2>
+    <div class="header-left">
+      <h2>🐾 AnimalCare Dashboard</h2>
+      <p class="subtitle">Verwalten Sie Ihre Tiere einfach und schnell</p>
+    </div>
 
     <div class="header-right">
       @if (currentUser()) {
         <div class="user-info">
-          Hallo {{ currentUser().username }}
-
+          👤 {{ currentUser().username }}
           @if (currentUser()?.is_staff) {
-            (Admin)
+            <span class="role admin">Admin</span>
           } @else {
-            (User)
+            <span class="role user">User</span>
           }
         </div>
       }
@@ -62,11 +63,8 @@
     </div>
   </div>
 
-  <p>Hier finden Sie unsere Tiere, die ein neues Zuhause suchen.</p>
-
   <hr />
 
-  <!-- TOGGLE -->
   <div class="view-toggle">
     <button
       (click)="toggleMyAnimals(false)"
@@ -83,14 +81,12 @@
     </button>
   </div>
 
-  <!-- STATS LOADING -->
   @if (statsLoading()) {
     <div class="stats-box">
       <p>Statistiken werden geladen...</p>
     </div>
   }
 
-  <!-- STATS -->
   @if (stats()) {
     <div class="stats-grid">
       <div class="stat-card">
@@ -125,7 +121,6 @@
     </div>
   }
 
-  <!-- FILTER -->
   <div class="filter-row">
     <input
       [value]="searchQuery()"
@@ -138,9 +133,7 @@
       (change)="selectedSpecies.set($any($event.target).value); applyFilters()"
     >
       @for (sp of speciesOptions; track sp) {
-        <option [value]="sp">
-          {{ sp }}
-        </option>
+        <option [value]="sp">{{ sp }}</option>
       }
     </select>
 
@@ -148,7 +141,6 @@
     <button (click)="resetFilters()">Reset</button>
   </div>
 
-  <!-- PAGINATION -->
   @if (!showOnlyMine()) {
     <div class="pagination">
       <button (click)="goPrev()" [disabled]="!prevUrl()">◀ Zurück</button>
@@ -157,7 +149,6 @@
     </div>
   }
 
-  <!-- LOADING -->
   @if (loading()) {
     <div class="spinner-box">
       <div class="spinner"></div>
@@ -165,7 +156,6 @@
     </div>
   }
 
-  <!-- CARDS -->
   <div class="card-list">
     @for (animal of animals(); track animal.id) {
       <div
@@ -190,25 +180,25 @@
                 🐾
               }
             }
-
             {{ animal.name }}
           </h3>
 
-          <p>
-            <b>Tierart:</b>
-            {{ animal.species }}
-          </p>
+          <p><b>Tierart:</b> {{ animal.species }}</p>
 
           <p>
             <b>Status:</b>
-            <span [style.color]="getStatusColor(animal.status)" style="font-weight: bold">
+            <span
+              class="status-badge"
+              [class.available]="animal.status === 'AVAILABLE'"
+              [class.reserved]="animal.status === 'RESERVED'"
+              [class.adopted]="animal.status === 'ADOPTED'"
+            >
               {{ animal.status }}
             </span>
           </p>
 
           <hr />
 
-          <!-- STATUS BUTTONS -->
           <div class="status-actions">
             <button
               (click)="$event.stopPropagation(); changeStatus(animal, 'AVAILABLE')"
@@ -232,7 +222,6 @@
             </button>
           </div>
 
-          <!-- ACTION BUTTONS -->
           @if (canManageAnimal(animal)) {
             <div class="card-buttons">
               <button
