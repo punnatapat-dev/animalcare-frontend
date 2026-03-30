@@ -16,7 +16,11 @@
     <div class="detail-card">
       <div class="image-section">
         @if (animal()?.image_url) {
-          <img [src]="animal()?.image_url" [alt]="animal()?.name" class="detail-image" />
+          <img
+            [src]="animal()?.image_url"
+            [alt]="animal()?.name"
+            class="detail-image"
+          />
         } @else {
           <div class="image-placeholder">🐾</div>
         }
@@ -24,8 +28,17 @@
 
       <div class="detail-content">
         <div class="detail-header">
-          <h1>{{ animal()?.name }}</h1>
-          <span class="status-badge">
+          <div>
+            <p class="detail-subtitle">Tierprofil</p>
+            <h1>{{ animal()?.name }}</h1>
+          </div>
+
+          <span
+            class="status-badge"
+            [class.available]="animal()?.status === 'AVAILABLE'"
+            [class.reserved]="animal()?.status === 'RESERVED'"
+            [class.adopted]="animal()?.status === 'ADOPTED'"
+          >
             {{ animal()?.status }}
           </span>
         </div>
@@ -48,9 +61,7 @@
 
           <div class="detail-item">
             <span class="label">Geburtsdatum</span>
-            <span class="value">
-              {{ animal()?.birth_date || '—' }}
-            </span>
+            <span class="value">{{ animal()?.birth_date || '—' }}</span>
           </div>
 
           <div class="detail-item">
@@ -68,19 +79,23 @@
 
         <div class="description-box">
           <h3>Beschreibung</h3>
-          <p>
-            {{ animal()?.description || 'Keine Beschreibung vorhanden.' }}
-          </p>
+          <p>{{ animal()?.description || 'Keine Beschreibung vorhanden.' }}</p>
         </div>
 
         <div class="detail-actions">
-          <a routerLink="/animals" class="back-button"> ← Zurück zur Übersicht </a>
+          <a routerLink="/animals" class="back-button">
+            ← Zurück zur Übersicht
+          </a>
 
           @if (canManageAnimal()) {
             <div class="action-buttons">
-              <button (click)="goToAnimals()" class="edit-btn">✏️ Bearbeiten</button>
+              <button (click)="goToAnimals()" class="edit-btn">
+                ✏️ Bearbeiten
+              </button>
 
-              <button (click)="deleteAnimal()" class="delete-btn">🗑️ Löschen</button>
+              <button (click)="deleteAnimal()" class="delete-btn">
+                🗑️ Löschen
+              </button>
             </div>
           }
         </div>
