@@ -112,6 +112,13 @@ export class AnimalDetailComponent {
   }
 
   goToAnimals(): void {
-    this.router.navigate(['/animals']);
-  }
+  this.router.navigate(['/animals']);
+}
+
+goToEdit(): void {
+  const animal = this.animal();
+  if (!animal) return;
+
+  this.router.navigate(['/animals', animal.id, 'edit']);
+}
 }

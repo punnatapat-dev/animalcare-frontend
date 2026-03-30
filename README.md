@@ -61,6 +61,16 @@ https://animalcare-backend.onrender.com/api/animals/
 
 ## 📜 Update-Historie (Roadmap & Erfolge)
 
+### ✅ 30.03.2026 – Detailseite & Edit-Funktion verbessert
+
+- Detailseite visuell an das Dashboard angepasst
+- Status als farbige Badges dargestellt (AVAILABLE, RESERVED, ADOPTED)
+- Layout mit Bild, Metadaten und Beschreibung übersichtlicher gestaltet
+- Edit-Seite `/animals/:id/edit` hinzugefügt
+- Bestehende Daten werden im Formular geladen und können bearbeitet werden
+- Navigation verbessert: Detail → Edit → Zurück zur Detailseite
+- Löschfunktion mit Berechtigungsprüfung (Owner/Admin) integriert
+
 ### ✅ 27.03.2026 – UI-Verbesserung der Tierliste (Dashboard)
 
 - Layout der Tierliste vollständig überarbeitet

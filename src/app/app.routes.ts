@@ -2,6 +2,7 @@ import { Routes } from '@angular/router';
 import { LoginComponent } from './login/login';
 import { AnimalListComponent } from './animal-list/animal-list';
 import { AnimalDetailComponent } from './animal-detail/animal-detail';
+import { AnimalEditComponent } from './animal-edit/animal-edit';
 import { authGuard } from './auth.guard';
 
 export const routes: Routes = [
@@ -9,7 +10,17 @@ export const routes: Routes = [
 
   { path: 'animals', component: AnimalListComponent, canActivate: [authGuard] },
 
-  { path: 'animals/:id', component: AnimalDetailComponent, canActivate: [authGuard] },
+  {
+    path: 'animals/:id/edit',
+    component: AnimalEditComponent,
+    canActivate: [authGuard],
+  },
+
+  {
+    path: 'animals/:id',
+    component: AnimalDetailComponent,
+    canActivate: [authGuard],
+  },
 
   { path: '', redirectTo: 'animals', pathMatch: 'full' },
   { path: '**', redirectTo: 'animals' },

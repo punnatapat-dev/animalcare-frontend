@@ -16,11 +16,7 @@
     <div class="detail-card">
       <div class="image-section">
         @if (animal()?.image_url) {
-          <img
-            [src]="animal()?.image_url"
-            [alt]="animal()?.name"
-            class="detail-image"
-          />
+          <img [src]="animal()?.image_url" [alt]="animal()?.name" class="detail-image" />
         } @else {
           <div class="image-placeholder">🐾</div>
         }
@@ -83,19 +79,14 @@
         </div>
 
         <div class="detail-actions">
-          <a routerLink="/animals" class="back-button">
-            ← Zurück zur Übersicht
-          </a>
+          <a routerLink="/animals" class="back-button"> ← Zurück zur Übersicht </a>
 
           @if (canManageAnimal()) {
             <div class="action-buttons">
-              <button (click)="goToAnimals()" class="edit-btn">
-                ✏️ Bearbeiten
-              </button>
-
+              <button (click)="goToEdit()" class="edit-btn">✏️ Bearbeiten</button>
               <button (click)="deleteAnimal()" class="delete-btn">
-                🗑️ Löschen
-              </button>
+        🗑️ Löschen
+      </button>
             </div>
           }
         </div>
