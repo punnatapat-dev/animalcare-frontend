@@ -79,14 +79,12 @@
         </div>
 
         <div class="detail-actions">
-          <a routerLink="/animals" class="back-button"> ← Zurück zur Übersicht </a>
+          <a routerLink="/animals" class="back-button">← Zurück zur Übersicht</a>
 
           @if (canManageAnimal()) {
             <div class="action-buttons">
               <button (click)="goToEdit()" class="edit-btn">✏️ Bearbeiten</button>
-              <button (click)="deleteAnimal()" class="delete-btn">
-        🗑️ Löschen
-      </button>
+              <button (click)="openDeleteModal()" class="delete-btn">🗑️ Löschen</button>
             </div>
           }
         </div>
@@ -94,3 +92,11 @@
     </div>
   }
 </div>
+
+<app-confirm-modal
+  [isOpen]="showDeleteModal()"
+  title="Tier löschen"
+  message="Sind Sie sicher, dass Sie dieses Tier löschen möchten?"
+  (confirmed)="deleteAnimal()"
+  (cancelled)="closeDeleteModal()"
+></app-confirm-modal>

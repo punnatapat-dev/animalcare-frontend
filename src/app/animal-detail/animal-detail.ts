@@ -4,10 +4,13 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { DatePipe } from '@angular/common';
 import { environment } from '../../environments/environment';
 
+
+import { ConfirmModalComponent } from '../shared/confirm-modal/confirm-modal';
+
 @Component({
   selector: 'app-animal-detail',
   standalone: true,
-  imports: [RouterLink, DatePipe],
+  imports: [RouterLink, DatePipe, ConfirmModalComponent],
   templateUrl: './animal-detail.html',
   styleUrl: './animal-detail.css',
 })
@@ -22,6 +25,7 @@ export class AnimalDetailComponent {
   currentUser = signal<any | null>(null);
   loading = signal(true);
   error = signal('');
+  showDeleteModal = signal(false);
 
   private authHeaders(): HttpHeaders {
     const token = localStorage.getItem('access_token');
@@ -86,16 +90,18 @@ export class AnimalDetailComponent {
     return animal.owner === user.username;
   }
 
+  openDeleteModal(): void {
+    this.showDeleteModal.set(true);
+  }
+
+  closeDeleteModal(): void {
+    this.showDeleteModal.set(false);
+  }
+
   deleteAnimal(): void {
     const animal = this.animal();
 
     if (!animal) return;
-
-    const confirmed = window.confirm(
-      'Sind Sie sicher, dass Sie dieses Tier löschen möchten?'
-    );
-
-    if (!confirmed) return;
 
     this.http
       .delete(`${this.API_BASE}/api/animals/${animal.id}/`, {
@@ -103,22 +109,24 @@ export class AnimalDetailComponent {
       })
       .subscribe({
         next: () => {
+          this.showDeleteModal.set(false);
           this.router.navigate(['/animals']);
         },
         error: (err) => {
           console.error('Fehler beim Löschen:', err);
+          this.showDeleteModal.set(false);
         },
       });
   }
 
   goToAnimals(): void {
-  this.router.navigate(['/animals']);
-}
+    this.router.navigate(['/animals']);
+  }
 
-goToEdit(): void {
-  const animal = this.animal();
-  if (!animal) return;
+  goToEdit(): void {
+    const animal = this.animal();
+    if (!animal) return;
 
-  this.router.navigate(['/animals', animal.id, 'edit']);
-}
+    this.router.navigate(['/animals', animal.id, 'edit']);
+  }
 }

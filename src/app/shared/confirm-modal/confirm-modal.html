@@ -1,0 +1,13 @@
+@if (isOpen) {
+  <div class="modal-overlay" (click)="onCancel()">
+    <div class="modal-box" (click)="$event.stopPropagation()">
+      <h3>{{ title }}</h3>
+      <p>{{ message }}</p>
+
+      <div class="modal-actions">
+        <button class="cancel-btn" (click)="onCancel()">Abbrechen</button>
+        <button class="confirm-btn" (click)="onConfirm()">Löschen</button>
+      </div>
+    </div>
+  </div>
+}

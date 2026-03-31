@@ -61,6 +61,18 @@ https://animalcare-backend.onrender.com/api/animals/
 
 ## 📜 Update-Historie (Roadmap & Erfolge)
 
+### ✅ 31.03.2026 – Custom Confirm Modal für Löschaktionen implementiert
+
+- Browser-Standarddialog (`window.confirm`) durch ein eigenes Confirm-Modal ersetzt
+- Eigenes UI-Modal mit Overlay und zentrierter Anzeige entwickelt
+- Verbesserte Benutzererfahrung für kritische Aktionen (Löschen)
+- Modal integriert sich visuell in das bestehende Designsystem
+- Aktionen klar getrennt:
+  - Abbrechen → Modal schließen
+  - Löschen → API-Aufruf ausführen
+- State-Handling mit Angular Signals umgesetzt (`showDeleteModal`)
+- Wiederverwendbare Komponente (`ConfirmModalComponent`) erstellt
+
 ### ✅ 30.03.2026 – Detailseite & Edit-Funktion verbessert
 
 - Detailseite visuell an das Dashboard angepasst
