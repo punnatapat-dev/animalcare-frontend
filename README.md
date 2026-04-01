@@ -61,6 +61,13 @@ https://animalcare-backend.onrender.com/api/animals/
 
 ## 📜 Update-Historie (Roadmap & Erfolge)
 
+### ✅ 01.04.2026 – Toast-Benachrichtigungen integriert
+
+- Eigenes Toast-System in die Anwendung integriert
+- Erfolgs- und Fehlermeldungen für Erstellen, Bearbeiten und Löschen hinzugefügt
+- Test-Toast entfernt und durch echte UI-Feedbacks ersetzt
+- Benutzererfahrung bei Aktionen deutlich verbessert
+
 ### ✅ 31.03.2026 – Custom Confirm Modal für Löschaktionen implementiert
 
 - Browser-Standarddialog (`window.confirm`) durch ein eigenes Confirm-Modal ersetzt

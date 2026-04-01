@@ -1,0 +1,9 @@
+@if (toastService.toast()) {
+  <div
+    class="toast"
+    [class.success]="toastService.toast()?.type === 'success'"
+    [class.error]="toastService.toast()?.type === 'error'"
+  >
+    {{ toastService.toast()?.text }}
+  </div>
+}

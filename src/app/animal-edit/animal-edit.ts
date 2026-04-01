@@ -1,9 +1,12 @@
-import { Component, inject, signal } from '@angular/core';
+import { Component, inject, signal, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { environment } from '../../environments/environment';
+
+// --- เพิ่ม Import ToastService ---
+import { ToastService } from '../services/toast'; 
 
 @Component({
   selector: 'app-animal-edit',
@@ -12,10 +15,12 @@ import { environment } from '../../environments/environment';
   templateUrl: './animal-edit.html',
   styleUrl: './animal-edit.css',
 })
-export class AnimalEditComponent {
+export class AnimalEditComponent implements OnInit {
   private route = inject(ActivatedRoute);
   private http = inject(HttpClient);
   private router = inject(Router);
+  // --- เพิ่มการ Inject ToastService ---
+  private toast = inject(ToastService); 
 
   API_BASE = environment.apiUrl;
 
@@ -72,12 +77,16 @@ export class AnimalEditComponent {
         headers: this.authHeaders(),
       })
       .subscribe({
+        // --- ส่วนที่มีการแก้ไขตามรูปภาพที่ส่งมา ---
         next: () => {
-          this.router.navigate(['/animals', id]);
+          this.toast.success('Tier erfolgreich aktualisiert'); // แจ้งเตือนสำเร็จ
+          this.router.navigate(['/animals', id]); // ย้ายไปหน้าแสดงรายละเอียด
         },
         error: (err) => {
           console.error('Fehler beim Speichern:', err);
+          this.toast.error('Fehler beim Speichern'); // แจ้งเตือนเมื่อผิดพลาด
         },
+        // ------------------------------------
       });
   }
 

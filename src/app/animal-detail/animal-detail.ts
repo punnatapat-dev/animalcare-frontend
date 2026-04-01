@@ -1,11 +1,11 @@
-import { Component, inject, signal } from '@angular/core';
+import { Component, inject, signal, OnInit } from '@angular/core';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { DatePipe } from '@angular/common';
 import { environment } from '../../environments/environment';
 
-
 import { ConfirmModalComponent } from '../shared/confirm-modal/confirm-modal';
+import { ToastService } from '../services/toast';
 
 @Component({
   selector: 'app-animal-detail',
@@ -14,10 +14,11 @@ import { ConfirmModalComponent } from '../shared/confirm-modal/confirm-modal';
   templateUrl: './animal-detail.html',
   styleUrl: './animal-detail.css',
 })
-export class AnimalDetailComponent {
+export class AnimalDetailComponent implements OnInit {
   private route = inject(ActivatedRoute);
   private http = inject(HttpClient);
   private router = inject(Router);
+  private toast = inject(ToastService);
 
   API_BASE = environment.apiUrl;
 
@@ -98,6 +99,7 @@ export class AnimalDetailComponent {
     this.showDeleteModal.set(false);
   }
 
+  // --- ส่วนที่มีการแก้ไขตามรูปภาพ ---
   deleteAnimal(): void {
     const animal = this.animal();
 
@@ -109,15 +111,15 @@ export class AnimalDetailComponent {
       })
       .subscribe({
         next: () => {
-          this.showDeleteModal.set(false);
+          this.toast.success('Tier gelöscht'); 
           this.router.navigate(['/animals']);
         },
-        error: (err) => {
-          console.error('Fehler beim Löschen:', err);
-          this.showDeleteModal.set(false);
+        error: () => {
+          this.toast.error('Fehler beim Löschen'); 
         },
       });
   }
+  // ------------------------------
 
   goToAnimals(): void {
     this.router.navigate(['/animals']);

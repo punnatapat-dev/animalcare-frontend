@@ -4,6 +4,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { environment } from '../../environments/environment';
+import { ToastService } from '../services/toast';
 
 @Component({
   selector: 'app-animal-list',
@@ -15,6 +16,7 @@ import { environment } from '../../environments/environment';
 export class AnimalListComponent implements OnInit {
   private http = inject(HttpClient);
   private router = inject(Router);
+  private toast = inject(ToastService);
 
   API_BASE = environment.apiUrl;
 
@@ -46,10 +48,10 @@ export class AnimalListComponent implements OnInit {
   speciesOptions: string[] = ['ALL', 'DOG', 'CAT', 'RABBIT', 'OTHER'];
 
   ngOnInit(): void {
-  this.loadCurrentUser();
-  this.loadAnimals();
-  this.loadStats();
-}
+    this.loadCurrentUser();
+    this.loadAnimals();
+    this.loadStats();
+  }
 
   private authHeaders(): HttpHeaders {
     const token = localStorage.getItem('access_token');
@@ -57,20 +59,22 @@ export class AnimalListComponent implements OnInit {
       Authorization: `Bearer ${token ?? ''}`,
     });
   }
+
   loadCurrentUser(): void {
-  this.http
-    .get<any>(`${this.API_BASE}/api/users/me/`, {
-      headers: this.authHeaders(),
-    })
-    .subscribe({
-      next: (data) => {
-        this.currentUser.set(data);
-      },
-      error: (err) => {
-        console.error('Fehler beim Laden des Benutzers:', err);
-      },
-    });
-}
+    this.http
+      .get<any>(`${this.API_BASE}/api/users/me/`, {
+        headers: this.authHeaders(),
+      })
+      .subscribe({
+        next: (data) => {
+          this.currentUser.set(data);
+        },
+        error: (err) => {
+          console.error('Fehler beim Laden des Benutzers:', err);
+        },
+      });
+  }
+
   loadAnimals(url?: string): void {
     this.loading.set(true);
 
@@ -233,14 +237,15 @@ export class AnimalListComponent implements OnInit {
         })
         .subscribe({
           next: () => {
-            this.showSuccess('Tier erfolgreich aktualisiert.');
-
+           
+            this.toast.success('Tier erfolgreich aktualisiert'); 
             this.cancelEdit();
             this.loadAnimals();
           },
 
           error: (err) => {
             console.error('Fehler beim Aktualisieren:', err);
+            this.toast.error('Fehler beim Aktualisieren');
           },
         });
 
@@ -252,21 +257,23 @@ export class AnimalListComponent implements OnInit {
         headers: this.authHeaders(),
       })
       .subscribe({
+        
         next: () => {
-          this.showSuccess('Tier erfolgreich erstellt.');
+          this.toast.success('Tier erfolgreich erstellt'); 
 
           this.newAnimalName.set('');
           this.newAnimalSpecies.set('');
           this.selectedImage.set(null);
           this.nameError.set('');
           this.loadStats();
-
           this.loadAnimals();
         },
 
         error: (err) => {
           console.error('Fehler beim Erstellen:', err);
+          this.toast.error('Fehler beim Erstellen'); 
         },
+        // ------------------------------------------------
       });
   }
 
@@ -281,7 +288,7 @@ export class AnimalListComponent implements OnInit {
       })
       .subscribe({
         next: () => {
-          this.showSuccess('Tier erfolgreich gelöscht.');
+          this.toast.success('Tier erfolgreich gelöscht');
           this.loadStats();
 
           const remaining = this.animals().filter((animal) => animal.id !== id);
@@ -297,6 +304,7 @@ export class AnimalListComponent implements OnInit {
 
         error: (err) => {
           console.error('Fehler beim Löschen:', err);
+          this.toast.error('Fehler beim Löschen');
         },
       });
   }
@@ -314,6 +322,7 @@ export class AnimalListComponent implements OnInit {
 
     return 'black';
   }
+
   changeStatus(animal: any, newStatus: string): void {
     const formData = new FormData();
 
@@ -327,37 +336,36 @@ export class AnimalListComponent implements OnInit {
       })
       .subscribe({
         next: () => {
-          this.showSuccess(`Status von ${animal.name} wurde auf ${newStatus} gesetzt.`);
+          this.toast.success(`Status von ${animal.name} wurde auf ${newStatus} gesetzt.`);
           this.loadAnimals();
           this.loadStats();
         },
         error: (err) => {
           console.error('Fehler beim Status-Update:', err);
+          this.toast.error('Fehler beim Status-Update');
         },
       });
   }
 
-
-
   toggleMyAnimals(showMine: boolean): void {
-  this.showOnlyMine.set(showMine);
-  this.currentPage.set(1);
-  this.nextUrl.set(null);
-  this.prevUrl.set(null);
-  this.loadAnimals();
-}
-
-  canManageAnimal(animal: any): boolean {
-  const user = this.currentUser();
-
-  if (!user) return false;
-
-  if (user.is_staff || user.is_superuser) {
-    return true;
+    this.showOnlyMine.set(showMine);
+    this.currentPage.set(1);
+    this.nextUrl.set(null);
+    this.prevUrl.set(null);
+    this.loadAnimals();
   }
 
-  return animal.owner === user.username;
-}
+  canManageAnimal(animal: any): boolean {
+    const user = this.currentUser();
+
+    if (!user) return false;
+
+    if (user.is_staff || user.is_superuser) {
+      return true;
+    }
+
+    return animal.owner === user.username;
+  }
 
   logout(): void {
     localStorage.removeItem('access_token');
@@ -366,5 +374,3 @@ export class AnimalListComponent implements OnInit {
     this.router.navigate(['/login']);
   }
 }
-
-
