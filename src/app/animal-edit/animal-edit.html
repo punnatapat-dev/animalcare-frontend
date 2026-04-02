@@ -9,17 +9,26 @@
 
       <div class="form-group">
         <label>Name</label>
-        <input [value]="name()" (input)="name.set($any($event.target).value)" />
+        <input
+          [value]="name()"
+          (input)="name.set($any($event.target).value)"
+        />
       </div>
 
       <div class="form-group">
         <label>Species</label>
-        <input [value]="species()" (input)="species.set($any($event.target).value)" />
+        <input
+          [value]="species()"
+          (input)="species.set($any($event.target).value)"
+        />
       </div>
 
       <div class="form-group">
         <label>Status</label>
-        <select [value]="status()" (change)="status.set($any($event.target).value)">
+        <select
+          [value]="status()"
+          (change)="status.set($any($event.target).value)"
+        >
           <option value="AVAILABLE">AVAILABLE</option>
           <option value="RESERVED">RESERVED</option>
           <option value="ADOPTED">ADOPTED</option>
@@ -33,6 +42,15 @@
           (input)="description.set($any($event.target).value)"
         ></textarea>
       </div>
+
+      <div class="form-group">
+        <label>Neues Bild</label>
+        <input type="file" (change)="onFileSelected($event)" />
+      </div>
+
+      @if (selectedImage()) {
+        <p>Ausgewählte Datei: {{ selectedImage()!.name }}</p>
+      }
 
       <div class="actions">
         <button (click)="save()" class="save-btn">💾 Speichern</button>

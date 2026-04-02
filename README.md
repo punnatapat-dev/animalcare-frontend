@@ -61,6 +61,13 @@ https://animalcare-backend.onrender.com/api/animals/
 
 ## 📜 Update-Historie (Roadmap & Erfolge)
 
+### ✅ 02.04.2026 – Bild-Upload in der Bearbeitungsseite ergänzt
+
+- Bearbeitungsseite unterstützt nun das Hochladen eines neuen Tierbildes
+- Neue Bilddatei wird zusammen mit den bestehenden Formulardaten gesendet
+- Benutzer können Tierdaten und Bild nun in einem Schritt aktualisieren
+- Bearbeitungsfluss weiter in Richtung produktionsnaher Anwendung verbessert
+
 ### ✅ 01.04.2026 – Toast-Benachrichtigungen integriert
 
 - Eigenes Toast-System in die Anwendung integriert

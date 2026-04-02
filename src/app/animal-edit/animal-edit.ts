@@ -6,7 +6,7 @@ import { CommonModule } from '@angular/common';
 import { environment } from '../../environments/environment';
 
 // --- เพิ่ม Import ToastService ---
-import { ToastService } from '../services/toast'; 
+import { ToastService } from '../services/toast';
 
 @Component({
   selector: 'app-animal-edit',
@@ -20,7 +20,7 @@ export class AnimalEditComponent implements OnInit {
   private http = inject(HttpClient);
   private router = inject(Router);
   // --- เพิ่มการ Inject ToastService ---
-  private toast = inject(ToastService); 
+  private toast = inject(ToastService);
 
   API_BASE = environment.apiUrl;
 
@@ -30,7 +30,7 @@ export class AnimalEditComponent implements OnInit {
   species = signal('');
   status = signal('');
   description = signal('');
-
+  selectedImage = signal<File | null>(null);
   loading = signal(true);
 
   private authHeaders(): HttpHeaders {
@@ -63,6 +63,11 @@ export class AnimalEditComponent implements OnInit {
       });
   }
 
+  onFileSelected(event: Event): void {
+    const input = event.target as HTMLInputElement;
+    const file = input.files && input.files.length > 0 ? input.files[0] : null;
+    this.selectedImage.set(file);
+  }
   save(): void {
     const id = this.animalId();
 
@@ -77,16 +82,14 @@ export class AnimalEditComponent implements OnInit {
         headers: this.authHeaders(),
       })
       .subscribe({
-        // --- ส่วนที่มีการแก้ไขตามรูปภาพที่ส่งมา ---
         next: () => {
-          this.toast.success('Tier erfolgreich aktualisiert'); // แจ้งเตือนสำเร็จ
-          this.router.navigate(['/animals', id]); // ย้ายไปหน้าแสดงรายละเอียด
+          this.toast.success('Tier erfolgreich aktualisiert');
+          this.router.navigate(['/animals', id]);
         },
         error: (err) => {
           console.error('Fehler beim Speichern:', err);
-          this.toast.error('Fehler beim Speichern'); // แจ้งเตือนเมื่อผิดพลาด
+          this.toast.error('Fehler beim Speichern');
         },
-        // ------------------------------------
       });
   }
 
