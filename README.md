@@ -61,6 +61,13 @@ https://animalcare-backend.onrender.com/api/animals/
 
 ## 📜 Update-Historie (Roadmap & Erfolge)
 
+### ✅ 03.04.2026 – Bildvorschau in der Bearbeitungsseite hinzugefügt
+
+- Bearbeitungsseite zeigt nun das aktuelle Tierbild an
+- Beim Auswählen einer neuen Datei wird sofort eine Vorschau angezeigt
+- Bildänderung für Benutzer transparenter und benutzerfreundlicher gemacht
+- UX der Bearbeitungsseite weiter verbessert
+
 ### ✅ 02.04.2026 – Bild-Upload in der Bearbeitungsseite ergänzt
 
 - Bearbeitungsseite unterstützt nun das Hochladen eines neuen Tierbildes
