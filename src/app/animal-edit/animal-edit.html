@@ -9,26 +9,17 @@
 
       <div class="form-group">
         <label>Name</label>
-        <input
-          [value]="name()"
-          (input)="name.set($any($event.target).value)"
-        />
+        <input [value]="name()" (input)="name.set($any($event.target).value)" />
       </div>
 
       <div class="form-group">
         <label>Species</label>
-        <input
-          [value]="species()"
-          (input)="species.set($any($event.target).value)"
-        />
+        <input [value]="species()" (input)="species.set($any($event.target).value)" />
       </div>
 
       <div class="form-group">
         <label>Status</label>
-        <select
-          [value]="status()"
-          (change)="status.set($any($event.target).value)"
-        >
+        <select [value]="status()" (change)="status.set($any($event.target).value)">
           <option value="AVAILABLE">AVAILABLE</option>
           <option value="RESERVED">RESERVED</option>
           <option value="ADOPTED">ADOPTED</option>
@@ -53,7 +44,13 @@
       }
 
       <div class="actions">
-        <button (click)="save()" class="save-btn">💾 Speichern</button>
+        <button (click)="save()" class="save-btn" [disabled]="isSaving()">
+          @if (isSaving()) {
+            Speichern...
+          } @else {
+            💾 Speichern
+          }
+        </button>
         <button (click)="cancel()" class="cancel-btn">Abbrechen</button>
       </div>
     </div>

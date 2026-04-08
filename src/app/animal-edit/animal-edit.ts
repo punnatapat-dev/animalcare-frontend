@@ -29,6 +29,7 @@ export class AnimalEditComponent implements OnInit {
   selectedImage = signal<File | null>(null);
   imagePreview = signal<string | null>(null);
   loading = signal(true);
+  isSaving = signal(false);
 
   private authHeaders(): HttpHeaders {
     const token = localStorage.getItem('access_token');
@@ -75,6 +76,14 @@ export class AnimalEditComponent implements OnInit {
 
   save(): void {
     const id = this.animalId();
+
+    if (!id) {
+      this.toast.error('Ungültige Tier-ID');
+      return;
+    }
+
+    this.isSaving.set(true);
+
     const formData = new FormData();
     formData.append('name', this.name());
     formData.append('species', this.species());
@@ -97,6 +106,7 @@ export class AnimalEditComponent implements OnInit {
         error: (err) => {
           console.error('Fehler beim Speichern:', err);
           this.toast.error('Fehler beim Speichern');
+          this.isSaving.set(false);
         },
       });
   }

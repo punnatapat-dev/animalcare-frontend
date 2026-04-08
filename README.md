@@ -61,6 +61,11 @@ https://animalcare-backend.onrender.com/api/animals/
 
 ## 📜 Update-Historie (Roadmap & Erfolge)
 
+### ✅ 08.04.2026 – Verbesserte UX in der Edit-Seite
+
+- Save-Button mit Loading-State ergänzt (Deaktivierung + „Speichern...”)
+- Mehrfaches Absenden verhindert
+
 ### ✅ 03.04.2026 – Bildvorschau in der Bearbeitungsseite hinzugefügt
 
 - Bearbeitungsseite zeigt nun das aktuelle Tierbild an
